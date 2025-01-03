@@ -1,0 +1,10 @@
+{
+	admin unix//home/mthlpbs/caddy-admin.sock
+}
+http://mthlpbs.hackclub.app {
+	bind unix/.mthlpbs.hackclub.app.webserver.sock|777
+	root * /home/mthlpbs/pub
+	file_server {
+		hide .git .env
+	}
+}
