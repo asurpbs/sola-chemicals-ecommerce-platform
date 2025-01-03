@@ -4,4 +4,6 @@
 # ignored file types
 *.log
 *.cache
+Caddyfile
+htaccess
 
