@@ -1,0 +1,6 @@
+# ignored directories
+.vscode/
+
+# ignored file types
+*.log
+
