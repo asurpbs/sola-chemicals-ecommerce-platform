@@ -3,4 +3,5 @@
 
 # ignored file types
 *.log
+*.cache
 
