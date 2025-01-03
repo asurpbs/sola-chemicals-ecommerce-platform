@@ -1,0 +1,9 @@
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/admin$
+RewriteRule ^admin$ /admin/index.html [L,R=301]
+
+# Error Pages
+ErrorDocument 404 /components/error/404.html
+
