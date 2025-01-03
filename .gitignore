@@ -1,6 +1,6 @@
 # ignored directories
 .vscode/
-resources/
+/resources/
 
 # ignored file types
 *.log
