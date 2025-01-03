@@ -5,5 +5,5 @@
 *.log
 *.cache
 Caddyfile
-htaccess
+.htaccess
 
