@@ -1,4 +1,7 @@
-<meta name="title" content="Sola Chemical - Admin"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="title" content="Sola Chemical Company"/>
+<meta name="description" content="Administrator site of the Sola Chemical Company"/>
 <!--
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
