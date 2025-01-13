@@ -4,6 +4,7 @@
 # ignored file types
 *.log
 *.cache
+.htaccess
 
 # ignore database connection file
 components/connect.php
