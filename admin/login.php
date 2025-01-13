@@ -11,11 +11,11 @@
         exit();
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include '../data/meta-admin.php'; ?>
+        <title>Signin - Admin | Sola Chemicals</title>
+        <?php include '/data/meta-admin.php'; ?>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
        <link rel="stylesheet" href="./assets/css/login.css">
     </head>
@@ -38,6 +38,6 @@
                 © 2025 Sola Chemical Company. All rights reserved.
             </span>
         <footer>
-        <?php include "../data/bootstrap.php" ?>
+        <?php include "/data/bootstrap.php" ?>
     </body>
 </html>
