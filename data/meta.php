@@ -9,7 +9,7 @@
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
 <link rel="canonical" href="https://sola.mthlpbs.hackclub.app/"/>
 -->
-<link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://sola.mthlpbs.hackclub.app/"/>
 <meta property="og:title" content="Sola Chemical Company"/>
@@ -22,11 +22,11 @@
 <meta name="twitter:title" content="Sola Chemical Company"/>
 <meta name="twitter:description" content="Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash"/>
 <meta name="twitter:image" content="https://sola.mthlpbs.hackclub.app/public/web-app-manifest.png"/>
-<link rel="icon" type="image/png" href="./public/favicon-96x96.png" sizes="96x96"/>
-<link rel="icon" type="image/svg+xml" href="./public/favicon.svg"/>
-<link rel="shortcut icon" href="./public/favicon.ico"/>
-<link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.png"/>
-<link rel="manifest" href="./public/site.webmanifest"/>
+<link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96"/>
+<link rel="icon" type="image/svg+xml" href="/public/favicon.svg"/>
+<link rel="shortcut icon" href="/public/favicon.ico"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png"/>
+<link rel="manifest" href="/public/site.webmanifest"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="canonical" href="https://sola.mthlpbs.hackclub.app/"/>
