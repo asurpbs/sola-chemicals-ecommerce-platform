@@ -1,9 +1,0 @@
-DirectoryIndex index.php
-
-#RewriteEngine On
-#RewriteCond %{REQUEST_URI} ^/admin$
-#RewriteRule ^admin$ /admin/login.php [L,R=301]
-
-# Error Pages
-# ErrorDocument 404 /components/error/404.html
-
