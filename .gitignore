@@ -1,0 +1,9 @@
+# ignored directories
+.vscode/
+
+# ignored file types
+*.log
+*.cache
+
+# ignore database connection file
+components/connect.php
