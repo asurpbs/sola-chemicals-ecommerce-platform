@@ -37,6 +37,7 @@
         <?php include '../data/meta-admin.php'; ?>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="stylesheet" href="./assets/css/login.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </head>
     <body>
         <?php if ($error_state == 1): ?>
@@ -66,7 +67,7 @@
             <span class="author">
                 © 2025 Hash Coders. All rights reserved.
             </span>
-        <footer>
+        </footer>
         <?php include "../data/bootstrap.php" ?>
     </body>
 </html>
