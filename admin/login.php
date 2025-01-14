@@ -10,7 +10,32 @@
         header('Location:./pages/index.php');
         exit();
     }
+    
+    $email_error = '';
+    $pass_error = '';
+    
+    if(isset($_POST['submitlogin'])){
+        $email = $_POST['email'];
+        $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $pass = $_POST['pass'];
+        $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    
+        $select_user = $conn->prepare("SELECT * FROM `user` WHERE email = ? LIMIT 1");
+        $select_user->execute([$email]);
+        $row = $select_user->fetch(PDO::FETCH_ASSOC);
+       
+        if($select_user->rowCount() > 0 && password_verify($pass, $row['password'])){
+            setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
+            header('location:../pages/index.php');
+            exit();
+        } else {
+            // Incorrect email or password
+            $email_error = 'error';
+            $pass_error = 'error';
+        }
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,7 +50,7 @@
                 <a href=""><img src="/public/apple-touch-icon.png" alt="sola chemicals logo" width="70px" height="70px"><span></span></a>
                 <h1>Sign in to Sola Chemicals</h1>
             </div>
-            <form action="./components/login-post.php" method="post" enctype="multipart/form-data" >
+            <form action=" " method="post" enctype="multipart/form-data" >
                 <div class="form-group">
                     <input type="email" name="email" id="email" required class="inputField" autocomplete="off" class="<?php echo $email_error; ?>">
                     <label for="email">Email</label>
