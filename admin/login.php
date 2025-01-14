@@ -5,7 +5,7 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
-    $error_message = "";
+    $error_state = 0;
     if(isset($_COOKIE['user_id'])){
         $user_id = $_COOKIE['user_id'];
         header('Location:./pages/index.php');
@@ -25,7 +25,7 @@
             header('location:../pages/index.php');
             exit();
         } else {
-            $error_message = "Email or password invalid";
+            $error_state = 1;
         }
     }
 ?>
@@ -39,13 +39,10 @@
         <link rel="stylesheet" href="./assets/css/login.css">
     </head>
     <body>
-        <div class="alert alert-danger alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
-        </div>
-        <?php if ($error_message): ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $error_message; ?>
+        <?php if ($error_state == 1): ?>
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Invalid password or email. Please try again.
             </div>
         <?php endif; ?>
         <div class="container">
