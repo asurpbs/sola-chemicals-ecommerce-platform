@@ -11,7 +11,7 @@
         exit();
     }
     
-    if(isset($_POST['submitlogin'])){
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submitlogin'])){
         $email = $_POST['email'];
         $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $pass = $_POST['pass'];
