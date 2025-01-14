@@ -1,0 +1,256 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  padding-top: 4.5rem; /* Adjust padding to match navbar height */
+}
+
+/* Color Variables */
+:root {
+  --red: red;
+  --blue: blue;
+  --pink: #FF007F; /* You can adjust this to your preferred pink */
+}
+
+/* Navbar */
+.navbar {
+  -webkit-box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+  width: 50px;
+}
+
+.navbar-brand span {
+  letter-spacing: 2px;
+  font-family: var(--lg-font);
+}
+
+.nav-link:hover {
+  color: var(--pink) !important;
+}
+
+.nav-item {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Card Styling */
+.product-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling */
+  padding-bottom: 10px; /* Adds some space for better visibility */
+  cursor: grab;
+}
+
+.product-container.active {
+  cursor: grabbing;
+}
+
+/* Remove Scrollbar on Desktop */
+.product-container::-webkit-scrollbar {
+  display: none;
+}
+
+.product-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* General Section Spacing */
+section {
+  padding: 60px 0; /* Adjust for even spacing */
+}
+
+/* Icons for Mission, Vision, Services */
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+/* Product Card Styling */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Why Choose Section */
+.why-choose-item {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.why-choose-item img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.why-choose-item h5 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Reviews Section */
+.review-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+}
+
+.review-card img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.review-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Footer Styling */
+footer {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+footer a {
+  color: #ccc;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  color: #fff;
+}
+
+/* Welcome Section Colors */
+.highlight-red {
+  color: var(--red);
+}
+
+.highlight-blue {
+  color: var(--blue);
+}
+
+
+/* Stats Boxes Styling */
+.stat-box {
+  background-color: #e0e0e0; /* Light gray background for the box */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding inside the box */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for 3D effect */
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.stat-box h3 {
+  font-size: 2.5rem;
+  color: #333; /* Dark text for the number */
+  margin-bottom: 10px;
+}
+
+.stat-box p {
+  font-size: 1.1rem;
+  color: #555; /* Lighter text for description */
+}
+
+.stat-box:hover {
+  transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+/* Reviews Section */
+.reviews-section {
+  background-color: #f8f9fa;
+}
+
+.review-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.review-stars {
+  color: #ffbc00; /* Star color */
+  font-size: 20px;
+}
+
+.star {
+  margin-right: 5px;
+}
+
+.review-text {
+  font-size: 16px;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.review-author {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.review-author-name {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.customer-image {
+  width: 60px; /* Adjust as needed */
+  height: 60px; /* Adjust as needed */
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd; /* Optional border around image */
+  margin-bottom: 15px; /* Space below the image */
+}
+
+
+/* Media Query to Adjust for Smaller Screens */
+@media (max-width: 576px) {
+  .stat-box {
+      margin-bottom: 20px; /* Space between the boxes on mobile */
+  }
+}
+
+@media (max-width: 992px) {
+  body {
+      padding-top: 5.5rem; /* Adjust padding for smaller screens if needed */
+  }
+}
+
+/* Button Styling */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
