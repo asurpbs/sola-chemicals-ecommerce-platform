@@ -4,6 +4,7 @@
     <title>Sola Chemicals - Home</title>
     <?php include './data/meta.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
@@ -11,7 +12,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
       <div class="container">
           <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="index.html">
-              <img src="img/Main-Logo.svg" alt="site icon">
+              <img src="/public/Main-Logo.svg" alt="site icon">
           </a>
 
           <!-- Mobile Button Group -->
@@ -43,10 +44,10 @@
                       <a class="nav-link text-uppercase text-dark" href="#">Home</a>
                   </li>
                   <li class="nav-item px-2 py-2">
-                      <a class="nav-link text-uppercase text-dark" href="about-us.html">About</a>
+                      <a class="nav-link text-uppercase text-dark" href="/pages/about-us.html">About</a>
                   </li>
                   <li class="nav-item px-2 py-2">
-                      <a class="nav-link text-uppercase text-dark" href="product.html">Product</a>
+                      <a class="nav-link text-uppercase text-dark" href="/pages/product.html">Product</a>
                   </li>
               </ul>
 
@@ -87,13 +88,13 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img class="d-block w-100" src="img/banner4.jpg" alt="First slide">
+            <img class="d-block w-100" src="/assets/images/banner4.jpg" alt="First slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="img/banner4.jpg"  alt="Second slide">
+            <img class="d-block w-100" src="/assets/images/banner4.jpg"  alt="Second slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="img/banner4.jpg" alt="Third slide">
+            <img class="d-block w-100" src="/assets/images/banner4.jpg" alt="Third slide">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -119,19 +120,19 @@
         <div class="row mt-5 text-center">
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="img/vision.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="/assets/images/vision.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Vision</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="img/Mission.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="/assets/images/Mission.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Mission</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="img/service.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="/assets/images/service.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Services</h4>
             </div>
           </div>
@@ -222,28 +223,28 @@
         <div class="row text-center d-flex justify-content-center">
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="img/Sustainable products.jpg" alt="Sustainable Products">
+              <img src="/assets/images/Sustainable products.jpg" alt="Sustainable Products">
               <h5>Sustainable Products</h5>
               <p>Explore our carefully curated selection of sustainable products, each designed to reduce your carbon footprint</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="img/Eco-Friendly.png" alt="Eco-Friendly Choices">
+              <img src="/assets/images/Eco-Friendly.png" alt="Eco-Friendly Choices">
               <h5>Eco-Friendly Choices</h5>
               <p>Make conscious choices with our eco-friendly products, knowing that your purchases promote ethical sourcing and responsible manufacturing practices.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="img/High-quality.png" alt="High-Quality Selection">
+              <img src="/assets/images/High-quality.png" alt="High-Quality Selection">
               <h5>High-Quality Selection</h5>
               <p>Invest in long-lasting and reliable products that meet our stringent quality standards, ensuring your satisfaction and the longevity of your purchases.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="img/Su-Packaging.png" alt="Sustainable Packaging">
+              <img src="/assets/images/Su-Packaging.png" alt="Sustainable Packaging">
               <h5>Sustainable Packaging</h5>
               <p>Our sustainable packaging ensures that your orders arrive safely while minimizing their impact on the planet.</p>
             </div>
