@@ -5,6 +5,7 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
+    $error_message = "";
     if(isset($_COOKIE['user_id'])){
         $user_id = $_COOKIE['user_id'];
         header('Location:./pages/index.php');
@@ -12,10 +13,8 @@
     }
 
     if(isset($_POST['submitlogin']) && !empty($_POST['email']) && !empty($_POST['pass'])){
-        $email = $_POST['email'];
-        $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $pass = $_POST['pass'];
-        $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $pass = filter_var($_POST['pass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
         $select_user = $conn->prepare("SELECT * FROM `user` WHERE email = ? LIMIT 1");
         $select_user->execute([$email]);
@@ -26,8 +25,7 @@
             header('location:../pages/index.php');
             exit();
         } else {
-            $message = "Email or password invalid";
-            echo "<script type='text/javascript'>alert('$message');</script>";
+            $error_message = "Email or password invalid";
         }
     }
 ?>
@@ -38,9 +36,18 @@
         <title>Signin - Admin | Sola Chemicals</title>
         <?php include '../data/meta-admin.php'; ?>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-       <link rel="stylesheet" href="./assets/css/login.css">
+        <link rel="stylesheet" href="./assets/css/login.css">
     </head>
     <body>
+        <div class="alert alert-danger alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+        </div>
+        <?php if ($error_message): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_message; ?>
+            </div>
+        <?php endif; ?>
         <div class="container">
             <div class="header">
                 <a href=""><img src="/public/apple-touch-icon.png" alt="sola chemicals logo" width="70px" height="70px"><span></span></a>
