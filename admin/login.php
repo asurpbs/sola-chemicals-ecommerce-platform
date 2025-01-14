@@ -64,10 +64,9 @@
             </form>
         </div>
         <footer class="footer-del">
-            <span class="author">
                 © 2025 Hash Coders. All rights reserved.
             </span>
         </footer>
-        <?php include "../data/bootstrap.php" ?>
+        <?php include "../../data/bootstrap.php" ?>
     </body>
 </html>
