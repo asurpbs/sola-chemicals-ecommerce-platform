@@ -50,13 +50,13 @@
                 <a href=""><img src="/public/apple-touch-icon.png" alt="sola chemicals logo" width="70px" height="70px"><span></span></a>
                 <h1>Sign in to Sola Chemicals</h1>
             </div>
-            <form action=" " method="post" enctype="multipart/form-data" >
+            <form action="" method="post" enctype="multipart/form-data" >
                 <div class="form-group">
-                    <input type="email" name="email" id="email" required class="inputField <?php echo $email_error; ?>" autocomplete="off">
+                    <input type="email" name="email" id="email" required class="inputField <?php echo htmlspecialchars($email_error); ?>" autocomplete="off">
                     <label for="email">Email</label>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="pass" id="password" required class="inputField <?php echo $pass_error; ?>" autocomplete="off">
+                    <input type="password" name="pass" id="password" required class="inputField <?php echo htmlspecialchars($email_error); ?>" autocomplete="off">
                     <label for="password">Password</label>
                 </div>
                 <button type="submit" class="submitButton" name="submitlogin">Log in</button>
