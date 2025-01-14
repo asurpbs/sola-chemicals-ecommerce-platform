@@ -27,11 +27,11 @@
             </div>
             <form action="./components/login-post.php" method="post" enctype="multipart/form-data" >
                 <div class="form-group">
-                    <input type="email" name="email" id="email" required class="inputField" autocomplete="off">
+                    <input type="email" name="email" id="email" required class="inputField" autocomplete="off" class="<?php echo $email_error; ?>">
                     <label for="email">Email</label>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="pass" id="password" required class="inputField" autocomplete="off">
+                    <input type="password" name="pass" id="password" required class="inputField" autocomplete="off" class="<?php echo $pass_error; ?>">
                     <label for="password">Password</label>
                 </div>
                 <button type="submit" class="submitButton" name="submitlogin">Log in</button>
