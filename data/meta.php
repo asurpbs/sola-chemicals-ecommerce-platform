@@ -30,9 +30,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="canonical" href="https://sola.mthlpbs.hackclub.app/"/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self';"/>
-  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-  <meta name="referrer" content="no-referrer-when-downgrade"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
