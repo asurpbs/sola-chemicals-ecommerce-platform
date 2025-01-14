@@ -11,9 +11,6 @@
         exit();
     }
     
-    $email_error = '';
-    $pass_error = '';
-    
     if(isset($_POST['submitlogin'])){
         $email = $_POST['email'];
         $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -29,9 +26,7 @@
             header('location:../pages/index.php');
             exit();
         } else {
-            // Incorrect email or password
-            $email_error = 'error';
-            $pass_error = 'error';
+            $message = "Email or password invalid";
         }
     }
 ?>
