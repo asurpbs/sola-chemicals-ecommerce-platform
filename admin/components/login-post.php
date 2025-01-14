@@ -5,6 +5,9 @@ ini_set('display_errors', 1);
 
 include '../../components/connect.php';
 
+$email_error = '';
+$pass_error = '';
+
 if(isset($_POST['submitlogin'])){
     $email = $_POST['email'];
     $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -20,9 +23,9 @@ if(isset($_POST['submitlogin'])){
         header('location:../pages/index.php');
         exit();
     } else {
-        $message[] = 'Incorrect email or password!';
-        // Display the error message
-        echo '<p>' . $message[0] . '</p>';
+        // Incorrect email or password
+        $email_error = 'error';
+        $pass_error = 'error';
     }
 }
 ?>
