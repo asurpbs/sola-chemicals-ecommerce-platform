@@ -52,11 +52,11 @@
             </div>
             <form action="" method="post" enctype="multipart/form-data" >
                 <div class="form-group">
-                    <input type="email" name="email" id="email" required class="inputField error" autocomplete="off">
+                    <input type="email" name="email" id="email" required class="inputField" autocomplete="off">
                     <label for="email">Email</label>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="pass" id="password" required class="inputField <?php echo htmlspecialchars($email_error); ?>" autocomplete="off">
+                    <input type="password" name="pass" id="password" required class="inputField" autocomplete="off">
                     <label for="password">Password</label>
                 </div>
                 <button type="submit" class="submitButton" name="submitlogin">Log in</button>
