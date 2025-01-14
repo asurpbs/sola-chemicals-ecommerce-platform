@@ -52,7 +52,7 @@
             </div>
             <form action="" method="post" enctype="multipart/form-data" >
                 <div class="form-group">
-                    <input type="email" name="email" id="email" required class="inputField <?php echo htmlspecialchars($email_error); ?>" autocomplete="off">
+                    <input type="email" name="email" id="email" required class="inputField error" autocomplete="off">
                     <label for="email">Email</label>
                 </div>
                 <div class="form-group">
