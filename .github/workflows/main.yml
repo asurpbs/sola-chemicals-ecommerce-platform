@@ -15,10 +15,10 @@ jobs:
 
     - name: Delete Files with curl
       run: |
-        curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -X DELETE https://your-server-url/www/
+        curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -X DELETE https://${{ secrets.WEBDAV_HOST }}/www/
 
     - name: Upload Files with curl
       run: |
         for file in $(find . -type f); do
-          curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -T "$file" https://your-server-url/www/
+          curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -T "$file" https://${{ secrets.WEBDAV_HOST }}/www/
         done
