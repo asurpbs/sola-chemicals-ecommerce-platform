@@ -13,12 +13,29 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Upload Files to Server
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SERVER_KEY }}
-        port: 22
-        source: "./*"
-        target: "/home/hashcoders/www"
+    - name: Delete Files on Server via WebDAV
+      run: |
+        apt-get update
+        apt-get install -y cadaver
+        echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
+        cadaver <<EOF
+        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}
+        username ${{ secrets.WEBDAV_USER }}
+        mdelete *
+        EOF
+      env:
+        WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
+
+    - name: Upload Files to Server via WebDAV
+      run: |
+        apt-get update
+        apt-get install -y cadaver
+        echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
+        cadaver <<EOF
+        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}
+        username ${{ secrets.WEBDAV_USER }}
+        lcd .
+        put -r ./*
+        EOF
+      env:
+        WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
