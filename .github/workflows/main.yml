@@ -19,9 +19,10 @@ jobs:
         sudo apt-get install -y cadaver
         echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
         cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}/www
+        open https://${{ secrets.WEBDAV_HOST }}
         username ${{ secrets.WEBDAV_USER }}
-        mdelete *
+        password $WEBDAV_PASSWORD
+        mdelete www/*
         EOF
       env:
         WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
@@ -32,10 +33,11 @@ jobs:
         sudo apt-get install -y cadaver
         echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
         cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}/www
+        open https://${{ secrets.WEBDAV_HOST }}
         username ${{ secrets.WEBDAV_USER }}
+        password $WEBDAV_PASSWORD
         lcd .
-        put -r ./*
+        put -r ./* www/
         EOF
       env:
         WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
