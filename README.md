@@ -12,11 +12,9 @@
     #   #                                                                             ||     ||
 </pre>
 ## Creating work environment
-* Use personal linux vps for hosting website (Web Server - apache)
-* Create a subdomain under mthlpbs.hackclub.app as sola.mthlpbs.hackclub.app .
-* Use crontab to sync GitHub repo at midnight, everyday. (To minimize the conflict that happen when coding)
-  ```
-  30 18 * * * cd /home/mthlpbs/htdocs && gh repo sync --force
-  ```
-* Use mariadb as SQL server.
+* Create this repo.
 * [Create the folder structure for the web project](https://github.com/asurpbs/sola-chemicals-ecommerce-platform/blob/main/directory-readme.md)
+* Use linux vps for hosting website (Web Server - apache) in alwaysdata.net
+* Clone this repo to server_root folder.
+* Use mariadb as SQL server
+* Create a github workflow to run git pull command on push to main. (used [ssh-action](https://github.com/appleboy/ssh-action))
