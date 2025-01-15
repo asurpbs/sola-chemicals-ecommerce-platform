@@ -1,4 +1,4 @@
-name: sync repo to server root
+name: sync server root with server
 
 on:
   push:
@@ -6,10 +6,15 @@ on:
       - main
 
 jobs:
-  ftp-upload:
+  build:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
