@@ -3,7 +3,7 @@ name: Upload Files to Server
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   upload:
@@ -13,31 +13,12 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Delete Files on Server via WebDAV
+    - name: Delete Files with curl
       run: |
-        sudo apt-get update
-        sudo apt-get install -y cadaver
-        echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
-        cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}
-        username ${{ secrets.WEBDAV_USER }}
-        password $WEBDAV_PASSWORD
-        mdelete www/*
-        EOF
-      env:
-        WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
+        curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -X DELETE https://your-server-url/www/
 
-    - name: Upload Files to Server via WebDAV
+    - name: Upload Files with curl
       run: |
-        sudo apt-get update
-        sudo apt-get install -y cadaver
-        echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
-        cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}
-        username ${{ secrets.WEBDAV_USER }}
-        password $WEBDAV_PASSWORD
-        lcd .
-        put -r ./* www/
-        EOF
-      env:
-        WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
+        for file in $(find . -type f); do
+          curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -T "$file" https://your-server-url/www/
+        done
