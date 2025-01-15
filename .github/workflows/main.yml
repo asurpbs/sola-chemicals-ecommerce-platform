@@ -13,17 +13,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Delete Files Inside /www/ Folder
+    - name: SSH Access
       run: |
-        curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -X PROPFIND --depth 1 https://${{ secrets.WEBDAV_HOST }}/www/ | grep '<D:href>' | sed -e 's/<D:href>//g' -e 's/<\/D:href>//g' | while read -r file; do
-          if [[ "$file" != "www/" ]]; then
-            curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -X DELETE "$file"
-          fi
-        done
-
-    - name: Upload Files with curl
-      run: |
-        for file in $(find . -type f); do
-          curl -u "${{ secrets.WEBDAV_USER }}:${{ secrets.WEBDAV_PASSWORD }}" -T "$file" https://${{ secrets.WEBDAV_HOST }}/www/
+        sudo apt-get upgrade
+        sudo apt-get upgrade
         done
 
