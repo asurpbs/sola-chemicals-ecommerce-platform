@@ -6,15 +6,26 @@ on:
       - main
 
 jobs:
-  upload:
+  ftp-upload:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install requirments
+    - name: Install lftp
+      run: sudo apt-get install lftp
+
+    - name: Upload files to FTP server
+      env:
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
-        sudo apt-get install ftp
-        done
+        lftp -f "
+        open ftp://$FTP_SERVER
+        user $FTP_USERNAME $FTP_PASSWORD
+        mirror -R ./ /www
+        quit
+        "
 
