@@ -1,16 +1,5 @@
 # E Commerce Platform For Sola Chemicals
-<pre>
-                                                            _______________________   
-                                                        | Hi, We are Hash Hackers |
-                                                          =======================
-                                                                               \
-                                                                                \
-                                                                                  ^__^
-                                                                                  (oo)\_______
-      #   #                                                                       (__)\       )\/\ 
-  ###########                                                                         ||----w |
-    #   #                                                                             ||     ||
-</pre>
+
 ## Creating work environment
 * Create this repo.
 * [Create the folder structure for the web project](https://github.com/asurpbs/sola-chemicals-ecommerce-platform/blob/main/directory-readme.md)
