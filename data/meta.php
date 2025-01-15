@@ -1,4 +1,4 @@
-<meta charset="utf-8"/>
+  <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="title" content="Sola Chemical Company"/>
   <meta name="description" content="Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash"/>
