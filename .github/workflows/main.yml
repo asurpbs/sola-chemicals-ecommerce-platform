@@ -15,7 +15,6 @@ jobs:
 
     - name: SSH Access
       run: |
-        sudo apt-get upgrade
-        sudo apt-get upgrade
+        sudo apt-get update
         done
 
