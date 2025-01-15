@@ -22,4 +22,3 @@ jobs:
         port: 22
         source: "./*"
         target: "/home/hashcoders/www"
-        recursive: true
