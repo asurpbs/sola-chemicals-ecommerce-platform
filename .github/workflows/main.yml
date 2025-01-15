@@ -15,11 +15,11 @@ jobs:
 
     - name: Delete Files on Server via WebDAV
       run: |
-        apt-get update
-        apt-get install -y cadaver
+        sudo apt-get update
+        sudo apt-get install -y cadaver
         echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
         cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}
+        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}/www
         username ${{ secrets.WEBDAV_USER }}
         mdelete *
         EOF
@@ -28,11 +28,11 @@ jobs:
 
     - name: Upload Files to Server via WebDAV
       run: |
-        apt-get update
-        apt-get install -y cadaver
+        sudo apt-get update
+        sudo apt-get install -y cadaver
         echo "$WEBDAV_PASSWORD" > /tmp/webdav_password
         cadaver <<EOF
-        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}
+        open https://${{ secrets.WEBDAV_HOST }}${{ secrets.WEBDAV_PATH }}/www
         username ${{ secrets.WEBDAV_USER }}
         lcd .
         put -r ./*
