@@ -1,4 +1,4 @@
-name: sync repo to server
+name: sync repo to server root
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     - name: Install lftp
       run: sudo apt-get install lftp
 
-    - name: Delete all files inside www on FTP server and sync repo
+    - name: Delete all files inside www on FTP server
       env:
         FTP_SERVER: ${{ secrets.FTP_SERVER }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -25,7 +25,20 @@ jobs:
         lftp -f "
         open ftp://$FTP_SERVER
         user $FTP_USERNAME $FTP_PASSWORD
-        mirror -R --delete --exclude .git/ --exclude .github/ ./ /www
+        rm -rf /www/*
+        quit
+        "
+
+    - name: Upload files to FTP server excluding .git and .github
+      env:
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        lftp -f "
+        open ftp://$FTP_SERVER
+        user $FTP_USERNAME $FTP_PASSWORD
+        mirror -R --exclude .git --exclude .github ./ /www
         quit
         "
 
