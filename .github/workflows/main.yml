@@ -15,6 +15,6 @@ jobs:
 
     - name: Install requirments
       run: |
-        sudo apt install ftp
+        sudo apt-get install ftp
         done
 
