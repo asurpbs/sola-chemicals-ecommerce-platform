@@ -1,6 +1,6 @@
 <?php
 
-    include '../components/dashboard.php';
+    include '../components/connect.php';
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -8,7 +8,7 @@
     $error_state = 0;
     if(isset($_COOKIE['user_id'])){
         $user_id = $_COOKIE['user_id'];
-        header('Location:./pages/index.php');
+        header('Location:./pages/dashboard.php');
         exit();
     }
 
@@ -22,7 +22,7 @@
        
         if($select_user->rowCount() > 0 && password_verify($pass, $row['password'])){
             setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-            header('location:../pages/index.php');
+            header('location:../pages/dashboard.php');
             exit();
         } else {
             $error_state = 1;
