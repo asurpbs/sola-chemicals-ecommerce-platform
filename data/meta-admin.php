@@ -3,12 +3,6 @@
     <meta name="title" content="Sola Chemical Company"/>
     <meta name="description" content="Administrator site of the Sola Chemical Company"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--
-    <meta name="robots" content="index, follow"/>
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
-    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
-    <link rel="canonical" href="https://hashcoders.alwaysdata.net/admin/"/>
-    -->
     <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96"/>
     <link rel="icon" type="image/svg+xml" href="/public/favicon.svg"/>
     <link rel="shortcut icon" href="/public/favicon.ico"/>
