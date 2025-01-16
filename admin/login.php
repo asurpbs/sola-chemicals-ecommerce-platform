@@ -48,7 +48,7 @@
         <?php endif; ?>
         <div class="container">
             <div class="header">
-                <a href=""><img src="/public/apple-touch-icon.png" alt="sola chemicals logo" width="70px" height="70px"><span></span></a>
+                <a href=""><img src="../public/apple-touch-icon.png" alt="sola chemicals logo" width="70px" height="70px"><span></span></a>
                 <h1>Sign in to Sola Chemicals</h1>
             </div>
             <form action="" method="post" enctype="multipart/form-data" >
