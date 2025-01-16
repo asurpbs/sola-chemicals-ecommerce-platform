@@ -94,7 +94,7 @@
         </div>
 
         <div class="mt-5">
-          <a href="./findNeatByOutleat.html">
+          <a href="/pages/findNeatByOutleat.html">
             <button class="btn btn-primary">Find a Nearby Outlet</button>
           </a>
         </div>
