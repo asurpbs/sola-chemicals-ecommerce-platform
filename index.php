@@ -26,10 +26,10 @@
     <meta name="twitter:title" content="Sola Chemical Company"/>
     <meta name="twitter:description" content="Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash"/>
     <meta name="twitter:image" content="https://hashcoders.alwaysdata.net/public/web-app-manifest.png"/>
-    <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96"/>
-    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg"/>
-    <link rel="shortcut icon" href="/public/favicon.ico"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" href="./public/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg"/>
+    <link rel="shortcut icon" href="./public/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.png"/>
     <link rel="manifest" href="/public/site.webmanifest"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -50,7 +50,7 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
   </head>
   <body>
     <!-- navbar -->
@@ -66,13 +66,13 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img class="d-block w-100" src="/assets/images/banner4.jpg" alt="First slide">
+            <img class="d-block w-100" src="./assets/images/banner4.jpg" alt="First slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="/assets/images/banner4.jpg"  alt="Second slide">
+            <img class="d-block w-100" src="./assets/images/banner4.jpg"  alt="Second slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="/assets/images/banner4.jpg" alt="Third slide">
+            <img class="d-block w-100" src="./assets/images/banner4.jpg" alt="Third slide">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -98,19 +98,19 @@
         <div class="row mt-5 text-center">
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="/assets/images/vision.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/vision.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Vision</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="/assets/images/Mission.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/Mission.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Mission</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="/assets/images/service.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/service.png" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Services</h4>
             </div>
           </div>
@@ -201,28 +201,28 @@
         <div class="row text-center d-flex justify-content-center">
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="/assets/images/Sustainable products.jpg" alt="Sustainable Products">
+              <img src="./assets/images/Sustainable products.jpg" alt="Sustainable Products">
               <h5>Sustainable Products</h5>
               <p>Explore our carefully curated selection of sustainable products, each designed to reduce your carbon footprint</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="/assets/images/Eco-Friendly.png" alt="Eco-Friendly Choices">
+              <img src="./assets/images/Eco-Friendly.png" alt="Eco-Friendly Choices">
               <h5>Eco-Friendly Choices</h5>
               <p>Make conscious choices with our eco-friendly products, knowing that your purchases promote ethical sourcing and responsible manufacturing practices.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="/assets/images/High-quality.png" alt="High-Quality Selection">
+              <img src="./assets/images/High-quality.png" alt="High-Quality Selection">
               <h5>High-Quality Selection</h5>
               <p>Invest in long-lasting and reliable products that meet our stringent quality standards, ensuring your satisfaction and the longevity of your purchases.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="/assets/images/Su-Packaging.png" alt="Sustainable Packaging">
+              <img src="./assets/images/Su-Packaging.png" alt="Sustainable Packaging">
               <h5>Sustainable Packaging</h5>
               <p>Our sustainable packaging ensures that your orders arrive safely while minimizing their impact on the planet.</p>
             </div>
@@ -298,6 +298,6 @@
       <p>Copyright © 2025. All Rights Reserved.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
   </body>
 </html>
