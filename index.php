@@ -231,72 +231,67 @@
       </div>
     </section>
 
-  <!-- Reviews Section -->
-  <section class="reviews-section py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center mb-5">Customer Reviews</h2>
-      <div class="row text-center">
-        <!-- Review 1 -->
-        <div class="col-sm-4">
-          <div class="review-box p-4">
-            <div class="review-author d-flex justify-content-center">
-              <img src="./assets/images/customers/chamod.jpg" alt="image of a customer" class="customer-image">
+    <!-- Reviews Section -->
+    <section class="reviews-section py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-5">Customer Reviews</h2>
+        <div class="row text-center">
+          <!-- Review 1 -->
+          <div class="col-sm-4">
+            <div class="review-box p-4">
+              <div class="review-author d-flex justify-content-center">
+                <img src="./assets/images/customers/chamod.jpg" alt="image of a customer" class="customer-image">
+              </div>
+              <div class="review-stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+              <p class="review-text">"Sola Chemicals provided excellent service with sustainable products. Highly recommend!"</p>
+              <p class="review-author-name">Chamod Abeywickramage</p>
             </div>
-            <div class="review-stars">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-            </div>
-            <p class="review-text">"Sola Chemicals provided excellent service with sustainable products. Highly recommend!"</p>
-            <p class="review-author-name">Chamod Abeywickramage</p>
           </div>
-        </div>
-        <!-- Review 2 -->
-        <div class="col-sm-4">
-          <div class="review-box p-4">
-            <div class="review-author d-flex justify-content-center">
-              <img src="./assets/images/customers/chamal.jpg" alt="image of a customer" class="customer-image">
+          <!-- Review 2 -->
+          <div class="col-sm-4">
+            <div class="review-box p-4">
+              <div class="review-author d-flex justify-content-center">
+                <img src="./assets/images/customers/chamal.jpg" alt="image of a customer" class="customer-image">
+              </div>
+              <div class="review-stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+              <p class="review-text">"Great products that are both eco-friendly and affordable. Will purchase again!"</p>
+              <p class="review-author-name">Chamal Jayawardana</p>
             </div>
-            <div class="review-stars">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-            </div>
-            <p class="review-text">"Great products that are both eco-friendly and affordable. Will purchase again!"</p>
-            <p class="review-author-name">Chamal Jayawardana</p>
           </div>
-        </div>
-        <!-- Review 3 -->
-        <div class="col-sm-4">
-          <div class="review-box p-4">
-            <div class="review-author d-flex justify-content-center">
-              <img src="./assets/images/customers/mihiranga.jpg" alt="image of a customer" class="customer-image">
+          <!-- Review 3 -->
+          <div class="col-sm-4">
+            <div class="review-box p-4">
+              <div class="review-author d-flex justify-content-center">
+                <img src="./assets/images/customers/mihiranga.jpg" alt="image of a customer" class="customer-image">
+              </div>
+              <div class="review-stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+              <p class="review-text">"Excellent quality, fast delivery, and great customer service. Very satisfied!"</p>
+              <p class="review-author-name">Mihiranga Chathum</p>
             </div>
-            <div class="review-stars">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-            </div>
-            <p class="review-text">"Excellent quality, fast delivery, and great customer service. Very satisfied!"</p>
-            <p class="review-author-name">Mihiranga Chathum</p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 text-center">
-      <p>Copyright © 2025. All Rights Reserved.</p>
-    </footer>
+    </section>
+    <!-- navbar -->
+    <?php include './components/header.html'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
