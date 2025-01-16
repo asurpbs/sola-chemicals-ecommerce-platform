@@ -20,16 +20,16 @@
     <meta property="og:description" content="Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:site_name" content="Sola Chemical Company"/>
-    <meta property="og:image" content="https://hashcoders.alwaysdata.net/public/web-app-manifest.png"/>
+    <meta property="og:image" content="https://hashcoders.alwaysdata.net/public/web-app-manifest.webp"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:url" content="https://hashcoders.alwaysdata.net/"/>
     <meta name="twitter:title" content="Sola Chemical Company"/>
     <meta name="twitter:description" content="Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash"/>
-    <meta name="twitter:image" content="https://hashcoders.alwaysdata.net/public/web-app-manifest.png"/>
-    <link rel="icon" type="image/png" href="./public/favicon-96x96.png" sizes="96x96"/>
+    <meta name="twitter:image" content="https://hashcoders.alwaysdata.net/public/web-app-manifest.webp"/>
+    <link rel="icon" type="image/webp" href="./public/favicon-96x96.webp" sizes="96x96"/>
     <link rel="icon" type="image/svg+xml" href="./public/favicon.svg"/>
     <link rel="shortcut icon" href="./public/favicon.ico"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.webp"/>
     <link rel="manifest" href="/public/site.webmanifest"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -66,13 +66,13 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img class="d-block w-100" src="./assets/images/banner4.jpg" alt="First slide">
+            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.jpg"  alt="Second slide">
+            <img class="d-block w-100" src="./assets/images/banner4.webp"  alt="Second slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.jpg" alt="Third slide">
+            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -98,19 +98,19 @@
         <div class="row mt-5 text-center">
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/vision.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/vision.webp" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Vision</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/Mission.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/Mission.webp" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Mission</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/service.png" alt="Vision Icon" class="circle"></div>
+              <div class="circle"><img src="./assets/images/service.webp" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Services</h4>
             </div>
           </div>
@@ -160,33 +160,33 @@
     </section>
 
 
-
-    <!-- Horizontal Scrolling Products Section -->
+  <!-- used loading :  loading of images until some conditions are met -->
+  <!-- Horizontal Scrolling Products Section -->
     <section id="products" class="py-5 bg-light">
       <div class="container">
         <h3 class="text-center mb-4">Our Products</h3>
         <div class="product-container d-flex gap-3 overflow-scroll">
           <!-- Individual Product Card -->
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product" loading="lazy">
           </div>
         </div>
       </div>
@@ -199,28 +199,28 @@
         <div class="row text-center d-flex justify-content-center">
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="./assets/images/Sustainable products.jpg" alt="Sustainable Products">
+              <img src="./assets/images/Sustainable products.webp" alt="Sustainable Products">
               <h5>Sustainable Products</h5>
               <p>Explore our carefully curated selection of sustainable products, each designed to reduce your carbon footprint</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="./assets/images/Eco-Friendly.png" alt="Eco-Friendly Choices">
+              <img src="./assets/images/Eco-Friendly.webp" alt="Eco-Friendly Choices">
               <h5>Eco-Friendly Choices</h5>
               <p>Make conscious choices with our eco-friendly products, knowing that your purchases promote ethical sourcing and responsible manufacturing practices.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="./assets/images/High-quality.png" alt="High-Quality Selection">
+              <img src="./assets/images/High-quality.webp" alt="High-Quality Selection">
               <h5>High-Quality Selection</h5>
               <p>Invest in long-lasting and reliable products that meet our stringent quality standards, ensuring your satisfaction and the longevity of your purchases.</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="why-choose-item">
-              <img src="./assets/images/Su-Packaging.png" alt="Sustainable Packaging">
+              <img src="./assets/images/Su-Packaging.webp" alt="Sustainable Packaging">
               <h5>Sustainable Packaging</h5>
               <p>Our sustainable packaging ensures that your orders arrive safely while minimizing their impact on the planet.</p>
             </div>
@@ -238,7 +238,7 @@
           <div class="col-sm-4">
             <div class="review-box p-4">
               <div class="review-author d-flex justify-content-center">
-                <img src="./assets/images/customers/chamod.jpg" alt="image of a customer" class="customer-image">
+                <img src="./assets/images/customers/chamod.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
                 <span class="star">★</span>
@@ -255,7 +255,7 @@
           <div class="col-sm-4">
             <div class="review-box p-4">
               <div class="review-author d-flex justify-content-center">
-                <img src="./assets/images/customers/chamal.jpg" alt="image of a customer" class="customer-image">
+                <img src="./assets/images/customers/chamal.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
                 <span class="star">★</span>
@@ -272,7 +272,7 @@
           <div class="col-sm-4">
             <div class="review-box p-4">
               <div class="review-author d-flex justify-content-center">
-                <img src="./assets/images/customers/mihiranga.jpg" alt="image of a customer" class="customer-image">
+                <img src="./assets/images/customers/mihiranga.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
                 <span class="star">★</span>
@@ -288,10 +288,10 @@
         </div>
       </div>
     </section>
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 text-center">
-      <p>Copyright © 2025. All Rights Reserved.</p>
-    </footer>
+
+    <!-- navbar -->
+    <?php include './components/hp-footer.html'; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
