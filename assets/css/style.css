@@ -55,7 +55,11 @@ body {
 
 .product-container {
   -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none; /* Standard property for compatibility */
+  -ms-overflow-style: none; /* IE and Edge */
+  overflow: -moz-scrollbars-none; /* Older Firefox */
+  overflow: hidden; /* Universal approach */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* General Section Spacing */
