@@ -1,0 +1,34 @@
+/* Center content vertically and horizontally */
+body {
+    background-color: #f8f9fa; /* Light background */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling the 404 text */
+h1 {
+    font-size: 6rem; /* Large font size for emphasis */
+    color: #007bff; /* Bootstrap primary color */
+}
+
+/* Styling the paragraph */
+p {
+    font-size: 1.5rem;
+    color: #6c757d; /* Bootstrap secondary color */
+}
+
+/* Styling the button */
+a.btn {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Add margin to the bottom of the illustration */
+img {
+    margin-top: 20px;
+    max-width: 100%; /* Ensures the image doesn't exceed the screen size */
+    max-height: 300px; /* Limits the height */
+    object-fit: contain; /* Ensures the image fits without distortion */
+}
+
