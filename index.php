@@ -153,7 +153,7 @@
 
         <div class="mt-5">
           <a href="findNeatByOutleat.html">
-            <button class="btn btn-primary">Use My Location</button>
+            <button class="btn btn-primary">Find a Nearby Outlet</button>
           </a>
         </div>
       </div>
@@ -168,28 +168,28 @@
         <div class="product-container d-flex gap-3 overflow-scroll">
           <!-- Individual Product Card -->
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\42.jpg" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/42.jpg" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\43.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/43.jpg" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\44.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/44.jpg" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\45.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/45.jpg" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\46.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/46.jpg" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\46.jpg" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/47.jpg" class="card-img-top" alt="Product">
         </div>
         <div class="card flex-shrink-0" style="width: 200px;">
-          <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\46.jpg" class="card-img-top" alt="Product">
+          <img src="./assets/images/hp-products/48.jpg" class="card-img-top" alt="Product">
       </div>
       <div class="card flex-shrink-0" style="width: 200px;">
-        <img src="C:\Users\Chamal Jayawardana\Desktop\projects\sola img\46.jpg" class="card-img-top" alt="Product">
+        <img src="./assets/images/hp-products/46.jpg" class="card-img-top" alt="Product">
       </div>
       </div>
     </section>
@@ -240,7 +240,7 @@
         <div class="col-sm-4">
           <div class="review-box p-4">
             <div class="review-author d-flex justify-content-center">
-              <img src="path/to/customer1.jpg" alt="Chamod" class="customer-image">
+              <img src="./assets/images/customers/chamod.jpg" alt="image of a customer" class="customer-image">
             </div>
             <div class="review-stars">
               <span class="star">★</span>
@@ -257,7 +257,7 @@
         <div class="col-sm-4">
           <div class="review-box p-4">
             <div class="review-author d-flex justify-content-center">
-              <img src="path/to/customer2.jpg" alt="Chamal Jayawardana" class="customer-image">
+              <img src="./assets/images/customers/chamal.jpg" alt="image of a customer" class="customer-image">
             </div>
             <div class="review-stars">
               <span class="star">★</span>
@@ -274,7 +274,7 @@
         <div class="col-sm-4">
           <div class="review-box p-4">
             <div class="review-author d-flex justify-content-center">
-              <img src="path/to/customer3.jpg" alt="Mihiranga Chathum" class="customer-image">
+              <img src="./assets/images/customers/mihiranga.jpg" alt="image of a customer" class="customer-image">
             </div>
             <div class="review-stars">
               <span class="star">★</span>
