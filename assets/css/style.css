@@ -55,11 +55,7 @@ body {
 
 .product-container {
   -ms-overflow-style: none; /* IE and Edge */
-    overflow: hidden; /* Hide scrollbar */
-  }
-  
-  .product-container-inner {
-    overflow-x: auto; /* Enables horizontal scrolling */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* General Section Spacing */
