@@ -85,6 +85,6 @@
                 © 2025 Hash Coders. All rights reserved.
             </span>
         </footer>
-        <?php include "../data/bootstrap.php" ?>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
