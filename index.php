@@ -159,8 +159,6 @@
       </div>
     </section>
 
-
-  <!-- used loading :  loading of images until some conditions are met -->
   <!-- Horizontal Scrolling Products Section -->
     <section id="products" class="py-5 bg-light">
       <div class="container">
@@ -168,25 +166,25 @@
         <div class="product-container d-flex gap-3 overflow-scroll">
           <!-- Individual Product Card -->
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product" loading="lazy">
+            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product" loading="lazy">
+              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product" loading="lazy">
+              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product" loading="lazy">
+              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product" loading="lazy">
+              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product" loading="lazy">
+            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product" loading="lazy">
+            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product">
           </div>
         </div>
       </div>
@@ -241,11 +239,7 @@
                 <img src="./assets/images/customers/chamod.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+              <span class="star">★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★</span>
               </div>
               <p class="review-text">"Sola Chemicals provided excellent service with sustainable products. Highly recommend!"</p>
               <p class="review-author-name">Chamod Abeywickramage</p>
@@ -258,11 +252,7 @@
                 <img src="./assets/images/customers/chamal.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+              <span class="star">★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★</span>
               </div>
               <p class="review-text">"Great products that are both eco-friendly and affordable. Will purchase again!"</p>
               <p class="review-author-name">Chamal Jayawardana</p>
@@ -275,11 +265,7 @@
                 <img src="./assets/images/customers/mihiranga.webp" alt="image of a customer" class="customer-image">
               </div>
               <div class="review-stars">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+                <span class="star">★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★</span>
               </div>
               <p class="review-text">"Excellent quality, fast delivery, and great customer service. Very satisfied!"</p>
               <p class="review-author-name">Mihiranga Chathum</p>
