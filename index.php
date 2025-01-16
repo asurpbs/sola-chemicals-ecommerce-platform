@@ -290,6 +290,10 @@
         </div>
       </div>
     </section>
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 text-center">
+      <p>Copyright © 2025. All Rights Reserved.</p>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
