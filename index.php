@@ -168,29 +168,27 @@
         <div class="product-container d-flex gap-3 overflow-scroll">
           <!-- Individual Product Card -->
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.jpg" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.jpg" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product">
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.jpg" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product">
+          </div>
+          <div class="card flex-shrink-0" style="width: 200px;">
+            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product">
+          </div>
         </div>
-        <div class="card flex-shrink-0" style="width: 200px;">
-          <img src="./assets/images/hp-products/48.jpg" class="card-img-top" alt="Product">
-      </div>
-      <div class="card flex-shrink-0" style="width: 200px;">
-        <img src="./assets/images/hp-products/46.jpg" class="card-img-top" alt="Product">
-      </div>
       </div>
     </section>
 
