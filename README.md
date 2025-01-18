@@ -7,3 +7,5 @@
 * Clone this repo to server_root folder.
 * Use mariadb as SQL server
 * Create a github workflow to run git pull command on push to main. (used [ssh-action](https://github.com/appleboy/ssh-action))
+
+
