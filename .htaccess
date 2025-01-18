@@ -1,10 +1,10 @@
-DirectoryIndex index.php
+DirectoryIndex /sola-chemicals-ecommerce-platform/index.php
 
 RewriteEngine On
 
 # Redirect /admin to /admin/login.php
 RewriteCond %{REQUEST_URI} ^/admin$
-RewriteRule ^admin$ /admin/login.php [L,R=301]
+RewriteRule ^admin$ /sola-chemicals-ecommerce-platform/admin/login.php [L,R=301]
 
 # Error Pages
-ErrorDocument 404 /components/error/404.html
+ErrorDocument 404 /sola-chemicals-ecommerce-platform/components/error/404.html
