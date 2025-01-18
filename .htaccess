@@ -3,8 +3,8 @@ DirectoryIndex index.php
 RewriteEngine On
 
 # Redirect /admin to /admin/login.php
-RewriteCond %{REQUEST_URI} ^/admin$
-RewriteRule ^admin$ /admin/login.php [L,R=301]
+RewriteCond %{REQUEST_URI} ^/admin/?$
+RewriteRule ^admin/?$ /admin/login.php [L,R=301]
 
 # Error Pages
 ErrorDocument 404 /components/error/404.html
