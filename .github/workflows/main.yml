@@ -17,4 +17,4 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: cd www/sola-chemicals-ecommerce-platform && git pull
+          script: cd www && git pull
