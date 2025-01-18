@@ -6,12 +6,12 @@
     <!-- metadata -->
     <?php include './components/metadata.html'; ?>
 
-    <!-- for seo optimization
+
     <meta name="robots" content="index, follow"/>
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
     <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
     <link rel="canonical" href="https://hashcoders.alwaysdata.net/"/>
-    -->
+
 
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
