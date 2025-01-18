@@ -34,21 +34,11 @@
 <html lang="en">
     <head>
         <title>Signin - Admin | Sola Chemicals</title>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="title" content="Sola Chemical Company"/>
-        <meta name="description" content="Administrator site of the Sola Chemical Company"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="icon" type="image/png" href="../public/favicon-96x96.png" sizes="96x96"/>
-        <link rel="icon" type="image/svg+xml" href="../public/favicon.svg"/>
-        <link rel="shortcut icon" href="../public/favicon.ico"/>
-        <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png"/>
-        <link rel="manifest" href="../public/site.webmanifest"/>
-        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-        <link rel="canonical" href="https://hashcoders.alwaysdata.net/admin/"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-        <link rel="stylesheet" href="./assets/css/login.css">
+        
+        <!-- metadata -->
+        <?php include '../components/metadata-admin.html'; ?>
+
+        <link rel="stylesheet" href="/admin/assets/css/login.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
     <body>
@@ -79,7 +69,7 @@
                 © 2025 Hash Coders. All rights reserved.
             </span>
         </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
         <script src="./assets/js/script.js"></script>
     </body>
 </html>
