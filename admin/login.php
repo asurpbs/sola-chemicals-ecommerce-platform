@@ -1,6 +1,6 @@
 <?php
 
-    include '../components/connect.php';
+    include '../context/connect.php';
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
