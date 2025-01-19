@@ -7,3 +7,4 @@
 
 # ignore database connection file
 components/connect.php
+context/connect.php
