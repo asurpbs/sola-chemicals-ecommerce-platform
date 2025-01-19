@@ -50,13 +50,15 @@
     }
 
     /**
+     * Note: - You have to initiate the database connection
      * Retrieves the image file path for a given ID and object type.
      *
-     * @param int $id The ID of the object
+     * @param int $id - The ID of the object
      * @param string $object -> user / admin / item / banner : the tablename that you want to retrive image
+     * @param mysqli $conn - database connection  
      * @return string the image file path, if not exist, return the /uploads/null.png
      */
-    function fileGet($id, $object) {
+    function fileGet($id, $object, $conn) {
         include './context/connect.php';
         $object = strtolower($object);
 
