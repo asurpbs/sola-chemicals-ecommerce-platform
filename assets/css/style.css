@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   padding-top: 4.5rem; /* Adjust padding to match navbar height */
 }
 
@@ -33,6 +33,71 @@ body {
 .nav-item {
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
 }
+
+/*style header & sub-header*/
+.header-text {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.header-text .black {
+  color: #222222; /* Black text for "Welcome to" */
+}
+
+.header-text .red {
+  color: #ff2c2c; /* Red text for "Sola Chemicals" */
+}
+
+@media (max-width: 768px) {
+  .header-text {
+    font-size: 34px; /* Responsive font size for smaller screens */
+  }
+}
+
+.sub-header {
+  color: black;
+  font-size: 34px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+  text-align: center; /* Center the text */
+}
+
+.sub-header .sh1,
+.sub-header .sh2 {
+  display: inline-block;
+  position: relative;
+  color: transparent; /* Hide the default text */
+  font-size: 34px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  word-wrap: break-word;
+}
+
+.sub-header .sh1 {
+  color: #FF0000; /* Color for sh1 rotating words */
+}
+
+.sub-header .sh2 {
+  color: #0E6DFB; /* Color for sh2 rotating words */
+}
+
+@media (max-width: 768px) {
+  .sub-header {
+    font-size: 25px; /* sub-header Responsive font size for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .sub-header .sh1,
+  .sub-header .sh2 {
+    font-size: 25px; /* sh1 & sh2 sub-header Responsive font size for smaller screens */
+  }
+}
+
 
 /* Card Styling */
 .product-container {
