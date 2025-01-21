@@ -28,11 +28,44 @@
       </div>
     </section>
 
-    <!-- Welcome Section -->
+     <!-- Welcome Section -->
+    <div class="header">
+      <h1 class="header-text"><span class="black">Welcome to </span> <span class="red">Sola Chemicals</span></h1>
+      <br>
+      <div class="sub-header">
+        We Provide <span class="sh1" data-words="Household,Car Care,Industrial"></span> Chemicals For your <span class="sh2" data-words="Home,Vehicles,Workshop"></span>
+      </div> 
+
+<script>
+  //sub head animation
+document.addEventListener("DOMContentLoaded", () => {
+  const sh1 = document.querySelector(".sh1");
+  const sh2 = document.querySelector(".sh2");
+
+  const words1 = sh1.getAttribute("data-words").split(",");
+  const words2 = sh2.getAttribute("data-words").split(",");
+
+  let index = 0;
+
+  const rotateWords = () => {
+    // Update the text content of both spans
+    sh1.textContent = words1[index];
+    sh2.textContent = words2[index];
+
+    // Increment index and loop back to the start
+    index = (index + 1) % words1.length;
+  };
+
+  // Initial call to set the first word
+  rotateWords();
+
+  // Rotate words every 3 seconds
+  setInterval(rotateWords, 2000);
+});
+  </script>
+
     <section class="py-5 text-center">
       <div class="container">
-        <h1>Welcome to <span class="highlight-red">Sola Chemicals</span></h1>
-        <p class="fs-4">We Provide <span class="highlight-red">House hold</span> Chemicals For your <span class="highlight-blue">Home</span></p>
         <p class="mt-3">
           Sola Chemical Company: Sri Lanka's Trusted Cleaning Solutions Provider (Since 2010). We cater to all your cleaning needs, offering a comprehensive selection of household and commercial cleaning solutions.
         </p>
