@@ -1,6 +1,6 @@
 # ignored directories
 .vscode/
-test
+
 
 # ignored file types
 *.log
