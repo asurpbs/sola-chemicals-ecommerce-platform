@@ -55,5 +55,19 @@ class Cart {
         $stmt->execute();
         $stmt = null;
     }
+
+    /**
+     * Get the count of all cart items for a user
+     */
+    public function getItemCount() {
+        global $conn;
+        $stmt = $conn->prepare("SELECT COUNT(*) as item_count FROM cart WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt->bindColumn(1, $item_count);
+        $stmt->fetch(PDO::FETCH_BOUND);
+        $stmt = null;
+        return $item_count;
+    }
 }
 ?>
