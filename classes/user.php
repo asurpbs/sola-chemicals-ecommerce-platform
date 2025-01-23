@@ -25,6 +25,9 @@ include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
        *  2) first argument is filled and rest are null - to retrive data from database and create a new user 
        *      when the user already logged to the system.
        *      eg - new User($conn, 1, null, null, *******)
+       * 
+       * input the file path by fileUpload()
+       * 
        * @param int|null $user_id User ID
        * @param string|null $first_name First name
        * @param string|null $last_name Last name
