@@ -250,6 +250,22 @@ include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
         $stmt = null;
     }
 
+    /**
+     * retrive all orders done by the instance of class as an array
+     */
+    public function getOrderIds() {
+        global $conn;
+        $orderIds = [];
+        $stmt = $conn->prepare("SELECT id FROM `order` WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $orderIds[] = $row['id'];
+        }
+        $stmt = null;
+        return $orderIds;
+    }
+
     public function deleteUser() {
         global $conn;
         require_once "../utils/image.php";
