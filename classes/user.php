@@ -60,52 +60,73 @@ include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
 
             // Insert user data
             $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, image, gender, birth_date, password, email) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssbsss", $this->first_name, $this->last_name, $this->image, $this->gender, $this->birth_date, $this->password, $this->email);
+            $stmt->bindValue(1, $this->first_name);
+            $stmt->bindValue(2, $this->last_name);
+            $stmt->bindValue(3, $this->image);
+            $stmt->bindValue(4, $this->gender);
+            $stmt->bindValue(5, $this->birth_date);
+            $stmt->bindValue(6, $this->password);
+            $stmt->bindValue(7, $this->email);
             $stmt->execute();
-            $this->user_id = $stmt->insert_id;
-            $stmt->close();
+            $this->user_id = $conn->lastInsertId();
+            $stmt = null;
 
             // Insert address data
             $stmt = $conn->prepare("INSERT INTO user_address (user_id, address1, address2, postal_code, city_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssi", $this->user_id, $this->address1, $this->address2, $this->postal_code, $this->city_id);
+            $stmt->bindValue(1, $this->user_id);
+            $stmt->bindValue(2, $this->address1);
+            $stmt->bindValue(3, $this->address2);
+            $stmt->bindValue(4, $this->postal_code);
+            $stmt->bindValue(5, $this->city_id);
             $stmt->execute();
-            $stmt->close();
+            $stmt = null;
 
             // Insert telephone data
             $stmt = $conn->prepare("INSERT INTO user_telephone (user_id, telephone1, telephone2) VALUES (?, ?, ?)");
-            $stmt->bind_param("iss", $this->user_id, $this->telephone1, $this->telephone2);
+            $stmt->bindValue(1, $this->user_id);
+            $stmt->bindValue(2, $this->telephone1);
+            $stmt->bindValue(3, $this->telephone2);
             $stmt->execute();
-            $stmt->close();
+            $stmt = null;
 
-            include "../utils/image.php";
+            require_once "../utils/image.php";
             fileUpload("user");
         } else {
             // Set user_id as instance's user id
             $this->user_id = $user_id;
 
             // Retrieve user data
-            $stmt = $conn->prepare("SELECT first_name, last_name, image, email FROM user WHERE id = ?");
-            $stmt->bind_param("i", $this->user_id);
+            $stmt = $conn->prepare("SELECT first_name, last_name, image, gender, birth_date, email FROM user WHERE id = ?");
+            $stmt->bindValue(1, $this->user_id);
             $stmt->execute();
-            $stmt->bind_result($this->first_name, $this->last_name, $this->image, $this->email);
-            $stmt->fetch();
-            $stmt->close();
+            $stmt->bindColumn(1, $this->first_name);
+            $stmt->bindColumn(2, $this->last_name);
+            $stmt->bindColumn(3, $this->image);
+            $stmt->bindColumn(4, $this->gender);
+            $stmt->bindColumn(5, $this->birth_date);
+            $stmt->bindColumn(6, $this->email);
+            $stmt->fetch(PDO::FETCH_BOUND);
+            $stmt = null;
 
             // Retrieve address data
             $stmt = $conn->prepare("SELECT address1, address2, postal_code, city_id FROM user_address WHERE user_id = ?");
-            $stmt->bind_param("i", $this->user_id);
+            $stmt->bindValue(1, $this->user_id);
             $stmt->execute();
-            $stmt->bind_result($this->address1, $this->address2, $this->postal_code, $this->city_id);
-            $stmt->fetch();
-            $stmt->close();
+            $stmt->bindColumn(1, $this->address1);
+            $stmt->bindColumn(2, $this->address2);
+            $stmt->bindColumn(3, $this->postal_code);
+            $stmt->bindColumn(4, $this->city_id);
+            $stmt->fetch(PDO::FETCH_BOUND);
+            $stmt = null;
 
             // Retrieve telephone data
             $stmt = $conn->prepare("SELECT telephone1, telephone2 FROM user_telephone WHERE user_id = ?");
-            $stmt->bind_param("i", $this->user_id);
+            $stmt->bindValue(1, $this->user_id);
             $stmt->execute();
-            $stmt->bind_result($this->telephone1, $this->telephone2);
-            $stmt->fetch();
-            $stmt->close();
+            $stmt->bindColumn(1, $this->telephone1);
+            $stmt->bindColumn(2, $this->telephone2);
+            $stmt->fetch(PDO::FETCH_BOUND);
+            $stmt = null;
         }
     }
 
@@ -113,103 +134,203 @@ include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
         global $conn;
         $this->first_name = ucwords(trim($first_name));
         $stmt = $conn->prepare("UPDATE user SET first_name = ? WHERE id = ?");
-        $stmt->bind_param("si", $this->first_name, $this->user_id);
+        $stmt->bindValue(1, $this->first_name);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateLastName($last_name) {
         global $conn;
         $this->last_name = ucwords(trim($last_name));
         $stmt = $conn->prepare("UPDATE user SET last_name = ? WHERE id = ?");
-        $stmt->bind_param("si", $this->last_name, $this->user_id);
+        $stmt->bindValue(1, $this->last_name);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateAddress1($address1) {
         global $conn;
         $this->address1 = $address1;
         $stmt = $conn->prepare("UPDATE user_address SET address1 = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $this->address1, $this->user_id);
+        $stmt->bindValue(1, $this->address1);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateAddress2($address2) {
         global $conn;
         $this->address2 = $address2;
         $stmt = $conn->prepare("UPDATE user_address SET address2 = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $this->address2, $this->user_id);
+        $stmt->bindValue(1, $this->address2);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateTelephone1($telephone1) {
         global $conn;
         $this->telephone1 = $telephone1;
         $stmt = $conn->prepare("UPDATE user_telephone SET telephone1 = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $this->telephone1, $this->user_id);
+        $stmt->bindValue(1, $this->telephone1);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateTelephone2($telephone2) {
         global $conn;
         $this->telephone2 = $telephone2;
         $stmt = $conn->prepare("UPDATE user_telephone SET telephone2 = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $this->telephone2, $this->user_id);
+        $stmt->bindValue(1, $this->telephone2);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updatePostalCode($postal_code) {
         global $conn;
         $this->postal_code = $postal_code;
         $stmt = $conn->prepare("UPDATE user_address SET postal_code = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $this->postal_code, $this->user_id);
+        $stmt->bindValue(1, $this->postal_code);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateCityId($city_id) {
         global $conn;
         $this->city_id = $city_id;
         $stmt = $conn->prepare("UPDATE user_address SET city_id = ? WHERE user_id = ?");
-        $stmt->bind_param("ii", $this->city_id, $this->user_id);
+        $stmt->bindValue(1, $this->city_id);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateEmail($email) {
         global $conn;
         $this->email = strtolower(trim($email));
         $stmt = $conn->prepare("UPDATE user SET email = ? WHERE id = ?");
-        $stmt->bind_param("si", $this->email, $this->user_id);
+        $stmt->bindValue(1, $this->email);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updatePassword($password) {
         global $conn;
         $this->password = password_hash(trim($password), PASSWORD_BCRYPT);
         $stmt = $conn->prepare("UPDATE user SET password = ? WHERE id = ?");
-        $stmt->bind_param("si", $this->password, $this->user_id);
+        $stmt->bindValue(1, $this->password);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
     }
 
     public function updateImage($image) {
         global $conn;
-        include "../utils/image.php";
-        // delete existing image
-        unlink(fileGet("user", $this->image));
+        require_once "../utils/image.php";
+        // delete existing image if it's not null.png
+        $currentImagePath = fileGet("user", $this->image);
+        if (basename($currentImagePath) !== 'null.png') {
+            unlink($_SERVER['DOCUMENT_ROOT'].$currentImagePath);
+        }
         // update the name of image in this class
-        $this->image = fileUpload($image);;
+        $this->image = fileUpload($image);
         $stmt = $conn->prepare("UPDATE user SET image = ? WHERE id = ?");
-        $stmt->bind_param("si", $this->image, $this->user_id);
+        $stmt->bindValue(1, $this->image);
+        $stmt->bindValue(2, $this->user_id);
         $stmt->execute();
-        $stmt->close();
+        $stmt = null;
+    }
+
+    public function deleteUser() {
+        global $conn;
+        require_once "../utils/image.php";
+
+        // Delete telephone data
+        $stmt = $conn->prepare("DELETE FROM user_telephone WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+
+        // Delete address data
+        $stmt = $conn->prepare("DELETE FROM user_address WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+        
+        // Delete user data
+        $stmt = $conn->prepare("DELETE FROM user WHERE id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+
+        // Delete image file if it's not null.png
+        $currentImagePath = fileGet("user", $this->image);
+        if (basename($currentImagePath) !== 'null.png') {
+            unlink($_SERVER['DOCUMENT_ROOT'].$currentImagePath);
+        }
+
+        // Unset all properties
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
+    }
+
+    public function getFirstName() {
+        return $this->first_name;
+    }
+
+    public function getLastName() {
+        return $this->last_name;
+    }
+
+    public function getImage() {
+        return $this->image;
+    }
+
+    public function getGender() {
+        return $this->gender;
+    }
+
+    public function getBirthDate() {
+        return $this->birth_date;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getAddress1() {
+        return $this->address1;
+    }
+
+    public function getAddress2() {
+        return $this->address2;
+    }
+
+    public function getTelephone1() {
+        return $this->telephone1;
+    }
+
+    public function getTelephone2() {
+        return $this->telephone2;
+    }
+
+    public function getCityId() {
+        return $this->city_id;
+    }
+
+    public function getPostalCode() {
+        return $this->postal_code;
+    }
+
+    public function getUserId() {
+        return $this->user_id;
     }
   }
 ?>
