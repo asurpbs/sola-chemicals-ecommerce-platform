@@ -1,33 +1,9 @@
 <?php
-
-    require_once '../context/connect.php';
-
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
-    $error_state = 0;
-    if(isset($_COOKIE['user_id'])){
-        $user_id = $_COOKIE['user_id'];
-        header('Location:./pages/dashboard.php');
-        exit();
-    }
-
-    if(isset($_POST['submitlogin']) && !empty($_POST['email']) && !empty($_POST['pass'])){
-        $email = filter_var($_POST['email'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $pass = filter_var($_POST['pass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
-        $select_user = $conn->prepare("SELECT * FROM `user` WHERE email = ? LIMIT 1");
-        $select_user->execute([$email]);
-        $row = $select_user->fetch(PDO::FETCH_ASSOC);
-       
-        if($select_user->rowCount() > 0 && password_verify($pass, $row['password'])){
-            setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-            header('location:../pages/dashboard.php');
-            exit();
-        } else {
-            $error_state = 1;
-        }
-    }
+$error_state = 0;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include '../utils/verifyCrendentials.php';
+    $error_state = verifyCredentials('admin');
+}
 ?>
 
 <!DOCTYPE html>
