@@ -12,27 +12,18 @@
             $fileTmpPath = $_FILES['image']['tmp_name'];
             $fileName = $_FILES['image']['name'];
             $fileSize = $_FILES['image']['size'];
-            
-            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
             $maxFileSize = 5 * 1024 * 1024; // 5MB
-            
             $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            
             // Valid the file extension and size
             if (in_array($fileExtension, $allowedExtensions) && $fileSize <= $maxFileSize) {
-                // Upload directory
-                $uploadDir = 'uploads/'.strtolower($object).'/';
-                
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/' . strtolower($object) . '/'; // Upload directory
                 // check if the uploadDir , does exsit or not 
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
-    
-                // Generate a unique file name
-                $newFileName = uniqid() . '.' . $fileExtension;
-    
-                // full path of the img
-                $uploadFilePath = $uploadDir . $newFileName;
+                $newFileName = uniqid() . '.' . $fileExtension; // Generate a unique file name
+                $uploadFilePath = $uploadDir . $newFileName; // full path of the img
     
                 // Move the uploaded file from cache in browser to the uploadDir in the serevr
                 if (move_uploaded_file($fileTmpPath, $uploadFilePath)) {
@@ -50,34 +41,19 @@
     }
 
     /**
-     * Note: - You have to initiate the database connection
-     * Retrieves the image file path for a given ID and object type.
+     * Retrieves the image file path.
      *
-     * @param int $id - The ID of the object
-     * @param string $object -> user / admin / item / banner : the tablename that you want to retrive image
-     * @param mysqli $conn - database connection  
+     * @param string $image - file name wit hextension 
+     * @param string $object - object type ( suer/ admin/ banner/ item)
      * @return string the image file path, if not exist, return the /uploads/null.png
      */
-    function fileGet($id, $object, $conn) {
-        include './context/connect.php';
-        $object = strtolower($object);
-
-        // SQL query
-        $stmt = $conn->prepare("SELECT `image` FROM `$object` WHERE `id` = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        // check the result ammount
-        if ($stmt->rowCount() === 1) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo $row['image'];
+    function fileGet($object, $image) {
             // valid the image file
-            if (!empty($row['image']) && file_exists('uploads/' . $object . '/' . $row['image'])) {
-                return '/uploads/' . $object . '/' . $row['image'];
+            if (!empty($row['image']) && file_exists( $_SERVER['DOCUMENT_ROOT'] .'/uploads/' . $object . '/' . $image)) {
+                return '/uploads/' . $object . '/' . $image;
+            } else {
+                return '/uploads/null.png';
             }
         }
-    
-        return '/uploads/null.png';
-    }
 
 ?>

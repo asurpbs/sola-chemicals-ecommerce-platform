@@ -1,5 +1,6 @@
 # ignored directories
 .vscode/
+test
 
 # ignored file types
 *.log
@@ -7,3 +8,5 @@
 
 # ignore database connection file
 context/connect.php
+context/connect-local.php
+context/connect1.php
