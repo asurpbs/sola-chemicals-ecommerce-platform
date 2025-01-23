@@ -2,7 +2,6 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    display: flex; /* Enable flexbox layout */
     height: 100vh;
 }
 
@@ -11,7 +10,6 @@ body {
     width: 250px; /* Set sidebar width */
     background-color: #343a40; /* Dark background for sidebar */
     color: white;
-    position: fixed; /* Keep the sidebar fixed */
     top: 0;
     left: 0;
     bottom: 0;
