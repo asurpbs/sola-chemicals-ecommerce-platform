@@ -1,3 +1,28 @@
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="d-flex justify-content-center text-white">
+            <h1 class="display-4 fw-bolder">Our Products</h1>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="nav nav-pills nav-justified">
+    <a class="nav-item nav-link active" href="#">All Products</a>
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Item Categories</a>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Health Care Products</a>
+        <a class="dropdown-item" href="#">Household Products</a>
+        <a class="dropdown-item" href="#">Car Care Items</a>
+        <a class="dropdown-item" href="#">Industrial Chemicals</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">New Products</a>
+    </div>
+    <a class="nav-item nav-link" href="#">Promotions</a>
+    <a class="nav-item nav-link disabled" href="#">News</a>
+</nav>
+
 <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">

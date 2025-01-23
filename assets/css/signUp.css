@@ -1,0 +1,30 @@
+/* Set background gradient for the entire page */
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff; /* Set default text color to white */
+  }
+  
+  /* Styling for the card */
+  .card {
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    color: #333; /* Dark text color inside the card */
+  }
+  
+  /* Styling for the card title */
+  .card h3 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* Bold font for the title */
+  }
+  
+  /* Styling for links inside the card */
+  .card a {
+    color: #2575fc; /* Link color */
+    text-decoration: none; /* Remove underline from links */
+  }
+  
+  /* Add underline when hovering over links */
+  .card a:hover {
+    text-decoration: underline;
+  }
+  
