@@ -1,5 +1,5 @@
 <?php
-include "../classes/user.php";
+include "../classes/admin.php";
 
 // Create a new user
 $newUser = new User(
@@ -19,10 +19,17 @@ $newUser = new User(
     "0987654321"
 );
 
+// delete user
 $newUser1 = new User(1);
 
 echo "Created suer's first name: " . $newUser->getFirstName();
 echo "Existing user's name: " . $newUser1->getFirstName();
 
 $newUser->deleteUser();
+
+/*
+delete admin suer
+$admin = new Admin(6);
+$admin->deleteAdmin();
+*/
 ?>

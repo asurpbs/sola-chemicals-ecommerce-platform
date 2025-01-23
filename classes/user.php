@@ -254,6 +254,22 @@ include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
         global $conn;
         require_once "../utils/image.php";
 
+        // Set foreign key references to null
+        $stmt = $conn->prepare("UPDATE cart SET user_id = NULL WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE feedback SET user_id = NULL WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE `order` SET user_id = NULL WHERE user_id = ?");
+        $stmt->bindValue(1, $this->user_id);
+        $stmt->execute();
+        $stmt = null;
+
         // Delete telephone data
         $stmt = $conn->prepare("DELETE FROM user_telephone WHERE user_id = ?");
         $stmt->bindValue(1, $this->user_id);

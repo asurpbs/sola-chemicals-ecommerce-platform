@@ -7,7 +7,6 @@ class Admin {
     private $last_name;
     private $image;
     private $gender;
-    private $birth_date;
     private $email;
     private $password;
     private $tele_number;
@@ -16,30 +15,28 @@ class Admin {
     /**
      * input the file path by fileUpload()
      */
-    public function __construct($admin_id = null, $first_name = null, $last_name = null, $image = null, $gender = null, $birth_date = null, $email = null, $password = null, $tele_number = null, $role = null) {
+    public function __construct($admin_id = null, $first_name = null, $last_name = null, $image = null, $gender = null, $email = null, $password = null, $tele_number = null, $role = null) {
         global $conn;
         if ($admin_id === null) {
             $this->first_name = ucwords(trim($first_name));
             $this->last_name = ucwords(trim($last_name));
             $this->image = $image;
             $this->gender = $gender;
-            $this->birth_date = $birth_date;
             $this->email = strtolower(trim($email));
             $this->password = password_hash(trim($password), PASSWORD_BCRYPT);
             $this->tele_number = $tele_number;
             $this->role = $role;
 
             // Insert admin data
-            $stmt = $conn->prepare("INSERT INTO admin (first_name, last_name, image, gender, birth_date, email, password, tele_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO admin (first_name, last_name, image, gender, email, password, tele_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindValue(1, $this->first_name);
             $stmt->bindValue(2, $this->last_name);
             $stmt->bindValue(3, $this->image);
             $stmt->bindValue(4, $this->gender);
-            $stmt->bindValue(5, $this->birth_date);
-            $stmt->bindValue(6, $this->email);
-            $stmt->bindValue(7, $this->password);
-            $stmt->bindValue(8, $this->tele_number);
-            $stmt->bindValue(9, $this->role);
+            $stmt->bindValue(5, $this->email);
+            $stmt->bindValue(6, $this->password);
+            $stmt->bindValue(7, $this->tele_number);
+            $stmt->bindValue(8, $this->role);
             $stmt->execute();
             $this->admin_id = $conn->lastInsertId();
             $stmt = null;
@@ -48,18 +45,17 @@ class Admin {
             $this->admin_id = $admin_id;
 
             // Retrieve admin data
-            $stmt = $conn->prepare("SELECT first_name, last_name, image, gender, birth_date, email, password, tele_number, role FROM admin WHERE id = ?");
+            $stmt = $conn->prepare("SELECT first_name, last_name, image, gender, email, password, tele_number, role FROM admin WHERE id = ?");
             $stmt->bindValue(1, $this->admin_id);
             $stmt->execute();
             $stmt->bindColumn(1, $this->first_name);
             $stmt->bindColumn(2, $this->last_name);
             $stmt->bindColumn(3, $this->image);
             $stmt->bindColumn(4, $this->gender);
-            $stmt->bindColumn(5, $this->birth_date);
-            $stmt->bindColumn(6, $this->email);
-            $stmt->bindColumn(7, $this->password);
-            $stmt->bindColumn(8, $this->tele_number);
-            $stmt->bindColumn(9, $this->role);
+            $stmt->bindColumn(5, $this->email);
+            $stmt->bindColumn(6, $this->password);
+            $stmt->bindColumn(7, $this->tele_number);
+            $stmt->bindColumn(8, $this->role);
             $stmt->fetch(PDO::FETCH_BOUND);
             $stmt = null;
         }
@@ -145,6 +141,38 @@ class Admin {
     public function deleteAdmin() {
         global $conn;
         require_once "../utils/image.php";
+
+        // Set foreign key references to null
+        $stmt = $conn->prepare("UPDATE banner SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE branch SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE company_contact_info SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE faq SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE news_and_events SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
+        $stmt = $conn->prepare("UPDATE notification SET admin_id = NULL WHERE admin_id = ?");
+        $stmt->bindValue(1, $this->admin_id);
+        $stmt->execute();
+        $stmt = null;
+
         // Delete admin data
         $stmt = $conn->prepare("DELETE FROM admin WHERE id = ?");
         $stmt->bindValue(1, $this->admin_id);
@@ -177,10 +205,6 @@ class Admin {
 
     public function getGender() {
         return $this->gender;
-    }
-
-    public function getBirthDate() {
-        return $this->birth_date;
     }
 
     public function getEmail() {
