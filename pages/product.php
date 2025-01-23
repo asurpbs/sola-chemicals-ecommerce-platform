@@ -29,7 +29,9 @@
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
+                            <a href="./pages/ProductOverview.html">
                             <img class="card-img-top" src="./assets/images/hp-products/42.webp" alt="..." />
+                            </a>
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -50,8 +52,9 @@
                              <!-- Sale badge-->
                              <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out  of stock</div>
                              <!-- Product image-->
-                            <!-- Product image-->
-                            <img class="card-img-top" src="./assets/images/hp-products/43.webp" alt="..." />
+                             <a href="./pages/ProductOverview.html">
+                               <img class="card-img-top" src="./assets/images/hp-products/43.webp" alt="..." />
+                             </a>
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -81,7 +84,9 @@
                             <!-- Sale badge-->
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out  of stock</div>
                             <!-- Product image-->
+                            <a href="./pages/ProductOverview.html">
                             <img class="card-img-top" src="./assets/images/hp-products/45.webp" alt="..." />
+                            </a>
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
