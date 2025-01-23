@@ -63,10 +63,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         // Check which page is being requested and include the relevant content
         if ($current_page == 'dashboard.php') {
             include('../admin/pages/dashboard_content.php'); // Dashboard content
-        } elseif ($current_page == 'admin/manage_product.php') {
-            include('admin/pages/manage_content.php'); 
-        } elseif ($current_page == 'admin/new_product.php') {
-            include('admin/pages/newProduct_content.php'); 
+        } elseif ($current_page == 'manage_product.php') {
+            include('../admin/pages/manage_content.php'); 
+        } elseif ($current_page == 'new_product.php') {
+            include('../admin/pages/newProduct_content.php'); 
         } elseif ($current_page == 'settings.php') {
             include('settings_content.php'); 
         } elseif ($current_page == 'profile.php') {

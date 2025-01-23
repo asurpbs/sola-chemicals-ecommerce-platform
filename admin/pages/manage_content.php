@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-include('context/connect.php');
+include('../context/connect.php');
 
 // Check the current page to set the active class dynamically
 $current_page = basename($_SERVER['PHP_SELF']);
