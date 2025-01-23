@@ -9,12 +9,14 @@ ini_set('display_errors', 1);
  * @return int if there is any error occuered, return 1
  */
 function verifyCredentials($type) {
-    include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+    global $conn;
+    include $_SERVER['DOCUMENT_ROOT'] . "/context/connect.php";
+    // Ensure $conn is defined
     $error_state = 0;
     if(isset($_COOKIE['user_id'])){
         $user_id = $_COOKIE['user_id'];
         if ($type === 'admin') {
-            header('Location:./admin/pages/dashboard.php');
+            header('Location:./dashboard.php');
         } else {
             header('Location:./home.php');
         }
@@ -32,7 +34,7 @@ function verifyCredentials($type) {
         if($select_user->rowCount() > 0 && password_verify($pass, $row['password'])){
             setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
             if ($type === 'admin') {
-                header('Location:./admin/pages/dashboard.php');
+                header('Location:./dashboard.php');
             } else {
                 header('Location:./home.php');
             }

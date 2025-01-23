@@ -1,6 +1,6 @@
 <?php
 // Include the new database connection
-include('context/connect.php'); // This includes the new connect.php with proper database credentials
+include('../../context/connect.php'); // This includes the new connect.php with proper database credentials
 
 try {
     // Fetch total users
@@ -27,7 +27,7 @@ try {
     $total_revenue_stmt->closeCursor(); // Close the cursor after fetching the result
 
     // Fetch the latest news articles
-    $news_query = "SELECT * FROM `news_&_events` WHERE `status` = 1 ORDER BY `date_created` DESC LIMIT 5";
+    $news_query = "SELECT * FROM `news_and_events` WHERE `status` = 1 ORDER BY `date_created` DESC LIMIT 5";
     $news_stmt = $conn->query($news_query);
     $news_articles = $news_stmt->fetchAll(PDO::FETCH_ASSOC);
     $news_stmt->closeCursor(); // Close the cursor after fetching the results
@@ -84,7 +84,7 @@ $conn = null;
         <div class="col-md-6">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">News & Updates</h5>
+                    <h5 class="card-title">News and Updates</h5>
                     <ul class="list-unstyled">
                         <?php foreach ($news_articles as $article): ?>
                             <li>
@@ -151,5 +151,6 @@ $conn = null;
                     }
                 }
             }
-        });
+        }
+    });
 </script>
