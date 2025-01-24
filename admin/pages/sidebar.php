@@ -55,18 +55,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </div>
-    </nav>
+   </nav>
 
     <!-- Main Content -->
     <div class="flex-grow-1 p-4">
         <?php
         // Check which page is being requested and include the relevant content
-        if ($current_page == 'admin/dashboard.php') {
-            include('admin/pages/dashboard_content.php'); // Dashboard content
-        } elseif ($current_page == 'admin/manage_product.php') {
-            include('admin/pages/manage_content.php'); 
-        } elseif ($current_page == 'admin/new_product.php') {
-            include('admin/pages/newProduct_content.php'); 
+        if ($current_page == 'dashboard.php') {
+            include('../admin/pages/dashboard_content.php'); // Dashboard content
+        } elseif ($current_page == 'manage_product.php') {
+            include('../admin/pages/manage_content.php'); 
+        } elseif ($current_page == 'new_product.php') {
+            include('../admin/pages/newProduct_content.php'); 
         } elseif ($current_page == 'settings.php') {
             include('settings_content.php'); 
         } elseif ($current_page == 'profile.php') {

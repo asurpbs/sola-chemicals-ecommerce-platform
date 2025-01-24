@@ -1,6 +1,6 @@
 <?php
 // Include the new database connection
-include('../../context/connect.php'); // This includes the new connect.php with proper database credentials
+include('../context/connect.php'); // This includes the new connect.php with proper database credentials
 
 try {
     // Fetch total users
@@ -84,7 +84,7 @@ $conn = null;
         <div class="col-md-6">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">News and Updates</h5>
+                    <h5 class="card-title">News & Updates</h5>
                     <ul class="list-unstyled">
                         <?php foreach ($news_articles as $article): ?>
                             <li>
@@ -151,6 +151,5 @@ $conn = null;
                     }
                 }
             }
-        }
-    });
+        });
 </script>
