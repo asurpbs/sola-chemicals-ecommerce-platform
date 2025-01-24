@@ -1,3 +1,4 @@
+<<<<<<< ChamalJayawardana/2305S0868
 const productContainer = document.querySelector('.product-container');
 
 let isDown = false;
@@ -99,4 +100,4 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(counter);
   });
 });
-
+>>>>>>> main
