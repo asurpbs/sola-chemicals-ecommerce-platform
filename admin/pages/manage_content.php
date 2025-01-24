@@ -2,11 +2,6 @@
 // Include the database connection
 include('../context/connect.php');
 
-// Ensure $pdo is defined
-if (!isset($pdo)) {
-    die("Database connection failed");
-}
-
 // Check the current page to set the active class dynamically
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
