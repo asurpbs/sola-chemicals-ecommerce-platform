@@ -307,9 +307,10 @@ require_once "../utils/image.php";
     }
 
     /**
-     * Update the image of the user.
+     * Update the image of the user. Use it in forms.
      * 
-     * @param string $image Image
+     * @param string $image is input name that is in <input name = "image" type = "file">
+     *               In this, updateImage(image);
      */
     public function updateImage($image) {
         global $conn;
