@@ -49,7 +49,7 @@
      */
     function fileGet($object, $image) {
             // valid the image file
-            if (!empty($row['image']) && file_exists( $_SERVER['DOCUMENT_ROOT'] .'/uploads/' . $object . '/' . $image)) {
+            if (!empty($image) && file_exists( $_SERVER['DOCUMENT_ROOT'] .'/uploads/' . $object . '/' . $image)) {
                 return '/uploads/' . $object . '/' . $image;
             } else {
                 return '/uploads/null.png';

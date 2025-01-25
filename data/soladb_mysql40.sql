@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mthlpbs.hackclub.app:3307
--- Generation Time: Jan 10, 2025 at 01:47 PM
--- Server version: 11.6.2-MariaDB-ubu2404
--- PHP Version: 8.2.27
+-- Host: mysql-hashcoders.alwaysdata.net
+-- Generation Time: Jan 25, 2025 at 09:00 AM
+-- Server version: 10.11.8-MariaDB
+-- PHP Version: 7.4.33
 
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -17,8 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sola_chem`
+-- Database: `hashcoders_solachem`
 --
+CREATE DATABASE IF NOT EXISTS `hashcoders_solachem` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE hashcoders_solachem;
 
 -- --------------------------------------------------------
 
@@ -30,17 +32,27 @@ CREATE TABLE `admin` (
   `id` int(11) UNSIGNED NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `image_url` text DEFAULT NULL,
+  `image` varchar(18) DEFAULT NULL COMMENT 'unique( ).ext , unique( ) exist 13 chars, ''.'' and extension of image file',
   `gender` char(1) NOT NULL COMMENT 'm for mail , f for femail,  o for others & n for not prefered to say',
-  `birth-date` date NOT NULL COMMENT 'YYYY-MM-DD format',
   `email` varchar(255) NOT NULL,
-  `password` varchar(64) NOT NULL,
+  `password` varchar(60) NOT NULL COMMENT 'using hash bcrypt',
   `tele_number` varchar(10) NOT NULL,
   `role` varchar(50) NOT NULL,
   `registered_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_modified` timestamp NOT NULL DEFAULT current_timestamp(),
   `last_visited` timestamp NULL DEFAULT NULL
 ) ;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `first_name`, `last_name`, `image`, `gender`, `email`, `password`, `tele_number`, `role`, `registered_date`, `date_modified`, `last_visited`) VALUES
+(1, 'Mithila', 'Prabashwara', NULL, '1', 'mithila@gmail.com', '$2y$10$IwdCX15BMVqv9A.fSkqGhOXjOdM9SUS81AlduejGjcUVTeTZX6nIi', '0777777777', 'Database Engineer', '2025-01-19 16:59:19', '2025-01-19 17:01:58', NULL),
+(2, 'Thakshila', 'Dilshan', NULL, '1', 'thakshila@gmail.com', '$2y$10$OameerdV9q2GMyvnQXVJ/OzNZPpfmDXysHJrZxy2zd7Tb7argejsy', '0771111111', 'UI/ UX Engineer', '2025-01-19 17:01:06', '2025-01-19 17:01:36', NULL),
+(3, 'Tharushika', 'Dilshan', NULL, '1', 'tharushika@gmail.com', '$2y$10$4u3MvjEL837Bex1TyOpOluZTkdP83w..iSQyVe7gz3fqTdpesW11e', '0772222222', 'Frontend Developer', '2025-01-19 17:01:55', '2025-01-19 17:03:06', NULL),
+(4, 'Chamal', 'Jayawardhana', NULL, '1', 'chamal@gmail.com', '$2y$10$br/yWo7.xjRUFrAOOowB7uKgINmegfMb06GeszGQsTCl38MJB4XG', '0771212121', 'Business Analyst', '2025-01-19 17:04:01', '2025-01-19 17:04:24', NULL),
+(5, 'Chamod', 'Abethunga', NULL, '1', 'chamod@gmail.com', '$2y$10$dvn0Snb.b.i6kbHvESFb4OO1HNH7UIBNcl8JWZaPSBrdqWUPSlj9a', '0711111111', 'Backend Developer', '2025-01-19 17:06:04', '2025-01-19 17:06:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -50,25 +62,24 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `banner` (
   `admin_id` int(11) UNSIGNED DEFAULT NULL,
-  `banner_image_url` text NOT NULL,
+  `image` varchar(18) NOT NULL COMMENT 'unique( ).ext , unique( ) exist 13 chars, ''.'' and extension of image file',
   `description` text DEFAULT NULL,
   `status` binary(1) NOT NULL DEFAULT '0' COMMENT 'To implement show/hide the article',
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `date_modified` timestamp NOT NULL,
+  `date_modified` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_published` timestamp NULL DEFAULT NULL
 ) ;
 
 --
--- Triggers `banner`
+-- Dumping data for table `banner`
 --
-DELIMITER $$
-CREATE TRIGGER `banner_before_insert update published date` BEFORE INSERT ON `banner` FOR EACH ROW BEGIN
-IF NEW.status = 1 THEN
-SET NEW.date_published = CURRENT_TIMESTAMP();
-END IF;
-END
-$$
-DELIMITER ;
+
+INSERT INTO `banner` (`admin_id`, `image`, `description`, `status`, `date_created`, `date_modified`, `date_published`) VALUES
+(1, '678f984269b89.webp', 'example banner 1', 0x30, '2025-01-22 17:56:12', '2025-01-23 02:03:15', NULL),
+(2, '', 'example banner 2', 0x30, '2025-01-22 17:56:30', '2025-01-22 17:56:30', NULL),
+(3, '', 'example banner 2', 0x30, '2025-01-22 17:57:13', '2025-01-22 17:57:47', NULL),
+(4, '', 'example banner 4', 0x30, '2025-01-22 17:58:03', '2025-01-22 17:58:03', NULL),
+(NULL, '', 'example banner 6', 0x30, '2025-01-22 17:58:16', '2025-01-23 08:16:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -78,14 +89,26 @@ DELIMITER ;
 
 CREATE TABLE `branch` (
   `id` smallint(5) UNSIGNED NOT NULL,
-  `localtion_url` text NOT NULL,
   `address1` varchar(255) NOT NULL,
   `address2` varchar(255) DEFAULT NULL,
+  `latitude` varchar(12) DEFAULT NULL,
+  `longitude` varchar(12) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `city_id` int(11) DEFAULT NULL,
   `admin_id` int(11) UNSIGNED DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
+
+--
+-- Dumping data for table `branch`
+--
+
+INSERT INTO `branch` (`id`, `address1`, `address2`, `latitude`, `longitude`, `email`, `city_id`, `admin_id`, `date_created`) VALUES
+(2, '576/2', 'Siyambalape Road', '6.9745769', '79.4002846', 'hei@sola.com', 501, 1, '2025-01-21 13:31:55'),
+(3, '572', 'Dewala Rd', '6.8562662', '79.6224012', 'asw@sola.com', 786, 2, '2025-01-21 13:36:27'),
+(4, '220', 'High Level Road', '6.8396646', '79.8497285', NULL, 346, 1, '2025-01-21 13:38:07'),
+(5, 'XW3G+3RH', NULL, '6.9526674', '79.6388076', NULL, 558, 1, '2025-01-21 13:41:23'),
+(6, '473d', 'Avissawella Road', '6.8562662', '79.6224012', NULL, 362, 4, '2025-01-21 13:43:03');
 
 -- --------------------------------------------------------
 
@@ -98,6 +121,17 @@ CREATE TABLE `branch_telephone` (
   `number1` varchar(10) NOT NULL DEFAULT '',
   `number2` varchar(10) DEFAULT ''
 ) ;
+
+--
+-- Dumping data for table `branch_telephone`
+--
+
+INSERT INTO `branch_telephone` (`branch_id`, `number1`, `number2`) VALUES
+(2, '0112401709', ''),
+(6, '0776049081', ''),
+(5, '0776049085', ''),
+(3, '0776123522', '0112401709'),
+(4, '0776123525', '');
 
 -- --------------------------------------------------------
 
@@ -115,16 +149,27 @@ CREATE TABLE `cart` (
 ) ;
 
 --
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `date_created`, `date_modified`) VALUES
+(1, 1, 2, 1, '2025-01-21 15:23:03', '2025-01-21 15:23:03'),
+(2, 2, 1, 6, '2025-01-21 15:26:05', '2025-01-21 15:26:05'),
+(3, 4, 2, 5, '2025-01-21 15:26:24', '2025-01-21 15:26:24'),
+(4, 6, 3, 4, '2025-01-21 15:26:43', '2025-01-21 15:26:43'),
+(5, 6, 3, 5, '2025-01-21 15:26:55', '2025-01-21 15:26:55');
+
+--
 -- Triggers `cart`
 --
 DELIMITER $$
 CREATE TRIGGER `cart_before_insert validity check` BEFORE INSERT ON `cart` FOR EACH ROW BEGIN
-    IF NEW.quantity > item.QoH THEN
+    IF NEW.quantity > (SELECT QoH FROM item WHERE id = NEW.item_id) THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Not enough items available at this moment. Come back later.';
     ELSEIF NEW.quantity < 0 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid input. Try again';
+        SET MESSAGE_TEXT = 'Invalid input. Try again.';
     END IF;
 END
 $$
@@ -139,10 +184,21 @@ DELIMITER ;
 CREATE TABLE `category` (
   `id` smallint(5) UNSIGNED NOT NULL,
   `name` varchar(45) NOT NULL,
-  `image` text NOT NULL,
+  `image` varchar(18) NOT NULL DEFAULT '' COMMENT 'unique( ).ext , unique( ) exist 13 chars, ''.'' and extension of image file',
   `description` text NOT NULL,
   `data_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `image`, `description`, `data_created`) VALUES
+(1, 'Household Cleaning ', '', '', '2025-01-21 14:19:50'),
+(2, 'Industrial and Commercial ', '', '', '2025-01-21 14:20:10'),
+(3, 'Specialty', '', '', '2025-01-21 14:20:21'),
+(4, 'Liquid and Custom-Use', '', '', '2025-01-21 14:20:33'),
+(5, 'Personal Care', '', '', '2025-01-21 14:20:51');
 
 -- --------------------------------------------------------
 
@@ -2332,8 +2388,8 @@ CREATE TABLE `company_contact_info` (
   `city` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `facebook_url` text DEFAULT NULL,
-  `linkedin_url` text DEFAULT NULL,
-  `twitter` text DEFAULT NULL,
+  `instagram` text DEFAULT NULL,
+  `daraz` text DEFAULT NULL,
   `whastapp` text DEFAULT NULL,
   `youtube` text DEFAULT NULL,
   `tele_number1` varchar(10) NOT NULL,
@@ -2341,6 +2397,13 @@ CREATE TABLE `company_contact_info` (
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
+
+--
+-- Dumping data for table `company_contact_info`
+--
+
+INSERT INTO `company_contact_info` (`admin_id`, `address1`, `address2`, `city`, `email`, `facebook_url`, `instagram`, `daraz`, `whastapp`, `youtube`, `tele_number1`, `tele_number2`, `date_created`, `date_modified`) VALUES
+(1, '572', 'Siyambalape Road', 'Heyiyanthuduwawa', 'contact@sola.com', 'https://web.facebook.com/SolaChemicalCompany/', 'https://www.instagram.com/solachemicals/', 'https://www.daraz.lk/shop/sola-chemicals/', '0776123525', 'https://www.youtube.com/@SolaChemicals-dz7fg', '0776123525', NULL, '2025-01-21 13:57:21', '2025-01-21 14:13:31');
 
 -- --------------------------------------------------------
 
@@ -2354,6 +2417,17 @@ CREATE TABLE `delivery_method` (
   `days` tinyint(3) UNSIGNED DEFAULT NULL COMMENT 'the days spending for delivery',
   `fee` decimal(10,2) NOT NULL
 ) ;
+
+--
+-- Dumping data for table `delivery_method`
+--
+
+INSERT INTO `delivery_method` (`id`, `name`, `days`, `fee`) VALUES
+(1, 'sola courier', 5, 100.00),
+(2, 'express courier', 1, 500.00),
+(3, 'sola hotpress', 1, 600.00),
+(4, 'saman courier', 3, 400.00),
+(5, 'line courirer', 4, 300.00);
 
 -- --------------------------------------------------------
 
@@ -2413,6 +2487,17 @@ CREATE TABLE `faq` (
   `date_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
 
+--
+-- Dumping data for table `faq`
+--
+
+INSERT INTO `faq` (`id`, `title`, `asnwer`, `admin_id`, `date_created`, `date_modified`) VALUES
+(1, 'What products does your company offer', 'We provide a range of soap chemicals, including surfactants, fatty acids, essential oils, fragrances, and specialty additives for personal care, household, and industrial applications.', 1, '2025-01-21 14:27:00', '2025-01-21 14:27:00'),
+(2, 'Do you offer custom formulations?', 'Yes, we offer custom formulations tailored to your specific requirements. Please contact our sales team for more details.', 2, '2025-01-21 14:27:32', '2025-01-21 14:28:52'),
+(3, ' Are your products eco-friendly?', 'We provide a range of environmentally friendly and biodegradable products. Please refer to the product descriptions for detailed information.', 1, '2025-01-21 14:27:59', '2025-01-21 14:28:42'),
+(4, 'How can I place an order?', 'You can place an order through our website by filling out the order form or contacting our sales team directly.\n\n', 1, '2025-01-21 14:28:15', '2025-01-21 14:28:43'),
+(5, 'What is your minimum order quantity (MOQ)?', 'The MOQ varies depending on the product. Please check the product details or contact us for specific information.', 2, '2025-01-21 14:28:37', '2025-01-21 14:28:50');
+
 -- --------------------------------------------------------
 
 --
@@ -2426,6 +2511,17 @@ CREATE TABLE `feedback` (
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
 
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `user_id`, `comment`, `date_created`) VALUES
+(1, 1, 'Great product! It worked exactly as described and arrived on time', '2025-01-21 14:29:38'),
+(2, 2, 'Amazing quality! Definitely will buy again.', '2025-01-21 14:29:55'),
+(3, 4, 'Amazing experience from start to finish. Thank you!', '2025-01-21 14:30:13'),
+(4, 2, 'Happy with my purchase! Itâ€™s exactly what I needed.', '2025-01-21 14:30:36'),
+(5, 4, 'Excellent product. It exceeded my expectations!', '2025-01-21 14:30:53');
+
 -- --------------------------------------------------------
 
 --
@@ -2435,7 +2531,7 @@ CREATE TABLE `feedback` (
 CREATE TABLE `item` (
   `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
-  `image_url` text NOT NULL,
+  `image` varchar(18) NOT NULL DEFAULT '' COMMENT 'unique( ).ext , unique( ) exist 13 chars, ''.'' and extension of image file',
   `category_id` smallint(5) UNSIGNED DEFAULT NULL,
   `QoH` smallint(5) UNSIGNED NOT NULL COMMENT 'Available quantity amount',
   `UP` decimal(8,2) UNSIGNED NOT NULL COMMENT 'Price of the product',
@@ -2448,27 +2544,25 @@ CREATE TABLE `item` (
 ) ;
 
 --
+-- Dumping data for table `item`
+--
+
+INSERT INTO `item` (`id`, `name`, `image`, `category_id`, `QoH`, `UP`, `discount_rate`, `availability`, `delivery_method_id`, `views`, `date_created`, `date_modified`) VALUES
+(1, 'Orange Hand Wash 4L', '', 2, 2, 1600.00, NULL, 0x31, NULL, 0, '2025-01-21 14:46:38', '2025-01-22 17:51:57'),
+(2, 'Mango Hand Wash', '', 2, 9, 1600.00, NULL, 0x31, NULL, 0, '2025-01-21 14:47:55', '2025-01-22 16:55:10'),
+(3, 'Confident Hand Sanitizer', '', 2, 23, 3600.00, NULL, 0x31, NULL, 0, '2025-01-21 14:56:04', '2025-01-22 16:56:00'),
+(4, 'Uphostery Carpet Cleaner 4L', '', 1, 0, 1600.00, NULL, 0x30, NULL, 0, '2025-01-21 14:56:30', '2025-01-21 14:57:20'),
+(5, 'Carwash Shampoo', '', 1, 1, 980.00, NULL, 0x31, NULL, 0, '2025-01-21 14:57:59', '2025-01-22 16:55:25');
+
+--
 -- Triggers `item`
 --
-DELIMITER $$
-CREATE TRIGGER `item_before_insert update availability of items` BEFORE INSERT ON `item` FOR EACH ROW BEGIN
-    IF NEW.QoH < 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid input. Quantity cannot be negative.';
-    ELSEIF NEW.QoH = 0 THEN
-        SET NEW.availability = 0;
-    ELSE
-        SET NEW.availability = 1;
-    END IF;
-END
-$$
-DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `item_before_update update availability of items` BEFORE UPDATE ON `item` FOR EACH ROW BEGIN
     IF NEW.QoH < 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'This is internal issue. Contact administrators via contacts';
-    ELSEIF NEW.QoH > 0 AND OLD.QoH = 0 THEN
+    ELSEIF NEW.QoH > 0 THEN
         SET NEW.availability = 1;
     ELSE
         SET NEW.availability = 0;
@@ -2480,12 +2574,12 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `news_&_events`
+-- Table structure for table `news_and_events`
 --
 
-CREATE TABLE `news_&_events` (
+CREATE TABLE `news_and_events` (
   `id` int(10) UNSIGNED NOT NULL,
-  `article_image_url` text DEFAULT NULL,
+  `image` varchar(18) DEFAULT NULL,
   `admin_id` int(10) UNSIGNED DEFAULT NULL,
   `article_title` varchar(255) NOT NULL,
   `content` text NOT NULL,
@@ -2499,13 +2593,25 @@ CREATE TABLE `news_&_events` (
 ) ;
 
 --
--- Triggers `news_&_events`
+-- Dumping data for table `news_and_events`
+--
+
+INSERT INTO `news_and_events` (`id`, `image`, `admin_id`, `article_title`, `content`, `likes`, `dislikes`, `views`, `status`, `date_created`, `daet_modified`, `date_published`) VALUES
+(7, 'Yj3Kd9f7XqL5.jpg', 1, 'Benefits of Eco-Friendly Detergents', 'Learn why eco-friendly detergents are better for the environment and your health.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL),
+(8, 'Hk9Lt3Xb7MnP.jpg', 2, 'The Science Behind Soaps', 'Explore how soaps work to remove grease and grime effectively.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL),
+(9, 'Qw4Nr8Vg3XpK.jpg', 3, 'Choosing the Right Cleaning Products', 'Understand the differences between soaps, detergents, and disinfectants.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL),
+(10, 'Ax3Lq9Tn6RpJ.jpg', 4, 'Top Detergents for Sensitive Skin', 'A review of detergents specially formulated for sensitive skin types.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL),
+(11, 'Zp8Kv3Wr6XlN.jpg', 5, 'How Detergents Impact the Environment', 'A deep dive into the environmental effects of detergent usage.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL),
+(12, 'Gr9Lp7Wn3XkQ.jpg', 2, 'Innovations in Soap Manufacturing', 'Discover the latest trends and innovations in soap production.', 0x30, 0x30, 0, 0x30, '2025-01-23 13:20:35', '2025-01-23 13:20:35', NULL);
+
+--
+-- Triggers `news_and_events`
 --
 DELIMITER $$
-CREATE TRIGGER `news_&_events_before_insert` BEFORE INSERT ON `news_&_events` FOR EACH ROW BEGIN
-IF NEW.status = 1 THEN
-SET NEW.date_published = CURRENT_TIMESTAMP();
-END IF;
+CREATE TRIGGER `news_and_events_before_insert` BEFORE INSERT ON `news_and_events` FOR EACH ROW BEGIN
+	IF NEW.status = 1 THEN
+		SET NEW.date_published = CURRENT_TIMESTAMP();
+	END IF;
 END
 $$
 DELIMITER ;
@@ -2528,10 +2634,21 @@ CREATE TABLE `notification` (
 ) ;
 
 --
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`id`, `admin_id`, `order_id`, `public_contact_id`, `message`, `status`, `date_created`, `accessed_date`) VALUES
+(1, NULL, 1, NULL, 'New order is placed.', 0x30, '2025-01-22 18:28:20', NULL),
+(2, 4, 4, NULL, 'New order is placed', 0x31, '2025-01-22 18:29:44', NULL),
+(3, NULL, NULL, 1, 'New feedback is added', 0x30, '2025-01-22 18:31:12', NULL),
+(4, 1, 1, NULL, 'New order is placed.', 0x30, '2025-01-22 18:31:50', NULL),
+(5, 5, 1, NULL, 'New order is placed.', 0x30, '2025-01-22 18:42:07', NULL);
+
+--
 -- Triggers `notification`
 --
 DELIMITER $$
-CREATE TRIGGER `notification_before_nsert updated update last accessed` BEFORE INSERT ON `notification` FOR EACH ROW BEGIN
+CREATE TRIGGER `notification_before_insert updated update last accessed` BEFORE INSERT ON `notification` FOR EACH ROW BEGIN
 IF NEW.status = 1 THEN
 SET NEW.accessed_date = CURRENT_TIMESTAMP();
 END IF;
@@ -2551,11 +2668,24 @@ CREATE TABLE `order` (
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `quantity` smallint(5) UNSIGNED NOT NULL,
   `delivery_method_id` smallint(5) UNSIGNED DEFAULT NULL COMMENT 'set the order_method_id if already assigned in the item table, if not order_method shouldn''t be empty.',
-  `status` binary(1) NOT NULL DEFAULT '\0' COMMENT 'set 1  for deliverd and otherwise 0',
+  `status` binary(1) NOT NULL DEFAULT '0' COMMENT 'set 1  for deliverd and otherwise 0',
+  `total` decimal(8,2) NOT NULL DEFAULT 0.00 COMMENT 'total must calculate in server side to increase the availability of the database',
   `delivered_date` timestamp NULL DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `item_id`, `user_id`, `quantity`, `delivery_method_id`, `status`, `total`, `delivered_date`, `description`, `date_created`, `date_modified`) VALUES
+(1, 5, 1, 12, 2, 0x30, 0.00, NULL, NULL, '2025-01-21 15:27:48', '2025-01-21 15:27:48'),
+(4, 1, 4, 5, 1, 0x30, 0.00, NULL, NULL, '2025-01-21 16:43:20', '2025-01-21 16:43:20'),
+(5, 2, 4, 1, 5, 0x30, 0.00, NULL, NULL, '2025-01-21 18:00:35', '2025-01-21 18:00:35'),
+(6, 3, 1, 20, 4, 0x30, 0.00, NULL, NULL, '2025-01-22 16:56:00', '2025-01-22 16:56:00'),
+(7, 1, 3, 5, 1, 0x30, 0.00, NULL, NULL, '2025-01-22 17:51:57', '2025-01-22 17:51:57');
 
 --
 -- Triggers `order`
@@ -2564,7 +2694,7 @@ DELIMITER $$
 CREATE TRIGGER `order_after_insert update item stock` AFTER INSERT ON `order` FOR EACH ROW BEGIN
     DECLARE available_amount INT;
     SELECT item.QoH INTO available_amount
-    FROM item 
+    FROM item
     WHERE item.id = NEW.item_id;
     IF NEW.quantity <= 0 THEN
         SIGNAL SQLSTATE '45000'
@@ -2582,11 +2712,16 @@ $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `order_before_insert avalidity check` BEFORE INSERT ON `order` FOR EACH ROW BEGIN
-    DECLARE availability Boolean;
-    SELECT is_available INTO availability
+    DECLARE availability BOOLEAN;
+    DECLARE available_amount INT;
+    
+    SELECT item.availability, item.QoH INTO availability, available_amount
     FROM item
     WHERE item.id = NEW.item_id;
-    IF availability = 0 AND NEW.quantity > item.QoH THEN
+    IF availability = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'This item is currently unavailable.';
+    ELSEIF NEW.quantity > available_amount THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Not enough stock available for this item.';
     END IF;
@@ -2608,6 +2743,17 @@ CREATE TABLE `payment` (
   `Placed_date` timestamp NULL DEFAULT current_timestamp(),
   `status` varchar(255) DEFAULT NULL
 ) ;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `order_id`, `payment_method`, `transaction`, `Placed_date`, `status`) VALUES
+(1, 1, 'By Debit card', NULL, '2025-01-22 18:43:48', NULL),
+(2, 4, 'Succcefful payment', NULL, '2025-01-22 18:44:21', NULL),
+(3, 5, 'Succeddfull payment', NULL, '2025-01-22 18:45:36', NULL),
+(4, 6, 'Payment is declined', NULL, '2025-01-22 18:47:30', NULL),
+(5, 7, 'Unsucceddful payment.', NULL, '2025-01-22 18:48:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -2649,6 +2795,17 @@ CREATE TABLE `public_contact` (
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ;
 
+--
+-- Dumping data for table `public_contact`
+--
+
+INSERT INTO `public_contact` (`id`, `name`, `email`, `message`, `date_created`) VALUES
+(1, 'Renuka Shehan', 'renukashehan@gmail.com', 'Hi!', '2025-01-21 13:51:55'),
+(2, 'Sasidu Gamage', 'sasaidu@nest.club', 'Hello!', '2025-01-21 13:52:28'),
+(3, 'Renuka Shehan', 'renuka@gmail.com', 'Plz reply', '2025-01-21 13:53:03'),
+(4, 'Kalana Tharusha', 'kalana@gmail.com', 'Best service!', '2025-01-21 13:54:01'),
+(5, 'Pwan Madusanka', 'pawan@gmail.com', 'HeyðŸ˜!', '2025-01-21 13:54:44');
+
 -- --------------------------------------------------------
 
 --
@@ -2659,10 +2816,10 @@ CREATE TABLE `user` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `image_url` text DEFAULT NULL COMMENT 'add default user image',
+  `image` varchar(18) NOT NULL COMMENT 'add unique( ).ext , unique( ) exist 13 chars, ''.'' and extension of image file',
   `gender` char(1) NOT NULL COMMENT 'm for mail , f for femail,  o for others & n for not prefered to say',
   `birth_date` date NOT NULL COMMENT 'YYYY-MM-DD format',
-  `password` varchar(64) NOT NULL,
+  `password` varchar(60) NOT NULL COMMENT 'using hash bcrypt',
   `email` varchar(255) NOT NULL,
   `registered_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_modified` timestamp NULL DEFAULT current_timestamp(),
@@ -2673,8 +2830,13 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `image_url`, `gender`, `birth_date`, `password`, `email`, `registered_date`, `date_modified`, `last_visited`) VALUES
-(1, 'Cristiano', 'Ronaldo', NULL, 'm', '1987-01-04', 'aqswds', 'asur.13131313', '2025-01-04 14:18:42', '2025-01-04 14:18:50', NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `image`, `gender`, `birth_date`, `password`, `email`, `registered_date`, `date_modified`, `last_visited`) VALUES
+(1, 'Mithila', 'Prabashwara', '', '1', '2001-10-07', '$2y$10$esz4viBudShpLzERyDjqLu/ZL/pRa0pWxtkIxAdxxpnMjwY6DY1Jm', 'mithila@135', '2025-01-19 17:09:30', '2025-01-19 17:09:30', NULL),
+(2, 'Chathun', 'Mihiranga', '', '1', '2002-01-19', '$2y$10$cKiG/kGumcaqQa0DThsdx.Sm3WsIiJ3NC/vFLJGcVYectAcczVa5u', 'mihiranga@gmail.com', '2025-01-19 17:10:33', '2025-01-19 17:11:22', NULL),
+(3, 'Chamal', 'Jayasuria', '', '1', '2002-01-19', '$2y$10$yBAyoUhMR9QMV.0Ri3owq.v2lnyHKb9/lzwkfo.g9zHhzvj8juFva', 'chamal@gmail.com', '2025-01-19 17:11:03', '2025-01-19 17:11:32', NULL),
+(4, 'Chamod', 'Abethunga', '', '1', '1999-02-19', '$2y$10$HmImc1fzOJbsfQCzAs3BGuhsUXhUm3YjoEAFOvo9oJojNmfdPOkKK', 'chamod@gmail.com', '2025-01-19 17:12:58', '2025-01-19 17:12:58', NULL),
+(5, 'Tharushika', 'Dilshan', '', '1', '2001-04-01', '$2y$10$qmlsxB8uFEVhL5XgQ/XM4uHqRN2GIYzzeDjn1qeePzaETQx.WWf3u', 'tharukshila@gmail.com', '2025-01-19 17:14:22', '2025-01-19 17:15:55', NULL),
+(6, 'Thakshila', 'Dilshan', '', '1', '0000-00-00', '$2y$10$f55q/.CEMfn6YCts7nEF5.hzzrupLzM2c.EuKeqBRcbaQhpcKmJeC', 'thakshila@135', '2025-01-19 17:15:32', '2025-01-19 17:15:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -2683,13 +2845,23 @@ INSERT INTO `user` (`id`, `first_name`, `last_name`, `image_url`, `gender`, `bir
 --
 
 CREATE TABLE `user_address` (
-  `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `address` varchar(255) NOT NULL,
-  `lane` varchar(255) DEFAULT NULL,
+  `address1` varchar(255) NOT NULL,
+  `address2` varchar(255) DEFAULT NULL,
   `postal_code` varchar(5) NOT NULL,
   `city_id` int(11) DEFAULT NULL
 ) ;
+
+--
+-- Dumping data for table `user_address`
+--
+
+INSERT INTO `user_address` (`user_id`, `address1`, `address2`, `postal_code`, `city_id`) VALUES
+(1, 'No: 195/2', 'Akkara 7, 41 Halpe', '11200', 539),
+(2, 'No:19/A', 'Mihidu Mawatha', '11230', 694),
+(6, 'ANo:12/A', 'Palapitigama', '11212', 539),
+(3, 'No:12/2', 'Police Hostel', '11111', 362),
+(4, 'No:134/B', 'Maligathanna', '11212', 742);
 
 -- --------------------------------------------------------
 
@@ -2702,6 +2874,17 @@ CREATE TABLE `user_telephone` (
   `telephone1` varchar(10) NOT NULL,
   `telephone2` varchar(10) DEFAULT NULL
 ) ;
+
+--
+-- Dumping data for table `user_telephone`
+--
+
+INSERT INTO `user_telephone` (`user_id`, `telephone1`, `telephone2`) VALUES
+(1, '0771111111', NULL),
+(6, '0785874395', '0778451203'),
+(3, '0748512045', NULL),
+(4, '0774852457', NULL),
+(5, '0712458963', NULL);
 
 --
 -- Indexes for dumped tables
@@ -2734,7 +2917,6 @@ ALTER TABLE `branch`
 --
 ALTER TABLE `branch_telephone`
   ADD UNIQUE KEY `number1` (`number1`),
-  ADD UNIQUE KEY `number2` (`number2`),
   ADD KEY `FK__branch` (`branch_id`);
 
 --
@@ -2802,9 +2984,9 @@ ALTER TABLE `item`
   ADD KEY `FK_item_order_method` (`delivery_method_id`);
 
 --
--- Indexes for table `news_&_events`
+-- Indexes for table `news_and_events`
 --
-ALTER TABLE `news_&_events`
+ALTER TABLE `news_and_events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_news_&_events_admin` (`admin_id`);
 
@@ -2856,7 +3038,6 @@ ALTER TABLE `user`
 -- Indexes for table `user_address`
 --
 ALTER TABLE `user_address`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `FK_address_user` (`user_id`),
   ADD KEY `FK_address_city` (`city_id`);
 
@@ -2925,9 +3106,9 @@ ALTER TABLE `item`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `news_&_events`
+-- AUTO_INCREMENT for table `news_and_events`
 --
-ALTER TABLE `news_&_events`
+ALTER TABLE `news_and_events`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -2964,12 +3145,6 @@ ALTER TABLE `public_contact`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_address`
---
-ALTER TABLE `user_address`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -3040,9 +3215,9 @@ ALTER TABLE `item`
   ADD CONSTRAINT `FK_item_order_method` FOREIGN KEY (`delivery_method_id`) REFERENCES `delivery_method` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `news_&_events`
+-- Constraints for table `news_and_events`
 --
-ALTER TABLE `news_&_events`
+ALTER TABLE `news_and_events`
   ADD CONSTRAINT `FK_news_&_events_admin` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

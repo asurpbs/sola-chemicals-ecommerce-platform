@@ -1,6 +1,5 @@
 # ignored directories
 .vscode/
-data/sample.sql
 
 
 # ignored file types
