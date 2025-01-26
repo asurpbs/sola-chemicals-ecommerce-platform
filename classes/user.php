@@ -91,7 +91,6 @@ require_once "../utils/image.php";
             $stmt->bindValue(3, $this->telephone2);
             $stmt->execute();
             $stmt = null;
-            fileUpload("user");
 
 
 
@@ -306,15 +305,13 @@ require_once "../utils/image.php";
     /**
      * Update the image of the user. Use it in forms.
      * 
-     * @param string $image is input name that is in <input name = "image" type = "file">
-     *               In this, updateImage(image);
      */
-    public function updateImage($image) {
+    public function updateImage() {
         global $conn;
         // Delete image file if it's not null.png
         fileDelete($this->image);
         // update the name of image in this class
-        $this->image = fileUpload($image);
+        $this->image = fileUpload('user');
         $stmt = $conn->prepare("UPDATE user SET image = ? WHERE id = ?");
         $stmt->bindValue(1, $this->image);
         $stmt->bindValue(2, $this->user_id);

@@ -11,6 +11,18 @@ class Order {
     private $total=0;
     private $delivered_date;
 
+    /**
+     * Constructor to create a new order or retrieve an existing order.
+     * 
+     * @param int|null $order_id Order ID
+     * @param int|null $item_id Item ID
+     * @param int|null $user_id User ID
+     * @param int|null $quantity Quantity
+     * @param int|null $delivery_method_id Delivery Method ID
+     * @param string|null $status Status
+     * @param float|null $total Total
+     * @param string|null $delivered_date Delivered Date
+     */
     public function __construct($order_id = null, $item_id = null, $user_id = null, $quantity = null, $delivery_method_id = null, $status = null, $total = null, $delivered_date = null) {
         global $conn;
         if ($order_id === null) {
@@ -19,7 +31,7 @@ class Order {
             $this->quantity = $quantity;
             $this->delivery_method_id = $delivery_method_id;
             $this->status = $status;
-            $this->total = $total;
+            $this->total = $this->calculateTotal();
             $this->delivered_date = $delivered_date;
 
             // Insert order data
@@ -53,6 +65,11 @@ class Order {
         }
     }
 
+    /**
+     * Update the quantity of the order.
+     * 
+     * @param int $quantity Quantity
+     */
     public function updateQuantity($quantity) {
         global $conn;
         $this->quantity = $quantity;
@@ -63,6 +80,11 @@ class Order {
         $stmt = null;
     }
 
+    /**
+     * Update the status of the order.
+     * 
+     * @param string $status Status
+     */
     public function updateStatus($status) {
         global $conn;
         $this->status = $status;
@@ -73,6 +95,11 @@ class Order {
         $stmt = null;
     }
 
+    /**
+     * Update the total of the order.
+     * 
+     * @param float $total Total
+     */
     public function updateTotal($total) {
         global $conn;
         $this->total = $total;
@@ -83,8 +110,11 @@ class Order {
         $stmt = null;
     }
 
-
-
+    /**
+     * Update the delivered date of the order.
+     * 
+     * @param string $delivered_date Delivered Date
+     */
     public function updateDeliveredDate($delivered_date) {
         global $conn;
         $this->delivered_date = $delivered_date;
@@ -95,6 +125,9 @@ class Order {
         $stmt = null;
     }
 
+    /**
+     * Delete the order and set related foreign key references to null.
+     */
     public function deleteOrder() {
         global $conn;
 
@@ -121,6 +154,11 @@ class Order {
         }
     }
 
+    /**
+     * Get the name of the item in the order.
+     * 
+     * @return string Item name
+     */
     public function getItemName() {
         global $conn;
         $stmt = $conn->prepare("SELECT name FROM item WHERE id = ?");
@@ -132,6 +170,11 @@ class Order {
         return $name;
     }
 
+    /**
+     * Get the name of the delivery method for the order.
+     * 
+     * @return string Delivery method name
+     */
     public function getDeliveryMethodName() {
         global $conn;
         $stmt = $conn->prepare("SELECT name FROM delivery_method WHERE id = ?");
@@ -143,6 +186,11 @@ class Order {
         return $name;
     }
 
+    /**
+     * Get the name of the user who placed the order.
+     * 
+     * @return string User name
+     */
     public function getUserName() {
         global $conn;
         $stmt = $conn->prepare("SELECT CONCAT(first_name, ' ', last_name) AS name FROM user WHERE id = ?");
@@ -154,26 +202,56 @@ class Order {
         return $name;
     }
 
+    /**
+     * Get the quantity of the order.
+     * 
+     * @return int Quantity
+     */
     public function getQuantity() {
         return $this->quantity;
     }
 
+    /**
+     * Get the status of the order.
+     * 
+     * @return string Status
+     */
     public function getStatus() {
         return $this->status;
     }
 
+    /**
+     * Get the total of the order.
+     * 
+     * @return float Total
+     */
     public function getTotal() {
         return $this->total;
     }
 
+    /**
+     * Get the delivered date of the order.
+     * 
+     * @return string Delivered date
+     */
     public function getDeliveredDate() {
         return $this->delivered_date;
     }
 
+    /**
+     * Get the order ID.
+     * 
+     * @return int Order ID
+     */
     public function getOrderId() {
         return $this->order_id;
     }
 
+    /**
+     * Calculate the total of the order based on item price and quantity.
+     * 
+     * @return float Total
+     */
     public function calculateTotal() {
         global $conn;
 
@@ -200,6 +278,25 @@ class Order {
         }
 
         return 0; // Return 0 if no item found
+    }
+
+    /**
+     * Retrieve all orders as an array of Order instances.
+     * 
+     * @return array Orders
+     */
+    public static function getOrders() {
+        global $conn;
+        $stmt = $conn->prepare("SELECT id FROM `order`");
+        $stmt->execute();
+        $order_ids = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        $stmt = null;
+        $orders = [];
+        foreach ($order_ids as $order_id) {
+            $orders[] = new self($order_id);
+        }
+
+        return $orders;
     }
 }
 ?>
