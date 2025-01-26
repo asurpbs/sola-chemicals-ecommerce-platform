@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-hashcoders.alwaysdata.net
--- Generation Time: Jan 25, 2025 at 09:00 AM
+-- Generation Time: Jan 26, 2025 at 07:38 AM
 -- Server version: 10.11.8-MariaDB
 -- PHP Version: 7.4.33
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `hashcoders_solachem`
 --
-CREATE DATABASE IF NOT EXISTS `hashcoders_solachem` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE hashcoders_solachem;
 
 -- --------------------------------------------------------
 

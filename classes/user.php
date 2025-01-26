@@ -17,6 +17,7 @@ require_once "../utils/image.php";
     private $telephone2;
     private $city_id;
     private $postal_code;
+    private $cart_id;
 
     /**
      * Constructor to create a new user or retrieve an existing user.
@@ -92,6 +93,8 @@ require_once "../utils/image.php";
             $stmt = null;
             fileUpload("user");
 
+
+
             // Update last visited date
             $stmt = $conn->prepare("UPDATE user SET last_visited = current_timestamp() WHERE id = ?");
             $stmt->bindValue(1, $this->user_id);
@@ -139,6 +142,13 @@ require_once "../utils/image.php";
             $stmt->bindColumn(1, $this->telephone1);
             $stmt->bindColumn(2, $this->telephone2);
             $stmt->fetch(PDO::FETCH_BOUND);
+            $stmt = null;
+
+            // Retrieve cart ID
+            $stmt = $conn->prepare("SELECT id FROM cart WHERE user_id = ?");
+            $stmt->bindValue(1, $this->user_id);
+            $stmt->execute();
+            $this->cart_id = $stmt->fetchColumn();
             $stmt = null;
         }
     }
@@ -545,6 +555,13 @@ require_once "../utils/image.php";
         $total_users = $stmt->fetchColumn();
         $stmt = null;
         return $total_users;
+    }
+
+    /**
+     * get the cart ID of the user.
+     */
+    public function getCartId() {
+        return $this->cart_id;
     }
 
     /**

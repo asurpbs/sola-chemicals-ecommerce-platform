@@ -8,7 +8,7 @@ class Order {
     private $quantity;
     private $delivery_method_id;
     private $status;
-    private $total;
+    private $total=0;
     private $delivered_date;
 
     public function __construct($order_id = null, $item_id = null, $user_id = null, $quantity = null, $delivery_method_id = null, $status = null, $total = null, $delivered_date = null) {
@@ -82,6 +82,8 @@ class Order {
         $stmt->execute();
         $stmt = null;
     }
+
+
 
     public function updateDeliveredDate($delivered_date) {
         global $conn;
@@ -170,6 +172,34 @@ class Order {
 
     public function getOrderId() {
         return $this->order_id;
+    }
+
+    public function calculateTotal() {
+        global $conn;
+
+        // Query to get the item and its quantity in the order
+        $stmt = $conn->prepare("SELECT item_id, quantity FROM order WHERE id = ?");
+        $stmt->bindValue(1, $this->order_id);
+        $stmt->execute();
+        $item = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($item) {
+            // Query to get the price of the item
+            $stmt = $conn->prepare("SELECT price FROM items WHERE id = ?");
+            $stmt->bindValue(1, $item['item_id']);
+            $stmt->execute();
+            $price = $stmt->fetchColumn();
+
+            // Calculate the total
+            $total = $price * $item['quantity'];
+
+            // Update the total in the order
+            $this->updateTotal($total);
+
+            return $total;
+        }
+
+        return 0; // Return 0 if no item found
     }
 }
 ?>

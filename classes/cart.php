@@ -1,73 +1,129 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+include $_SERVER['DOCUMENT_ROOT']."/classes/cartItem.php";
 
 class Cart {
     private $user_id;
-    private $item_id;
-    private $quantity;
+    private $cart_id;
 
-    public function __construct($user_id, $item_id, $quantity) {
+    /**
+     * Constructor to create a new cart or retrieve an existing cart.
+     * 
+     * @param int|null $cart_id Cart ID
+     * @param int|null $user_id User ID
+     */
+    public function __construct($cart_id = null, $user_id = null) {
         global $conn;
-        $this->user_id = $user_id;
-        $this->item_id = $item_id;
-        $this->quantity = $quantity;
-        // Insert cart data
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, item_id, quantity) VALUES (?, ?, ?)");
-        $stmt->bindValue(1, $this->user_id);
-        $stmt->bindValue(2, $this->item_id);
-        $stmt->bindValue(3, $this->quantity);
-        $stmt->execute();
-        $stmt = null;
-    }
-
-    public function updateQuantity($quantity) {
-        global $conn;
-        $this->quantity = $quantity;
-        $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND item_id = ?");
-        $stmt->bindValue(1, $this->quantity);
-        $stmt->bindValue(2, $this->user_id);
-        $stmt->bindValue(3, $this->item_id);
-        $stmt->execute();
-        $stmt = null;
+        if ($cart_id) {
+            $this->cart_id = $cart_id;
+            $stmt = $conn->prepare("SELECT user_id FROM cart WHERE cart_id = ?");
+            $stmt->bindValue(1, $this->cart_id);
+            $stmt->execute();
+            $stmt->bindColumn(1, $this->user_id);
+            $stmt->fetch(PDO::FETCH_BOUND);
+            $stmt = null;
+        } else {
+            $this->user_id = $user_id;
+            // Create a cart for the user
+            $stmt = $conn->prepare("INSERT INTO cart (user_id) VALUES (?)");
+            $stmt->bindValue(1, $this->user_id);
+            $stmt->execute();
+            $this->cart_id = $conn->lastInsertId();
+            $stmt = null;
+        }
     }
 
     /**
-     * Retrieve the cart items and quantity as a 2D array when user id is inputted as argument
+     * Get the number of items in the cart.
+     * 
+     * @return int Number of items
      */
-    public static function getItems($user_id) {
+    public function getNoOfItems() {
         global $conn;
-        $items = [];
-        $stmt = $conn->prepare("SELECT item_id, quantity FROM cart WHERE user_id = ?");
-        $stmt->bindValue(1, $user_id);
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM cart_item WHERE cart_id = ?");
+        $stmt->bindValue(1, $this->cart_id);
         $stmt->execute();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $items[] = [$row['item_id'], $row['quantity']];
+        $stmt->bindColumn(1, $count);
+        $stmt->fetch(PDO::FETCH_BOUND);
+        $stmt = null;
+        return $count;
+    }
+
+    /**
+     * Add an item to the cart.
+     * 
+     * @param int $item_id Item ID
+     * @param int $quantity Quantity
+     */
+    public function addItem($item_id, $quantity) {
+        new CartItem($this->cart_id, $item_id, $quantity);
+    }
+
+    /**
+     * Delete an item from the cart.
+     * 
+     * @param int $cartItem_id Cart item ID
+     */
+    public function deleteItem($cartItem_id) {
+        $cartItem = new CartItem($cartItem_id);
+        $cartItem->delete();
+    }
+
+    /**
+     * Update the quantity of an item in the cart.
+     * 
+     * @param int $cartItem_id Cart item ID
+     * @param int $quantity Quantity
+     */
+    public function updateItem($cartItem_id, $quantity) {
+        $updateItem = new CartItem($cartItem_id);
+        $updateItem->updateQuantity($quantity);
+    }
+
+    /**
+     * Get all items in the cart.
+     * 
+     * @return array Items
+     */
+    public function getItems() {
+        global $conn;
+        $stmt = $conn->prepare("SELECT id FROM cart_item WHERE cart_id = ?");
+        $stmt->bindValue(1, $this->cart_id);
+        $stmt->execute();
+        $stmt->bindColumn(1, $cartItem_id);
+        $items = array();
+        while ($stmt->fetch(PDO::FETCH_BOUND)) {
+            $items[] = new CartItem($cartItem_id);
         }
         $stmt = null;
         return $items;
     }
 
-    public function deleteItem($user_id, $item_id) {
-        global $conn;
-        $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND item_id = ?");
-        $stmt->bindValue(1, $user_id);
-        $stmt->bindValue(2, $item_id);
-        $stmt->execute();
-        $stmt = null;
+    /**
+     * Get the cart ID.
+     * 
+     * @return int Cart ID
+     */
+    public function getCartId() {
+        return $this->cart_id;
     }
 
     /**
-     * Get the count of all cart items for a user
+     * Get the user ID.
+     * 
+     * @return int User ID
      */
-    public function getItemCount() {
-        global $conn;
-        $stmt = $conn->prepare("SELECT COUNT(*) as item_count FROM cart WHERE user_id = ?");
-        $stmt->bindValue(1, $this->user_id);
-        $stmt->execute();
-        $stmt->bindColumn(1, $item_count);
-        $stmt->fetch(PDO::FETCH_BOUND);
-        $stmt = null;
-        return $item_count;
+    public function getUserId() {
+        return $this->user_id;
+    }
+
+    /**
+     * Destructor to unset all properties.
+     */
+    public function __destruct() {
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
     }
 }
 ?>
