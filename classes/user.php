@@ -572,5 +572,22 @@ require_once "../utils/image.php";
             unset($this->$key);
         }
     }
+
+    /**
+     * Get all users as an array.
+     * 
+     * @return array Users
+     */
+    public static function getAllUsers() {
+        global $conn;
+        $users = [];
+        $stmt = $conn->prepare("SELECT id FROM user");
+        $stmt->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = new self($row['id']);
+        }
+        $stmt = null;
+        return $users;
+    }
 }
 ?>

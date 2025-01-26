@@ -348,5 +348,22 @@ class Admin {
             unset($this->$key);
         }
     }
+
+    /**
+     * Get all admins.
+     * 
+     * @return array Admins
+     */
+    public static function getAllAdmins() {
+        global $conn;
+        $admins = [];
+        $stmt = $conn->prepare("SELECT id FROM admin");
+        $stmt->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $admins[] = new self($row['id']);
+        }
+        $stmt = null;
+        return $admins;
+    }
 }
 ?>
