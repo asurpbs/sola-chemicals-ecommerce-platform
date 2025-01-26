@@ -443,20 +443,6 @@ class Branch {
     }
 
     /**
-     * Get the count of all branches.
-     * 
-     * @return int Count of all branches
-     */
-    public static function getNoOfAllBranches() {
-        global $conn;
-        $stmt = $conn->prepare("SELECT COUNT(id) FROM branch");
-        $stmt->execute();
-        $count = $stmt->fetchColumn();
-        $stmt = null;
-        return $count;
-    }
-
-    /**
      * Use to delete the instance of Branch
      */
     public function __destruct() {
