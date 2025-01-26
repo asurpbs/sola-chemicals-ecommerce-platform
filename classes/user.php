@@ -18,40 +18,20 @@ require_once "../utils/image.php";
     private $city_id;
     private $postal_code;
 
-  /**
-       * Note - you must include the database connectivity file in your page and pass the $conn  
-       *  You can create a instance of user by 2 ways.
-       *  1) first argument of the constructor is null and rest are filled - to create a new user
-       *      eg - new User(null, "Mithila", "Prabashwara", "dsdsdfd.jpg", 1, "2001-10-07", "password", "email", "address1", "address2", "postal_code", "city_id")
-       *  2) first argument is filled and rest are null - to retrive data from database and create a new user 
-       *      when the user already logged to the system.
-       *      eg - new User(1)
-       * 
-       * input the file path by fileUpload()
-       * 
-       * @param int|null $user_id User ID
-       * @param string|null $first_name First name
-       * @param string|null $last_name Last name
-       * @param string|null $image Image
-       * @param int|null $gender Gender
-       * @param string|null $birth_date Birth date
-       * @param string|null $password Password
-       * @param string|null $email Email
-       * @param string|null $address1 Address line 1
-       * @param string|null $address2 Address line 2
-       * @param string|null $postal_code Postal code
-       * @param int|null $city_id City ID
-       * @param string|null $telephone1 Telephone 1
-       * @param string|null $telephone2 Telephone 2
-       */
-      
     /**
      * Constructor to create a new user or retrieve an existing user.
+     * Note - you must include the database connectivity file in your page and pass the $conn  
+     *  You can create a instance of user by 2 ways.
+     *  1) first argument of the constructor is null and rest are filled - to create a new user
+     *      eg - new User(null, "Mithila", "Prabashwara", "", 1, "2001-10-07", "password", "email", "address1", "address2", "postal_code", "city_id")
+     *  2) first argument is filled and rest are null - to retrive data from database and create a new user 
+     *      when the user already logged to the system.
+     *      eg - new User(1)
      * 
      * @param int|null $user_id User ID
      * @param string|null $first_name First name
      * @param string|null $last_name Last name
-     * @param string|null $image Image
+     * @param string|null $image put empty, like "". do not pull null.
      * @param int|null $gender Gender
      * @param string|null $birth_date Birth date
      * @param string|null $password Password
@@ -68,7 +48,7 @@ require_once "../utils/image.php";
         if ($user_id === null) {
             $this->first_name = ucwords(trim($first_name));
             $this->last_name = ucwords(trim($last_name));
-            $this->image = $image;
+            $this->image = fileUpload("user");
             $this->gender = $gender;
             $this->birth_date = $birth_date;
             $this->password = password_hash(trim($password), PASSWORD_BCRYPT);
@@ -111,6 +91,12 @@ require_once "../utils/image.php";
             $stmt->execute();
             $stmt = null;
             fileUpload("user");
+
+            // Update last visited date
+            $stmt = $conn->prepare("UPDATE user SET last_visited = current_timestamp() WHERE id = ?");
+            $stmt->bindValue(1, $this->user_id);
+            $stmt->execute();
+            $stmt = null;
         } else {
             // Set user_id as instance's user id
             $this->user_id = $user_id;
@@ -134,6 +120,7 @@ require_once "../utils/image.php";
             $stmt->fetch(PDO::FETCH_BOUND);
             $stmt = null;
             $this->image = fileGet("user", $this->image);
+
             // Retrieve address data
             $stmt = $conn->prepare("SELECT address1, address2, postal_code, city_id FROM user_address WHERE user_id = ?");
             $stmt->bindValue(1, $this->user_id);
@@ -314,11 +301,8 @@ require_once "../utils/image.php";
      */
     public function updateImage($image) {
         global $conn;
-        // delete existing image if it's not null.png
-        $currentImagePath = fileGet("user", $this->image);
-        if (basename($currentImagePath) !== 'null.png') {
-            unlink($_SERVER['DOCUMENT_ROOT'].$currentImagePath);
-        }
+        // Delete image file if it's not null.png
+        fileDelete($this->image);
         // update the name of image in this class
         $this->image = fileUpload($image);
         $stmt = $conn->prepare("UPDATE user SET image = ? WHERE id = ?");
@@ -353,6 +337,9 @@ require_once "../utils/image.php";
         global $conn;
         require_once "../utils/image.php";
 
+        // Delete image file if it's not null.png
+        fileDelete($this->image);
+
         // Set foreign key references to null
         $stmt = $conn->prepare("UPDATE cart SET user_id = NULL WHERE user_id = ?");
         $stmt->bindValue(1, $this->user_id);
@@ -386,12 +373,6 @@ require_once "../utils/image.php";
         $stmt->bindValue(1, $this->user_id);
         $stmt->execute();
         $stmt = null;
-
-        // Delete image file if it's not null.png
-        $currentImagePath = fileGet("user", $this->image);
-        if (basename($currentImagePath) !== 'null.png') {
-            unlink($_SERVER['DOCUMENT_ROOT'].$currentImagePath);
-        }
 
         // Unset all properties
         foreach ($this as $key => $value) {
@@ -565,5 +546,14 @@ require_once "../utils/image.php";
         $stmt = null;
         return $total_users;
     }
-  }
+
+    /**
+     * use to delete the instance of user
+     */
+    public function __destruct() {
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
+    }
+}
 ?>
