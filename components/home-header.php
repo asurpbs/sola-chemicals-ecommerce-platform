@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="./index.php">
             <img src="/public/Main-Logo.svg" alt="site icon">
@@ -116,7 +116,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>If you already have an account, <a href="./pages/signin.html" id="signInLink">sign in</a>.</p>
+                    <p>Already have an account? <a href="./pages/signIn.html" class="text-primary">Sign in here</a>.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

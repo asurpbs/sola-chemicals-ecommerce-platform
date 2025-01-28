@@ -129,7 +129,7 @@ body {
 
 /* General Section Spacing */
 section {
-  padding: 22px 0; /* Adjust for even spacing */
+  padding: 60px 0; /* Adjust for even spacing */
 }
 
 /* Icons for Mission, Vision, Services */
@@ -306,7 +306,7 @@ footer a:hover {
 
 @media (max-width: 992px) {
   body {
-      padding-top: 3.5rem; /* Adjust padding for smaller screens if needed */
+      padding-top: 5.5rem; /* Adjust padding for smaller screens if needed */
   }
 }
 
@@ -323,4 +323,3 @@ footer a:hover {
 .btn-primary:hover {
   background-color: #0056b3;
 }
-
