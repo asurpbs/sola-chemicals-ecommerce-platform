@@ -16,9 +16,9 @@ function verifyCredentials($type) {
     if(isset($_COOKIE['user_id'])){
         $user_id = $_COOKIE['user_id'];
         if ($type === 'admin') {
-            header('Location:./dashboard.php');
+            header('Location:/admin/dashboard.php');
         } else {
-            header('Location:./home.php');
+            header('Location:/');
         }
         exit();
     }
@@ -34,9 +34,9 @@ function verifyCredentials($type) {
         if($select_user->rowCount() > 0 && password_verify($pass, $row['password'])){
             setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
             if ($type === 'admin') {
-                header('Location:./dashboard.php');
+                header('Location:/admin/dashboard.php');
             } else {
-                header('Location:./home.php');
+                header('Location:/');
             }
             exit();
         } else {
