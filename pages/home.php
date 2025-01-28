@@ -102,25 +102,25 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="row text-center mt-4">
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>15</h3>
+              <h3 class="count" data-target="15">15</h3>
               <p>Years <br> of reliability</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>99%</h3>
+              <h3 class="count" data-target="99">99%</h3>
               <p>of products <br> manufactured locally</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>+25</h3>
+              <h3 class="count" data-target="25">+25</h3>
               <p>of outlets <br> island wide</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>+25000</h3>
+              <h3 class="count" data-target="25000">+25000</h3>
               <p>retailer reach <br> island wide</p>
             </div>
           </div>
@@ -133,6 +133,54 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     </section>
+    
+    <script>
+      // stat-box animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".count");
+
+      const options = {
+        threshold: 0.5, // Trigger when 50% of the element is visible
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const target = +entry.target.getAttribute("data-target");
+        const duration = 1000; // Animation duration in milliseconds (reduced for faster animation)
+        const increment = target / (duration / 25); // 25ms per frame for smooth animation
+
+        let current = 0;
+        const updateCounter = () => {
+          current += increment;
+          if (current < target) {
+        entry.target.textContent = Math.ceil(current);
+        requestAnimationFrame(updateCounter);
+          } else {
+        // Ensure the final value is set correctly
+        entry.target.textContent = target;
+
+        // Add % or + symbol based on the target value
+        if (target === 99) {
+          entry.target.textContent = target + "%"; // Append % for 99
+        } else if (target === 25 || target === 25000) {
+          entry.target.textContent = "+" + target; // Prepend + for 25 and 25000
+        } else {
+          entry.target.textContent = target; // Set the target value without %
+        }
+          }
+        };
+
+        updateCounter();
+      }
+        });
+      }, options);
+
+      counters.forEach((counter) => {
+        observer.observe(counter);
+      });
+    });
+        </script>
 
   <!-- Horizontal Scrolling Products Section -->
     <section id="products" class="py-5 bg-light">
@@ -216,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="review-stars">
               <span class="star">★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★</span>
               </div>
-              <p class="review-text">"Sola Chemicals provided excellent service with sustainable products. Highly recommend!"</p>
+              <p class="review-text">"Sola Chemicals provided excellent service. Highly recommend!"</p>
               <p class="review-author-name">Chamod Abeywickramage</p>
             </div>
           </div>
@@ -262,9 +310,9 @@ document.addEventListener("DOMContentLoaded", () => {
                       Please fill out the form or use the contact information below.
                   </p>
                   <div class="mt-4">
-                      <p><i class="bi bi-envelope-fill me-2"></i>Email: support@sola.com</p>
-                      <p><i class="bi bi-telephone-fill me-2"></i>Phone: 033-4333333</p>
-                      <p><i class="bi bi-geo-alt-fill me-2"></i>Location: 123/A , Kiribathgoda, Sri Lanka</p>
+                      <p><i class="bi bi-envelope-fill me-2"></i>Email: solachemik@yahoo.com</p>
+                      <p><i class="bi bi-telephone-fill me-2"></i>Phone: 0112401709, 0704995797</p>
+                      <p><i class="bi bi-geo-alt-fill me-2"></i>Location: 576/2 C, Siyambalape Road, Heiyanthuduwa</p>
                   </div>
               </div>
               <!-- Right Section -->

@@ -28,7 +28,7 @@
           include './pages/about.php';
         } elseif ($page == 'product') {
           include './pages/product.php';
-        } else {
+        }else {
           include './pages/home.php';
         }
       ?>
