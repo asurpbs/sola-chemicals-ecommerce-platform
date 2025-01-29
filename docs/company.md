@@ -4,7 +4,7 @@ The `Company` class is used to manage company contact information. It provides m
 
 ## Methods
 
-### `__construct($admin_id)`
+### `__construct()`
 Constructor to retrieve company contact information.
 
 ### `updateAddress($address1, $address2, $city)`
