@@ -1,4 +1,9 @@
-    <!-- Hero Section -->
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/classes/company.php";
+global $company;
+$company = new Company();
+?>
+<!-- Hero Section -->
     <section>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -189,25 +194,25 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="product-container d-flex gap-3 overflow-scroll">
           <!-- Individual Product Card -->
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product">
+              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
           <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product">
+            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product" loading="lazy" >
           </div>
         </div>
       </div>
@@ -310,33 +315,45 @@ document.addEventListener("DOMContentLoaded", () => {
                       Please fill out the form or use the contact information below.
                   </p>
                   <div class="mt-4">
-                      <p><i class="bi bi-envelope-fill me-2"></i>Email: solachemik@yahoo.com</p>
-                      <p><i class="bi bi-telephone-fill me-2"></i>Phone: 0112401709, 0704995797</p>
-                      <p><i class="bi bi-geo-alt-fill me-2"></i>Location: 576/2 C, Siyambalape Road, Heiyanthuduwa</p>
-                  </div>
+                    <p><i class="bi bi-envelope-fill me-2"></i>Email: <?php echo $company->getEmail(); ?></p>
+                    <p><i class="bi bi-telephone-fill me-2"></i>Phone: <?php echo $company->getTeleNumber1(); if (!empty($company->getTeleNumber2())) { echo ', '.$company->getTeleNumber2();} ?></p>
+                    <p><i class="bi bi-geo-alt-fill me-2"></i>Location: <?php echo $company->getAddress1(); if (!empty($company->getAddress2())) { echo ', '.$company->getAddress2(); echo ', ',$company->getCity();} ?></p>
+                </div>
               </div>
+
+              <?php
+                include $_SERVER['DOCUMENT_ROOT'] . "/classes/public.php";
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+                    $contact = new PublicContact(null, $_POST['name'], $_POST['email'], $_POST['message']);
+                    unset($contact);
+                    $_SESSION['form_submitted'] = true;
+                    echo json_encode(['status' => 'success', 'message' => 'Contact form submitted successfully!']);
+                    exit;
+                } else if (isset($_SESSION['form_submitted'])) {
+                        unset($_SESSION['form_submitted']);
+                        echo json_encode(['status' => 'error', 'message' => 'Contact form submission failed!']);
+                        exit;
+                    }
+              ?>
               <!-- Right Section -->
               <div class="col-md-6">
-                  <form id="contactForm">
-                      <div class="mb-3">
-                          <label for="fullName" class="form-label">Full Name</label>
-                          <input type="text" class="form-control" id="fullName" placeholder="Your name" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="email" placeholder="Your email" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="company" class="form-label">Company</label>
-                          <input type="text" class="form-control" id="company" placeholder="Your company">
-                      </div>
-                      <div class="mb-3">
-                          <label for="message" class="form-label">Message</label>
-                          <textarea class="form-control" id="message" rows="5" placeholder="Your message" required></textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary w-100">Submit</button>
-                  </form>
-              </div>
+                <form id="contactForm" action="" method="POST"  enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" name='name' placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name='email' id="email" placeholder="Your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name='message' rows="5" placeholder="Your message" required></textarea>
+                    </div>
+                    <input type="hidden" name="submit" value="1">
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
           </div>
       </div>
     </section>

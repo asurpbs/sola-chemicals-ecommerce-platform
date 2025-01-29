@@ -23,14 +23,13 @@
     <!-- Dynamic Content -->
     <div class="content">
       <?php
-        $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-        if ($page == 'about') {
-          include './pages/about.php';
-        } elseif ($page == 'product') {
-          include './pages/product.php';
-        }else {
-          include './pages/home.php';
-        }
+      $page = $_GET['page'] ?? 'home';
+      $allowed_pages = ['home', 'about', 'product'];
+      if (in_array($page, $allowed_pages)) {
+        include "./pages/{$page}.php";
+      } else {
+        include './pages/home.php';
+      }
       ?>
     </div>
 

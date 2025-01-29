@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['telephone1'],
         $_POST['telephone2']
     );
-    // ...existing code...
 }
 ?>
 

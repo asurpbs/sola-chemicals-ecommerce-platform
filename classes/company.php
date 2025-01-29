@@ -18,11 +18,10 @@ class Company {
     /**
      * Constructor to retrieve company contact information.
      * 
-     * @param int $admin_id Admin ID
      */
-    public function __construct($admin_id) {
+    public function __construct() {
         global $conn;
-        $this->admin_id = $admin_id;
+        $this->admin_id = 1;
 
         // Retrieve company contact info
         $stmt = $conn->prepare("SELECT address1, address2, city, email, facebook_url, instagram, daraz, whatsapp, youtube, tele_number1, tele_number2 FROM company_contact_info WHERE admin_id = ?");

@@ -29,25 +29,33 @@ productContainer.addEventListener('mousemove', (e) => {
   productContainer.scrollLeft = scrollLeft - walk;
 });
 
-// Handle form submission
+
+// AJAX form submission
 document.getElementById('contactForm').addEventListener('submit', function (e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Get form values
-  const fullName = document.getElementById('fullName').value;
-  const email = document.getElementById('email').value;
-  const company = document.getElementById('company').value;
-  const message = document.getElementById('message').value;
+    const formData = new FormData(this);
 
-  // Display a confirmation (or process data as needed)
-  alert(`Thank you, ${fullName}! Your message has been received.`);
-  
-  // Optionally reset the form
-  e.target.reset();
+    fetch('/pages/home.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert(data.message);
+        this.reset();
+      } else {
+        alert(data.message);
+      }
+      this.classList.remove('submitting');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      this.classList.remove('submitting');
+    });
 });
 
-// Example JS for future interactivity (optional)
-// Log a message when the button is clicked
 document.querySelector('.btn').addEventListener('click', function () {
   console.log('Back to home button clicked!');
 });

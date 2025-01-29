@@ -144,6 +144,9 @@ section {
   margin: 0 auto 15px;
 }
 
+.card-img-top {
+  background: url('./assets/images/product-placeholder.webp') center center / cover no-repeat;
+}
 /* Product Card Styling */
 .card {
   border: 1px solid #ddd;
