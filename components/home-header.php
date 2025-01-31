@@ -1,3 +1,8 @@
+<?php
+// Assuming you have a session variable to check if the user is logged in
+session_start();
+$is_logged_in = isset($_SESSION['user_id']);
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="./index.php">
@@ -16,9 +21,21 @@
                 <i class="fa fa-shopping-cart"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
             </button>
-            <button type="button" class="btn position-relative" title="User" data-bs-toggle="modal" data-bs-target="#signupModal">
+            <button type="button" class="btn position-relative" title="User" id="profileButton">
                 <i class="fa fa-user"></i>
             </button>
+            <!-- Profile Pop-up Menu -->
+            <div id="profileMenu" class="dropdown-menu">
+                <?php if ($is_logged_in): ?>
+                    <a class="dropdown-item" href="./pages/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                    <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                <?php else: ?>
+                    <div class="dropdown-item text-center">
+                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                        <p class="mt-2">Welcome! Please <a href="./pages/signIn.html" class="text-primary">Sign In</a> or <a href="./pages/signUp.html" class="text-primary">Sign Up</a> to continue.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" title="Toggle navigation">
@@ -56,13 +73,25 @@
                     <i class="fa fa-shopping-cart"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
                 </button>
-                <button type="button" class="btn position-relative" title="User" data-bs-toggle="modal" data-bs-target="#signupModal">
-                <i class="fa fa-user"></i>
-            </button>
+                <button type="button" class="btn position-relative" title="User" id="profileButtonDesktop">
+                    <i class="fa fa-user"></i>
+                </button>
+                <!-- Profile Pop-up Menu for Desktop -->
+                <div id="profileMenuDesktop" class="dropdown-menu">
+                    <?php if ($is_logged_in): ?>
+                        <a class="dropdown-item" href="./pages/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                        <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    <?php else: ?>
+                        <div class="dropdown-item text-center">
+                            <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                            <p class="mt-2">Welcome! Please <a href="./pages/signIn.php" class="text-primary">Sign In</a> or <a href="./pages/signUp.php" class="text-primary">Sign Up</a> to continue.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
-  </nav>
+</nav>
 
   <!-- Cart Modal -->
   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
@@ -107,27 +136,47 @@
                 </div>
             </div>
 
-            <!-- User Modal -->
-     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupModalLabel">Sign up</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Already have an account? <a href="./pages/signIn.html" class="text-primary">Sign in here</a>.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="signUpButton">Sign Up</button>
-                </div>
-                <script>
-                    document.getElementById('signUpButton').addEventListener('click', function() {
-                        window.location.href = './pages/signUp.html';
-                    });
-                </script>
-                </div>
-            </div>
-        </div>
-    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const profileButton = document.getElementById('profileButton');
+    const profileMenu = document.getElementById('profileMenu');
+
+    const profileButtonDesktop = document.getElementById('profileButtonDesktop');
+    const profileMenuDesktop = document.getElementById('profileMenuDesktop');
+
+    profileButton.addEventListener('click', function() {
+        profileMenu.classList.toggle('show');
+        adjustDropdownPosition(profileMenu);
+    });
+
+    profileButtonDesktop.addEventListener('click', function() {
+        profileMenuDesktop.classList.toggle('show');
+        adjustDropdownPosition(profileMenuDesktop);
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!profileButton.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove('show');
+        }
+        if (!profileButtonDesktop.contains(event.target) && !profileMenuDesktop.contains(event.target)) {
+            profileMenuDesktop.classList.remove('show');
+        }
+    });
+
+    window.addEventListener('scroll', function() {
+        profileMenu.classList.remove('show');
+        profileMenuDesktop.classList.remove('show');
+    });
+
+    function adjustDropdownPosition(menu) {
+        const rect = menu.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+            menu.style.left = 'auto';
+            menu.style.right = '0';
+        } else {
+            menu.style.left = '';
+            menu.style.right = '';
+        }
+    }
+});
+</script>

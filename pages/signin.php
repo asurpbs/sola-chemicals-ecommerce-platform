@@ -1,20 +1,32 @@
+<?php
+$error_state = 0;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include '../utils/verifyCrendentials.php';
+    $error_state = verifyCredentials('user');
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="icon" href="../public/Main-Logo.svg" type="image/svg+xml">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<html lang='en'>
+  <head>
+    <title>Sign in</title>
+
+    <!-- metadata -->
+    <?php require_once '../components/metadata.html'; ?>
     <link rel="stylesheet" href="signin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
       .btn-login i {
         margin-right: 8px;
       }
     </style>
-</head>
+  </head>
 <body>
+<?php if ($error_state == 1): ?>
+            <div class="alert alert-danger alert-dismissible">
+                <a href="?invalid" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Invalid password or email. Please try again.
+            </div>
+        <?php endif; ?>
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -23,15 +35,15 @@
             <div class="text-center mb-4">
               <img src="../public/Main-Logo.svg" alt="Main Logo" class="img-fluid" style="max-width: 150px;">
             </div>
-            <form>
+            <form action="" method="post" enctype="multipart/form-data" >
               <div class="form-floating mb-3">
                 <label for="floatingInput">Email address</label>
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
                 
               </div>
               <div class="form-floating mb-3">
                 <label for="floatingPassword">Password</label>
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                 
               </div>
               <div class="text-right">
@@ -44,16 +56,16 @@
                 </label>
               </div>
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign in</button>
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submitlogin">Sign in</button>
               </div>
               <hr class="my-4">
               <div class="d-grid mb-2">
-                <button class="btn btn-danger btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button">
+                <button class="btn btn-danger btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button1">
                   <i class="fab fa-google"></i> <span>Sign in with Google</span>
                 </button>
               </div>
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button2">
                   <i class="fab fa-facebook-f"></i> <span>Sign in with Facebook</span>
                 </button>
               </div>
@@ -65,7 +77,5 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="signin.js"></script>
 </body>
 </html>

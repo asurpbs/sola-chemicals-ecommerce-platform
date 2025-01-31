@@ -4,37 +4,30 @@
     <title>Sola Chemicals - Home</title>
 
     <!-- metadata -->
-    <?php include './components/metadata.html'; ?>
-
-    <!-- for seo optimization
-    <meta name="robots" content="index, follow"/>
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
-    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
-    <link rel="canonical" href="https://hashcoders.alwaysdata.net/"/>
-    -->
+    <?php require_once './components/metadata.html'; ?>
 
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
 
     <!-- navbar -->
-    <?php include './components/home-header.php'; ?>
+    <?php require_once './components/home-header.php'; ?>
 
     <!-- Dynamic Content -->
     <div class="content">
       <?php
-      $page = $_GET['page'] ?? 'home';
+      $page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING) ?? 'home';
       $allowed_pages = ['home', 'about', 'product'];
       if (in_array($page, $allowed_pages)) {
-        include "./pages/{$page}.php";
+        require_once "./pages/{$page}.php";
       } else {
-        include './pages/home.php';
+        require_once './pages/home.php';
       }
       ?>
     </div>
 
     <!-- navbar -->
-    <?php include './components/home-footer.php'; ?>
+    <?php require_once './components/home-footer.php'; ?>
 
     <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/script.js"></script>
