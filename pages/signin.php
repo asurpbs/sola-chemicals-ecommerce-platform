@@ -5,77 +5,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error_state = verifyCredentials('user');
 }
 ?>
-
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
   <head>
-    <title>Sign in</title>
-
+    <title>Sign in to Sola Chemicals</title>
     <!-- metadata -->
     <?php require_once '../components/metadata.html'; ?>
-    <link rel="stylesheet" href="signin.css">
-    <style>
-      .btn-login i {
-        margin-right: 8px;
-      }
-    </style>
+    <link rel="stylesheet" href="/assets/css/signin.css">
   </head>
 <body>
-<?php if ($error_state == 1): ?>
-            <div class="alert alert-danger alert-dismissible">
-                <a href="?invalid" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                Invalid password or email. Please try again.
-            </div>
-        <?php endif; ?>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card border-0 shadow rounded-3 my-5">
-          <div class="card-body p-4 p-sm-5">
-            <div class="text-center mb-4">
-              <img src="../public/Main-Logo.svg" alt="Main Logo" class="img-fluid" style="max-width: 150px;">
-            </div>
-            <form action="" method="post" enctype="multipart/form-data" >
-              <div class="form-floating mb-3">
-                <label for="floatingInput">Email address</label>
-                <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-                
-              </div>
-              <div class="form-floating mb-3">
-                <label for="floatingPassword">Password</label>
-                <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-                
-              </div>
-              <div class="text-right">
-                <a href="#" class="small">Forgot password?</a>
-              </div>
-              <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                <label class="form-check-label" for="rememberPasswordCheck">
-                  Remember password
-                </label>
-              </div>
-              <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submitlogin">Sign in</button>
-              </div>
-              <hr class="my-4">
-              <div class="d-grid mb-2">
-                <button class="btn btn-danger btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button1">
-                  <i class="fab fa-google"></i> <span>Sign in with Google</span>
-                </button>
-              </div>
-              <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold d-flex align-items-center justify-content-center w-100" type="button2">
-                  <i class="fab fa-facebook-f"></i> <span>Sign in with Facebook</span>
-                </button>
-              </div>
-            </form>
-          </div>
+    <?php if ($error_state == 1): ?>
+        <div class="alert alert-danger alert-dismissible">
+            <a href="?invalid" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            Invalid password or email. Please try again.
         </div>
-      </div>
+    <?php endif; ?>
+    <div class="container">
+        <div class="text-center">
+            <img src="/public/apple-touch-icon.png" alt="Sola Chemicals" class="logo">
+            <h2 class="mb-4">Sign in to Sola Chemicals</h2>
+        </div>
+        <form  action="" method="post" enctype="multipart/form-data" id="loginForm">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input name="pass" type="password" class="form-control" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="submitlogin">Login</button>
+            <div class="forgot-password mt-3">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <div class="signup mt-3">
+                Don't have an account? <a href="#">Sign up</a>
+            </div>
+        </form>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+    <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                event.preventDefault();
+            }
+        });
+    </script>
+
 </body>
 </html>

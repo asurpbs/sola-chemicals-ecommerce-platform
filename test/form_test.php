@@ -1,10 +1,9 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT']."/utils/verifyCredentials.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/utils/verifyCredentials.php";
 $error_state = verifyCredentials('user');
 if ($error_state === 1) {
     echo "Invalid email or password";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

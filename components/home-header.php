@@ -1,7 +1,13 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'].'/classes/user.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/classes/cart.php';
 // Assuming you have a session variable to check if the user is logged in
 session_start();
-$is_logged_in = isset($_SESSION['user_id']);
+$is_logged_in = isset($_COOKIE['user_id']);
+if (isset($_COOKIE['user_id'])) {
+    $user = new User($_COOKIE['user_id']);
+    $cart = new Cart($user -> getCartId());
+}
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
     <div class="container">
@@ -71,7 +77,7 @@ $is_logged_in = isset($_SESSION['user_id']);
                 </button>
                 <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"><?php echo isset($cart) && $cart->getNoOfItems() ? $cart->getNoOfItems() : 0; ?></span>
                 </button>
                 <button type="button" class="btn position-relative" title="User" id="profileButtonDesktop">
                     <i class="fa fa-user"></i>

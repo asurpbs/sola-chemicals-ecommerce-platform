@@ -1,6 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
-require_once "../utils/image.php";
+require_once  $_SERVER['DOCUMENT_ROOT']."/utils/image.php";
 
   class User {
     private $user_id;

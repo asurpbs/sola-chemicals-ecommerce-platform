@@ -16,7 +16,7 @@ class Cart {
         global $conn;
         if ($cart_id) {
             $this->cart_id = $cart_id;
-            $stmt = $conn->prepare("SELECT user_id FROM cart WHERE cart_id = ?");
+            $stmt = $conn->prepare("SELECT user_id FROM cart WHERE id = ?");
             $stmt->bindValue(1, $this->cart_id);
             $stmt->execute();
             $stmt->bindColumn(1, $this->user_id);
