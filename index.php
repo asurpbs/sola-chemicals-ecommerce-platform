@@ -16,7 +16,7 @@
     <!-- Dynamic Content -->
     <div class="content">
       <?php
-      $page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING) ?? 'home';
+      $page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'home';
       $allowed_pages = ['home', 'about', 'product'];
       if (in_array($page, $allowed_pages)) {
         require_once "./pages/{$page}.php";
