@@ -90,7 +90,7 @@ if (isset($_COOKIE['user_id'])) {
                     <?php else: ?>
                         <div class="dropdown-item text-center">
                             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                            <p class="mt-2">Welcome! Please <a href="./pages/signIn.php" class="text-primary">Sign In</a> or <a href="./pages/signUp.php" class="text-primary">Sign Up</a> to continue.</p>
+                            <p class="mt-2">Welcome! Please <a href="./pages/signin.php" class="text-primary">Sign In</a> or <a href="./pages/signup.php" class="text-primary">Sign Up</a> to continue.</p>
                         </div>
                     <?php endif; ?>
                 </div>
