@@ -37,7 +37,7 @@ function verifyCredentials($type) {
         if ($select_user->rowCount() > 0 && password_verify($pass, $row['password'])) {
             // Set cookie with security flags
             setcookie('user_id', $row['id'], [
-                'expires' => 0,
+                'expires' => time() + 60 * 60 * 24 * 30,
                 'path' => '/',
                 'secure' => true, // Send only over HTTPS
                 'httponly' => true, // Prevent JavaScript access
