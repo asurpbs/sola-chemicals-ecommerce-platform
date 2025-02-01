@@ -12,7 +12,7 @@
 
     <!-- navbar -->
     <?php require_once './components/home-header.php'; ?>
-
+z
     <!-- Dynamic Content -->
     <div class="content">
       <?php

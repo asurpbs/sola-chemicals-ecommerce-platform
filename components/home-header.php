@@ -20,13 +20,15 @@ if (isset($_COOKIE['user_id'])) {
             <button type="button" class="btn position-relative" title="Search">
                 <i class="fa fa-search"></i>
             </button>
-            <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
-                <i class="fas fa-history"></i>
-            </button>
-            <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
-                <i class="fa fa-shopping-cart"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
-            </button>
+            <?php if ($is_logged_in): ?>
+                <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
+                    <i class="fas fa-history"></i>
+                </button>
+                <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                </button>
+            <?php endif; ?>
             <button type="button" class="btn position-relative" title="User" id="profileButton">
                 <i class="fa fa-user"></i>
             </button>
@@ -72,13 +74,15 @@ if (isset($_COOKIE['user_id'])) {
 
             <!-- Desktop Button Group -->
             <div class="order-lg-2 nav-btns d-none d-lg-block">
-                <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
-                    <i class="fas fa-history fa-lg"></i>
-                </button>
-                <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"><?php echo isset($cart) && $cart->getNoOfItems() ? $cart->getNoOfItems() : 0; ?></span>
-                </button>
+                <?php if ($is_logged_in): ?>
+                    <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
+                        <i class="fas fa-history fa-lg"></i>
+                    </button>
+                    <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"><?php echo isset($cart) && $cart->getNoOfItems() ? $cart->getNoOfItems() : 0; ?></span>
+                    </button>
+                <?php endif; ?>
                 <button type="button" class="btn position-relative" title="User" id="profileButtonDesktop">
                     <i class="fa fa-user"></i>
                 </button>
@@ -99,48 +103,48 @@ if (isset($_COOKIE['user_id'])) {
     </div>
 </nav>
 
-  <!-- Cart Modal -->
-  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="cartModalLabel">Your Cart</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Cart Items -->
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-2">
-                                    <!-- Product Image -->
-                                    <img src="https://via.placeholder.com/80" class="img-fluid rounded" alt="Product">
-                                </div>
-                                <div class="col-4">
-                                    <!-- Product Name -->
-                                    <p class="mb-0 fw-bold">Item Name</p>
-                                </div>
-                                <div class="col-3 d-flex align-items-center">
-                                    <!-- Quantity Controls -->
-                                    <button class="btn btn-outline-secondary btn-sm me-2">-</button>
-                                    <input type="number" class="form-control form-control-sm text-center" value="1" style="width: 50px;">
-                                    <button class="btn btn-outline-secondary btn-sm ms-2">+</button>
-                                </div>
-                                <div class="col-2 text-center">
-                                    <!-- Remove Button -->
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Remove
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Repeat for more items -->
-                            <hr>
-                            <!-- Total & Checkout -->
-                            <div class="text-end">
-                                <button class="btn btn-primary">Checkout</button>
-                            </div>
-                        </div>
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Your Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Cart Items -->
+                <div class="row mb-3 align-items-center">
+                    <div class="col-2">
+                        <!-- Product Image -->
+                        <img src="https://via.placeholder.com/80" class="img-fluid rounded" alt="Product">
+                    </div>
+                    <div class="col-4">
+                        <!-- Product Name -->
+                        <p class="mb-0 fw-bold">Item Name</p>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <!-- Quantity Controls -->
+                        <button class="btn btn-outline-secondary btn-sm me-2">-</button>
+                        <input type="number" class="form-control form-control-sm text-center" value="1" style="width: 50px;">
+                        <button class="btn btn-outline-secondary btn-sm ms-2">+</button>
+                    </div>
+                    <div class="col-2 text-center">
+                        <!-- Remove Button -->
+                        <button class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Remove
+                        </button>
                     </div>
                 </div>
+                <!-- Repeat for more items -->
+                <hr>
+                <!-- Total & Checkout -->
+                <div class="text-end">
+                    <button class="btn btn-primary">Checkout</button>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
