@@ -6,16 +6,35 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 1rem; /* Reduced padding for smaller screens */
 }
 
 .container {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 1rem; /* Reduced padding for smaller screens */
   max-width: 500px;
-  width: 100%;
+  width: 90%; /* Occupy a percentage of the screen width */
+}
+
+
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+  .container {
+    width: 95%; /* Increase width on smaller screens */
+    padding: 1rem; /* Further reduce padding on smaller screens */
+
+  }
+
+  .form-control {
+    font-size: 16px;  /* Slightly larger font for better mobile readability */
+  }
+  .btn-primary {
+    font-size: 16px; /* Slightly larger font for better mobile readability */
+  }
+  .logo img{
+    width: 50%;
+  }
 }
 
 .logo {
@@ -76,3 +95,4 @@ body {
   font-weight: bold;
   text-decoration: none;
 }
+
