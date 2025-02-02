@@ -31,7 +31,7 @@
                 echo "Invalid file extension or file size exceeds the limit.";
             }
         }
-        return null;
+        return 'null.png';
     }
 
     /**

@@ -1,3 +1,25 @@
+<?php
+require_once "../classes/user.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user = new User(
+        null,
+        $_POST['first_name'],
+        $_POST['last_name'],
+        $_FILES['image']['name'],
+        $_POST['gender'],
+        $_POST['birth_date'],
+        $_POST['password'],
+        $_POST['email'],
+        $_POST['address1'],
+        $_POST['address2'],
+        $_POST['postal_code'],
+        $_POST['city_id'],
+        $_POST['telephone1'],
+        $_POST['telephone2']
+    );
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,25 +38,25 @@
             <!-- First Name -->
             <div class="mb-3">
                 <label for="firstName" class="form-label">Enter First Name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                <input name="first_name" type="text" class="form-control" id="firstName" placeholder="First Name" value="<?php echo $_POST['first_name'] ?? ''; ?>" required>
                 <span class="error-message" id="firstNameError"></span>
             </div>
 
             <!-- Last Name -->
             <div class="mb-3">
                 <label for="lastName" class="form-label">Enter Last Name</label>
-                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                <input name="last_name" type="text" class="form-control" id="lastName" placeholder="Last Name" value="<?php echo $_POST['last_name'] ?? ''; ?> required>
                 <span class="error-message" id="lastNameError"></span>
             </div>
 
             <!-- Gender -->
             <div class="mb-3">
                 <label for="gender" class="form-label">Select Gender</label>
-                <select class="form-select" id="gender" required>
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="<?php echo $_POST['gender'] ?? ''; ?>Select Gender</option>
+                    <option value="m">Male</option>
+                    <option value="f">Female</option>
+                    <option value="o">Other</option>
                 </select>
                 <span class="error-message" id="genderError"></span>
             </div>
@@ -43,20 +65,20 @@
             <div class="mb-3">
                 <label for="image" class="form-label">Upload Image</label>
                 <input type="file" class="form-control" id="image" accept="image/*" required>
-                <span class="error-message" id="imageError"></span>
+                <span class="error-message" name="image" id="imageError"></span>
             </div>
 
             <!-- Email -->
             <div class="mb-3">
                 <label for="email" class="form-label">Enter Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Email" required>
+                <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="<?php echo $_POST['email'] ?? ''; ?> required>
                 <span class="error-message" id="emailError"></span>
             </div>
 
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Enter Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input  name="password" type="password" class="form-control" id="password" placeholder="Password" required>
                 <span class="error-message" id="passwordError"></span>
             </div>
 
