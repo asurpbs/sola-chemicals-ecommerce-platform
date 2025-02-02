@@ -36,13 +36,23 @@ function verifyCredentials($type) {
         // Verify credentials
         if ($select_user->rowCount() > 0 && password_verify($pass, $row['password'])) {
             // Set cookie with security flags
-            setcookie('user_id', $row['id'], [
-                'expires' => time() + 60 * 60 * 24 * 30,
-                'path' => '/',
-                'secure' => true, // Send only over HTTPS
-                'httponly' => true, // Prevent JavaScript access
-                'samesite' => 'Strict' // Prevent CSRF attacks
-            ]);
+            if ($type === 'admin') {
+                setcookie('admin_id', $row['id'], [
+                    'expires' => time() + 60 * 60 * 24 * 30,
+                    'path' => '/admin',
+                    'secure' => true, // Send only over HTTPS
+                    'httponly' => true, // Prevent JavaScript access
+                    'samesite' => 'Strict' // Prevent CSRF attacks
+                ]);
+            } else {
+                setcookie('user_id', $row['id'], [
+                    'expires' => time() + 60 * 60 * 24 * 30,
+                    'path' => '/',
+                    'secure' => true,
+                    'httponly' => true,
+                    'samesite' => 'Strict'
+                ]);
+            }
 
             // Redirect after setting the cookie
             if ($type === 'admin') {
