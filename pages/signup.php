@@ -1,134 +1,121 @@
-<?php
-    require_once '../context/connect.php';
-
-
-// Step 2: Handle Form Submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    
-    // Encrypt the password for security
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Handle image upload
-    if (isset($_FILES['imageUpload']) && $_FILES['imageUpload']['error'] == 0) {
-        $imageName = $_FILES['imageUpload']['name'];
-        $imageTmpName = $_FILES['imageUpload']['tmp_name'];
-        $uploadDir = "uploads/"; // Directory to save uploaded images
-        $uploadFile = $uploadDir . basename($imageName);
-
-        // Create uploads directory if it doesn't exist
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        // Move uploaded file to the uploads directory
-        if (move_uploaded_file($imageTmpName, $uploadFile)) {
-            $imagePath = $uploadFile; // Save the file path for the database
-        } else {
-            echo "Failed to upload image.";
-            exit;
-        }
-    } else {
-        $imagePath = null; // No image uploaded
-    }
-
-    // Step 3: Insert Data into Database
-    $sql = "INSERT INTO user (name, email, password, image) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql); // Prepare the SQL statement
-    $stmt->bind_param("ssss", $name, $email, $hashedPassword, $imagePath); // Bind parameters
-
-    // Execute the statement and check for success
-    if ($stmt->execute()) {
-        echo "Sign-up successful!";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    // Close the statement
-    $stmt->close();
-}
-
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Meta tags for character encoding and responsive design -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - Sola Chemicals</title>
-  
-  <!-- Bootstrap CSS for styling -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-  <!-- Link to external CSS file -->
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <head>
+    <title>Sign in to Sola Chemicals</title>
+    <!-- metadata -->
+    <?php require_once '../components/metadata.html'; ?>
+    <link rel="stylesheet" href="/assets/css/signup.css">
+  </head>
 <body>
-  <!-- Main container to center the card vertically and horizontally -->
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <!-- Card for the sign-up form -->
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      
-      <!-- Logo and title -->
-      <div class="text-center">
-        <!-- Placeholder for logo image -->
-        <img src="../Sign In/images/Main-Logo.svg" alt="Sola Chemicals Logo" class="img-fluid mb-3" style="max-height: 80px;">
-        <h3 class="mb-4">Sign up to Sola Chemicals</h3>
-      </div>
-
-      <!-- Sign-up form -->
-      <form id="signupForm">
-        <!-- Input field for name -->
-        <div class="mb-3">
-          <label for="name" class="form-label">Enter your name</label>
-          <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+<div class="container">
+        <div class="logo">
+            <img src="/public/apple-touch-icon.png" alt="Sola Chemicals Logo">
+            <h2 class="mb-4">Sign up to Sola Chemicals</h2>
         </div>
+        <form id="signupForm">
+            <!-- First Name -->
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Enter First Name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                <span class="error-message" id="firstNameError"></span>
+            </div>
 
-        <!-- Input field for email -->
-        <div class="mb-3">
-          <label for="email" class="form-label">Enter your email</label>
-          <input type="email" id="email" class="form-control" placeholder="Your Email" required>
-        </div>
+            <!-- Last Name -->
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Enter Last Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                <span class="error-message" id="lastNameError"></span>
+            </div>
 
-        <!-- Input field for password -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Enter a Password</label>
-          <input type="password" id="password" class="form-control" placeholder="Password" required>
-        </div>
+            <!-- Gender -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Select Gender</label>
+                <select class="form-select" id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <span class="error-message" id="genderError"></span>
+            </div>
 
-        <!-- Input field to confirm password -->
-        <div class="mb-3">
-          <label for="confirmPassword" class="form-label">Confirm your password</label>
-          <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-        </div>
+            <!-- Image Upload -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="image" accept="image/*" required>
+                <span class="error-message" id="imageError"></span>
+            </div>
 
-        <!-- File input for uploading an image -->
-        <div class="mb-3">
-          <label for="imageUpload" class="form-label">Choose an image</label>
-          <input type="file" id="imageUpload" class="form-control" accept="image/*">
-        </div>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Enter Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email" required>
+                <span class="error-message" id="emailError"></span>
+            </div>
 
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary w-100">Sign up</button>
-      </form>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Enter Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <span class="error-message" id="passwordError"></span>
+            </div>
 
-      <!-- Link to sign-in page -->
-      <div class="text-center mt-3">
-        <p>If you already have an account, <a href="signin.html">Sign in</a></p>
-      </div>
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                <span class="error-message" id="confirmPasswordError"></span>
+            </div>
+
+            <!-- Address Line 1 -->
+            <div class="mb-3">
+                <label for="address1" class="form-label">Address Line 1</label>
+                <input type="text" class="form-control" id="address1" placeholder="Address Line 1" required>
+                <span class="error-message" id="address1Error"></span>
+            </div>
+
+            <!-- Address Line 2 -->
+            <div class="mb-3">
+                <label for="address2" class="form-label">Address Line 2</label>
+                <input type="text" class="form-control" id="address2" placeholder="Address Line 2">
+            </div>
+
+            <!-- Postal Code -->
+            <div class="mb-3">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postalCode" placeholder="Postal Code" required>
+                <span class="error-message" id="postalCodeError"></span>
+            </div>
+
+            <!-- City -->
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" placeholder="City" required>
+                <span class="error-message" id="cityError"></span>
+            </div>
+
+            <!-- Telephone Number 1 -->
+            <div class="mb-3">
+                <label for="telephoneNum1" class="form-label">Telephone Number 1</label>
+                <input type="tel" class="form-control" id="telephoneNum1" placeholder="Telephone Number 1" required>
+                <span class="error-message" id="telephoneNum1Error"></span>
+            </div>
+
+            <!-- Telephone Number 2 -->
+            <div class="mb-3">
+                <label for="telephoneNum2" class="form-label">Telephone Number 2</label>
+                <input type="tel" class="form-control" id="telephoneNum2" placeholder="Telephone Number 2">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+        <!-- Sign In Link -->
+        <p class="text-center mt-3">If you already have an account, <a href="/pages/signin.php">Sign in</a></p>
     </div>
-  </div>
 
-  <!-- Bootstrap JavaScript for interactivity -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Link to external JavaScript file -->
-  <script src="script.js"></script>
+    <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>">
+    <script src="/assets/js/signup.js"></script>
 </body>
 </html>

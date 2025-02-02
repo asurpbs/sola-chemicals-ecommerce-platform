@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="/public/apple-touch-icon.png" alt="Sola Chemicals" class="logo">
             <h2 class="mb-4">Sign in to Sola Chemicals</h2>
         </div>
-        <form  action="" method="post" enctype="multipart/form-data" id="loginForm">
+        <form  action="" method="post" enctype="multipart/form-data" id="loginForm" autocomplete="off">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input name="email" type="email" class="form-control" id="email" placeholder="Enter your email" required>
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="#">Forgot Password?</a>
             </div>
             <div class="signup mt-3">
-                Don't have an account? <a href="#">Sign up</a>
+                Don't have an account? <a href="/pages/signup.php">Sign up</a>
             </div>
         </form>
     </div>
