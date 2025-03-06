@@ -15,9 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </head>
 <body>
     <?php if ($error_state == 1): ?>
-        <div class="alert alert-danger alert-dismissible">
-            <a href="?invalid" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            Invalid password or email. Please try again.
+        <div class="alert-wrapper">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Invalid password or email. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
     <?php endif; ?>
     <div class="container">
@@ -44,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 
     <script>
