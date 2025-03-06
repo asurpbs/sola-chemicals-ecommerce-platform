@@ -19,7 +19,7 @@ if (isset($_COOKIE['user_id'])) {
         <div class="order-lg-2 nav-btns d-lg-none">
             <button type="button" class="btn position-relative" title="Search">
                 <i class="fa fa-search"></i>
-            </button>
+            </button> 
             <?php if ($is_logged_in): ?>
                 <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
                     <i class="fas fa-history"></i>
