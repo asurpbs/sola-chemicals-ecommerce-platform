@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "<script>
         alert('User created successfully!');
         document.getElementById('signupForm').reset();
+        window.location.href = '/index.php';
     </script>";
 }
 ?>
