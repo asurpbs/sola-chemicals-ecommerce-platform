@@ -90,7 +90,7 @@ if (isset($_COOKIE['user_id'])) {
                 <div id="profileMenuDesktop" class="dropdown-menu">
                     <?php if ($is_logged_in): ?>
                         <a class="dropdown-item" href="./pages/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
-                        <a class="dropdown-item" href="./utils/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                        <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
                     <?php else: ?>
                         <div class="dropdown-item text-center">
                             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
