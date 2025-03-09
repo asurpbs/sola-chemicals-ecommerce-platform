@@ -21,7 +21,7 @@ if (isset($_COOKIE['user_id'])) {
                 <i class="fa fa-search"></i>
             </button> 
             <?php if ($is_logged_in): ?>
-                <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
+                <button type="button" class="btn position-relative" title="Order History" onclick="window.location.href='./pages/OrderHistory.php'">
                     <i class="fas fa-history"></i>
                 </button>
                 <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
