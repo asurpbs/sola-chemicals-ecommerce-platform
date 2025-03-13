@@ -29,6 +29,18 @@ productContainer.addEventListener('mousemove', (e) => {
   productContainer.scrollLeft = scrollLeft - walk;
 });
 
+// Enhance modal functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    modal.addEventListener('shown.bs.modal', () => {
+      modal.classList.add('fade-in');
+    });
+    modal.addEventListener('hidden.bs.modal', () => {
+      modal.classList.remove('fade-in');
+    });
+  });
+});
 
 // AJAX form submission
 document.getElementById('contactForm').addEventListener('submit', function (e) {

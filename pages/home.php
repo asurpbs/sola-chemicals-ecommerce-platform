@@ -78,19 +78,19 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="row mt-5 text-center">
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/vision.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#visionModal"><img src="./assets/images/vision.webp" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Vision</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/Mission.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#missionModal"><img src="./assets/images/Mission.webp" alt="Mission Icon" class="circle"></div>
               <h4 class="text-primary">Mission</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/service.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#servicesModal"><img src="./assets/images/service.webp" alt="Services Icon" class="circle"></div>
               <h4 class="text-primary">Services</h4>
             </div>
           </div>
@@ -101,6 +101,65 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="fs-5">
             Sola Chemicals: Making your home sparkle and your life easier! We offer high-quality cleaning chemicals, washing powders & liquids, air fresheners, hand washes, and dish wash.
           </p>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal fade" id="visionModal" tabindex="-1" aria-labelledby="visionModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="visionModalLabel">Our Vision</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                To be the leading provider of eco-friendly and effective cleaning solutions in Sri Lanka, making cleanliness accessible to all while maintaining environmental responsibility. We aim to revolutionize the cleaning industry by introducing innovative products that maintain high standards of quality while reducing environmental impact.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="missionModalLabel">Our Mission</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              To develop and deliver high-quality, sustainable cleaning products that meet diverse household and commercial needs while prioritizing customer satisfaction, environmental stewardship, and community well-being. We are committed to continuous innovation, ensuring our products effectively solve cleaning challenges while being safe for users and the environment.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="servicesModal" tabindex="-1" aria-labelledby="servicesModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+          <h5 class="modal-title" id="servicesModalLabel">Our Services</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body text-start">
+              <ul>
+          <li><strong>Custom Formulation:</strong>Tailored cleaning solutions for specific needs or industries.</li>
+          <li><strong>Bulk Supply:</strong> Cost-effective options for businesses, hotels, and institutions.</li>
+          <li><strong>Industrial Solutions:</strong> Specialized cleaning products for workshops, factories, and commercial spaces.</li>
+          <li><strong>Product Consultation:</strong> Expert advice on selecting the right cleaning products for your needs.</li>
+          <li><strong>Distribution Network:</strong> Island-wide product availability through our extensive retailer network.</li>
+          <li><strong>Eco-friendly Alternatives:</strong> Green cleaning solutions for environmentally conscious customers.</li>
+        </ul>`
+              </div>
+              <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Stats Section -->
