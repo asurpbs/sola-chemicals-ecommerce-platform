@@ -267,6 +267,7 @@ section {
   align-items: center;
   justify-content: center;
   margin: 0 auto 15px;
+  transition: none; /* Remove transition effect */
 }
 
 .card-img-top {
@@ -468,4 +469,35 @@ footer a:hover {
 
 .btn-primary:hover {
   background-color: #0056b3;
+}
+
+/* Modal Styles */
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.modal-content.fade-in {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: #fff;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.modal-body {
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: start; /* Align text to the start */
 }

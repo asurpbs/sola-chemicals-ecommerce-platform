@@ -218,4 +218,9 @@ h2 {
     h2 {
         font-size: 28px;
     }
+    
+    .hero-image img, .mission-image img {
+        max-width: 100%;
+        height: auto;
+    }
 }
