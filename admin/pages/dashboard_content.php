@@ -1,6 +1,6 @@
 <?php
 // Include the new database connection
-include('../../context/connect.php'); // This includes the new connect.php with proper database credentials
+include('../context/connect.php'); // This includes the new connect.php with proper database credentials
 
 try {
     // Fetch total users
