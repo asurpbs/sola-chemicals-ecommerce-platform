@@ -234,6 +234,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
     margin: 0;
 }
 .quantity-control[type=number] {
+    appearance: textfield;
     -moz-appearance: textfield;
 }
 .quantity-input .form-control {

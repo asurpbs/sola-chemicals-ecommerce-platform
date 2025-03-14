@@ -141,6 +141,7 @@ $is_logged_in = isset($_COOKIE['user_id']);
 .product-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     height: 2.8em;
