@@ -249,30 +249,28 @@ document.addEventListener("DOMContentLoaded", () => {
   <!-- Horizontal Scrolling Products Section -->
     <section id="products" class="py-5 bg-light">
       <div class="container">
-        <h3 class="text-center mb-4">Our Products</h3>
         <div class="product-container d-flex gap-3 overflow-scroll">
-          <!-- Individual Product Card -->
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product" loading="lazy" >
-          </div>
+          <?php
+            require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+            global $conn;
+
+            // Get 7 random items using PDO
+            $sql = "SELECT id, name, image FROM item ORDER BY RAND() LIMIT 7";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            
+            if ($stmt->rowCount() > 0) {
+              while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $image = !empty($row['image']) ? "./uploads/product/{$row['image']}" : "./assets/images/hp-products/default.webp";
+                echo '
+                <div class="card flex-shrink-0" style="width: 200px;">
+                  <a href="index.php?page=ProductOverview&id=' . $row['id'] . '">
+                    <img src="' . $image . '" class="card-img-top" alt="' . $row['name'] . '" loading="lazy" >
+                  </a>
+                </div>';
+              }
+            }
+          ?>
         </div>
       </div>
     </section>
