@@ -48,8 +48,8 @@ global $conn;
                             <?php } ?>
                             
                             <!-- Product image-->
-                            <a href="../pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
-                                <img class="card-img-top" src="../uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
+                            <a href="./pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
+                                <img class="card-img-top" src="./uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
                             </a>
                             
                             <!-- Product details-->
