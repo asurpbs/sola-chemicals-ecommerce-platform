@@ -72,10 +72,8 @@ global $conn;
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <?php if ($row['QoH'] > 0) { ?>
+                                    <?php if ($row['QoH'] > 0 && isset($_COOKIE['user_id'])) { ?>
                                         <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
-                                    <?php } else { ?>
-                                        <button class="btn btn-outline-dark mt-auto" disabled>Out of Stock</button>
                                     <?php } ?>
                                 </div>
                             </div>
