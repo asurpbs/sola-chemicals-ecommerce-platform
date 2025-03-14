@@ -52,11 +52,19 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
                 <?php if (!empty($product['description'])): ?>
                     <p class="lead"><?php echo htmlspecialchars($product['description']); ?></p>
                 <?php endif; ?>
-                <div class="d-flex">
+                <div class="d-flex align-items-center gap-3">
                     <?php if ($product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                        <div class="input-group" style="width: 130px;">
+                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="<?php echo $product['QoH']; ?>">
+                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+                        </div>
                         <button class="btn btn-outline-danger flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
                             Add to cart
+                        </button>
+                        <button class="btn btn-danger flex-shrink-0" type="button">
+                            Buy Now
                         </button>
                     <?php endif; ?>
                 </div>
@@ -64,6 +72,26 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
         </div>
     </div>
 </section>
+
+<script>
+function changeQuantity(change) {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value) || 1;
+    const maxStock = <?php echo $product['QoH']; ?>;
+    
+    let newValue = currentValue + change;
+    if (newValue < 1) newValue = 1;
+    if (newValue > maxStock) newValue = maxStock;
+    
+    quantityInput.value = newValue;
+}
+
+document.getElementById('quantity').addEventListener('change', function() {
+    const maxStock = <?php echo $product['QoH']; ?>;
+    if (this.value < 1) this.value = 1;
+    if (this.value > maxStock) this.value = maxStock;
+});
+</script>
 
 <!-- Related items section-->
 <style>
