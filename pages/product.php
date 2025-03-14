@@ -83,7 +83,7 @@ $is_logged_in = isset($_COOKIE['user_id']);
                         <div class="card-body p-4">
                             <h5 class="fw-bold product-title mb-3">
                                 <a href="index.php?page=ProductOverview&id=<?php echo $row['id']; ?>" 
-                                   class="text-decoration-none text-dark stretched-link">
+                                   class="text-decoration-none text-dark">
                                     <?php echo $row['name']; ?>
                                 </a>
                             </h5>
@@ -102,7 +102,7 @@ $is_logged_in = isset($_COOKIE['user_id']);
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <?php if($row['QoH'] > 0 && $is_logged_in) { ?>
                                 <div class="mt-4">
-                                    <button class="btn btn-primary w-100" onclick="addToCart(<?php echo $row['id']; ?>)">
+                                    <button class="btn btn-primary w-100" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $row['id']; ?>)">
                                         <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                     </button>
                                 </div>
@@ -122,6 +122,73 @@ $is_logged_in = isset($_COOKIE['user_id']);
         } ?>
     </div>
 </div>
+
+<div class="alert-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
+
+<script>
+function showAlert(message, type = 'success') {
+    const alertContainer = document.querySelector('.alert-container');
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    alertContainer.appendChild(alertDiv);
+    
+    // Auto dismiss after 3 seconds
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
+
+function addToCart(itemId) {
+    const userId = <?php echo isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : 'null'; ?>;
+
+    if (!userId) {
+        showAlert('Please log in to add items to cart', 'danger');
+        return;
+    }
+
+    fetch('/ajax/cart_handler.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=add&item_id=${itemId}&quantity=1&user_id=${userId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Item added to cart successfully!');
+        } else {
+            showAlert(data.message || 'Failed to add item to cart', 'danger');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('An error occurred while adding to cart', 'danger');
+    });
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function updateQuantity(itemId, action) {
+    const input = document.getElementById('quantity_' + itemId);
+    const currentValue = parseInt(input.value);
+    const maxValue = parseInt(input.max);
+    
+    if (action === 'increase' && currentValue < maxValue) {
+        input.value = currentValue + 1;
+    } else if (action === 'decrease' && currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
+</script>
 
 <style>
 .product-card {
@@ -203,53 +270,10 @@ $is_logged_in = isset($_COOKIE['user_id']);
         font-size: calc(1.2rem + 1.5vw);
     }
 }
+.alert-container {
+    max-width: 300px;
+}
+.alert {
+    margin-bottom: 1rem;
+}
 </style>
-
-<script>
-function addToCart(itemId) {
-    const userId = $_COOKIE['user_id'];
-
-    if (!userId) {
-        alert('Please log in to add items to cart');
-        return;
-    }
-
-    fetch('ajax/cart_handler.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `action=add&item_id=${itemId}&quantity=1&user_id=${userId}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Item added to cart successfully!');
-        } else {
-            alert(data.message || 'Failed to add item to cart');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while adding to cart');
-    });
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
-function updateQuantity(itemId, action) {
-    const input = document.getElementById('quantity_' + itemId);
-    const currentValue = parseInt(input.value);
-    const maxValue = parseInt(input.max);
-    
-    if (action === 'increase' && currentValue < maxValue) {
-        input.value = currentValue + 1;
-    } else if (action === 'decrease' && currentValue > 1) {
-        input.value = currentValue - 1;
-    }
-}
-</script>
