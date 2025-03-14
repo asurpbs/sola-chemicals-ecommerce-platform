@@ -93,10 +93,16 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
             ?>
                 <div class="col mb-5">
                     <div class="card h-100">
-                        <img class="card-img-top" src="<?php echo $relatedImagePath; ?>" alt="<?php echo htmlspecialchars($related['name']); ?>" />
+                        <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>">
+                            <img class="card-img-top" src="<?php echo $relatedImagePath; ?>" alt="<?php echo htmlspecialchars($related['name']); ?>" />
+                        </a>
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <h5 class="fw-bolder"><?php echo htmlspecialchars($related['name']); ?></h5>
+                                <h5 class="fw-bolder">
+                                    <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>" class="text-decoration-none text-dark">
+                                        <?php echo htmlspecialchars($related['name']); ?>
+                                    </a>
+                                </h5>
                                 <?php if ($related['discount_rate'] > 0): ?>
                                     <span class="text-muted text-decoration-line-through">Rs.<?php echo number_format($related['UP'], 2); ?></span>
                                     <br>Rs.<?php echo number_format($related['UP'] * (1 - $related['discount_rate']/100), 2); ?>
