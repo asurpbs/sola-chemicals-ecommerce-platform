@@ -34,15 +34,16 @@ body {
   --bs-dropdown-header-padding-x: 1rem;
   --bs-dropdown-header-padding-y: 0.5rem;
   position: absolute;
-  top: 67%;
-  right: 11;
+  top: 100%; /* Ensure it shows directly below the parent */
+  right: 0; /* Align to the right edge of the parent */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust position to be centered */
   margin-top: 0.5rem;
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: scale(0.95);
   opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: opacity 0.2s ease; /* Smooth animation */
   z-index: 1000;
   display: none;
   min-width: var(--bs-dropdown-min-width);
@@ -62,10 +63,9 @@ body {
 }
 
 .dropdown-menu.show {
-  transform: scale(1);
   opacity: 1;
   pointer-events: auto; 
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: opacity 0.2s ease; /* Smooth animation */
 }
 
 .dropdown-item {
@@ -445,7 +445,7 @@ footer a:hover {
     top: auto;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: auto; /* Ensure it spans full width on smaller screens */
     width: 100%;
     margin: 0;
     border-radius: 12px 12px 0 0;
