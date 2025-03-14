@@ -163,7 +163,7 @@ if (isset($_COOKIE['user_id'])) {
                             ?>
                             <div class="row mb-3 align-items-center">
                                 <div class="col-2">
-                                    <img src="/assets/img/products/<?= htmlspecialchars($item['image']) ?>" 
+                                    <img src="/uploads/product/<?= htmlspecialchars($item['image']) ?>" 
                                          class="img-fluid rounded" alt="<?= htmlspecialchars($item['name']) ?>">
                                 </div>
                                 <div class="col-4">
