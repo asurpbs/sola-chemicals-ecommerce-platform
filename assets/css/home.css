@@ -1,0 +1,156 @@
+/* Hero Section */
+.hero-section .carousel-item {
+    position: relative;
+}
+
+.hero-section .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+}
+
+.hero-section .carousel-caption {
+    bottom: 30%;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+/* Welcome Section */
+.header {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.header-text {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.header .black {
+    color: #000;
+}
+
+.header .red {
+    color: #dc3545;
+}
+
+.sub-header {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+.welcome-text {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Stats Section */
+.stat-box {
+    padding: 2rem;
+    background: #e0e0e0;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Why Choose Us */
+.why-choose-item {
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.why-choose-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.why-choose-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+}
+
+/* Reviews Section */
+.review-box {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.review-box:hover {
+    transform: translateY(-5px);
+}
+
+.customer-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.star {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+/* Products Section */
+.product-container {
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.product-container::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Contact Form */
+.contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+
+.btn-primary {
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}

@@ -30,48 +30,225 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
     $imagePath = "/uploads/product/null.png";
 }
 ?>
-<!-- Product section-->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
-                <img class="card-img-top mb-5 mb-md-0" src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" />
-            </div>
-            <div class="col-md-6">
-                <div class="small mb-1"><?php echo htmlspecialchars($product['category_name']); ?></div>
-                <h1 class="display-5 fw-bolder"><?php echo htmlspecialchars($product['name']); ?></h1>
-                <div class="fs-5 mb-5">
-                    <?php if ($product['discount_rate'] > 0): ?>
-                        <span class="text-decoration-line-through">Rs.<?php echo number_format($product['UP'], 2); ?></span>
-                        <span>Rs.<?php echo number_format($product['UP'] * (1 - $product['discount_rate']/100), 2); ?></span>
-                    <?php else: ?>
-                        <span>Rs.<?php echo number_format($product['UP'], 2); ?></span>
-                    <?php endif; ?>
+<div class="bg-light py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.php?page=product" class="text-decoration-none">Products</a></li>
+                <li class="breadcrumb-item"><?php echo htmlspecialchars($product['category_name']); ?></li>
+                <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($product['name']); ?></li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="bg-white p-5 product-image-container">
+                        <img class="img-fluid rounded-3" src="<?php echo $imagePath; ?>" 
+                             alt="<?php echo htmlspecialchars($product['name']); ?>" />
+                    </div>
                 </div>
-                <p class="lead">Stock Available: <?php echo $product['QoH']; ?></p>
-                <?php if (!empty($product['description'])): ?>
-                    <p class="lead"><?php echo htmlspecialchars($product['description']); ?></p>
-                <?php endif; ?>
-                <div class="d-flex align-items-center gap-3">
-                    <?php if ($product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
-                        <div class="input-group" style="width: 130px;">
-                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="<?php echo $product['QoH']; ?>">
-                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="ps-lg-4">
+                    <h1 class="display-5 fw-bold mb-4"><?php echo htmlspecialchars($product['name']); ?></h1>
+                    
+                    <div class="pricing-section mb-4 p-4 bg-white rounded-4 shadow-sm">
+                        <?php if ($product['discount_rate'] > 0): ?>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="h3 text-muted text-decoration-line-through mb-0">Rs.<?php echo number_format($product['UP'], 2); ?></span>
+                                <span class="h2 text-danger fw-bold mb-0">Rs.<?php echo number_format($product['UP'] * (1 - $product['discount_rate']/100), 2); ?></span>
+                                <span class="badge bg-danger rounded-pill px-3 py-2"><?php echo $product['discount_rate']; ?>% OFF</span>
+                            </div>
+                        <?php else: ?>
+                            <span class="h2 fw-bold">Rs.<?php echo number_format($product['UP'], 2); ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="product-info mb-4">
+                        <div class="d-flex align-items-center p-4 bg-white rounded-4 shadow-sm">
+                            <div class="d-flex align-items-center me-4">
+                                <i class="bi bi-box-seam fs-4 text-primary me-2"></i>
+                                <span class="fw-semibold">Stock Status:</span>
+                                <?php if ($product['QoH'] > 0): ?>
+                                    <span class="badge bg-success-subtle text-success ms-2 px-3 py-2 rounded-pill">
+                                        In Stock (<?php echo $product['QoH']; ?>)
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger-subtle text-danger ms-2 px-3 py-2 rounded-pill">
+                                        Out of Stock
+                                    </span>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <button class="btn btn-outline-danger flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                        <button class="btn btn-danger flex-shrink-0" type="button">
-                            Buy Now
-                        </button>
+                        
+                        <?php if (!empty($product['description'])): ?>
+                            <div class="mt-4 p-4 bg-white rounded-4 shadow-sm">
+                                <h6 class="fw-bold mb-3">Product Description</h6>
+                                <div class="text-muted"><?php echo nl2br(htmlspecialchars($product['description'])); ?></div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if ($product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                        <div class="purchase-actions bg-white rounded-4 shadow-sm p-4 mt-4">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="input-group input-group-lg quantity-input" style="width: 160px;">
+                                    <button class="btn btn-outline-primary px-3" type="button" onclick="changeQuantity(-1)">
+                                        <i class="bi bi-dash-lg"></i>
+                                    </button>
+                                    <input type="number" class="form-control text-center fw-semibold quantity-control" id="quantity" 
+                                           value="1" min="1" max="<?php echo $product['QoH']; ?>" readonly>
+                                    <button class="btn btn-outline-primary px-3" type="button" onclick="changeQuantity(1)">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary btn-lg px-4" type="button">
+                                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-danger btn-lg px-4" type="button">
+                                    <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                </button>
+                            </div>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<div class="container py-5">
+    <h2 class="display-6 fw-bold text-center mb-5">Related Products</h2>
+    <div class="row g-4">
+        <?php
+        // Fetch related products from same category
+        $sql = "SELECT * FROM item 
+                WHERE category_id = ? AND id != ? 
+                LIMIT 4";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$product['category_id'], $product_id]);
+        $related_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($related_products as $related): 
+            $relatedImagePath = "/uploads/product/" . ($related['image'] ? $related['image'] : 'default.png');
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $relatedImagePath)) {
+                $relatedImagePath = "/uploads/product/null.png";
+            }
+        ?>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm related-product-card">
+                    <div class="position-relative">
+                        <?php if ($related['discount_rate'] > 0): ?>
+                            <div class="badge bg-danger position-absolute end-0 top-0 m-3 rounded-pill px-3">
+                                <?php echo $related['discount_rate']; ?>% OFF
+                            </div>
+                        <?php endif; ?>
+                        <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>" 
+                           class="text-decoration-none product-link">
+                            <img class="card-img-top p-3" src="<?php echo $relatedImagePath; ?>" 
+                                 alt="<?php echo htmlspecialchars($related['name']); ?>" />
+                        </a>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold mb-3">
+                            <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>" 
+                               class="text-decoration-none text-dark product-title">
+                                <?php echo htmlspecialchars($related['name']); ?>
+                            </a>
+                        </h5>
+                        <div class="mb-3">
+                            <?php if ($related['discount_rate'] > 0): ?>
+                                <span class="text-muted text-decoration-line-through me-2">
+                                    Rs.<?php echo number_format($related['UP'], 2); ?>
+                                </span>
+                                <span class="text-danger fw-bold">
+                                    Rs.<?php echo number_format($related['UP'] * (1 - $related['discount_rate']/100), 2); ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="fw-bold">Rs.<?php echo number_format($related['UP'], 2); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($related['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                            <button class="btn btn-outline-primary w-100 mt-3">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<style>
+.product-image-container {
+    background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+    transition: all 0.3s ease;
+}
+.product-image-container:hover {
+    transform: scale(1.02);
+}
+.pricing-section {
+    transition: all 0.3s ease;
+}
+.pricing-section:hover {
+    transform: translateY(-2px);
+}
+.purchase-actions {
+    position: sticky;
+    bottom: 20px;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+.product-image-wrapper {
+    transition: transform 0.3s ease;
+}
+.product-image-wrapper:hover {
+    transform: scale(1.02);
+}
+.related-product-card {
+    transition: all 0.3s ease;
+}
+.related-product-card:hover {
+    transform: translateY(-5px);
+}
+.product-link img {
+    transition: transform 0.3s ease;
+}
+.product-link:hover img {
+    transform: scale(1.05);
+}
+.product-title {
+    transition: color 0.3s ease;
+}
+.product-title:hover {
+    color: var(--bs-primary) !important;
+}
+
+/* Add these new styles */
+.quantity-control::-webkit-outer-spin-button,
+.quantity-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.quantity-control[type=number] {
+    -moz-appearance: textfield;
+}
+.quantity-input .form-control {
+    border-left: 0;
+    border-right: 0;
+    background-color: white;
+}
+.quantity-input .form-control:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+}
+.quantity-input .btn {
+    z-index: 0;
+}
+</style>
 
 <script>
 function changeQuantity(change) {
@@ -92,63 +269,3 @@ document.getElementById('quantity').addEventListener('change', function() {
     if (this.value > maxStock) this.value = maxStock;
 });
 </script>
-
-<!-- Related items section-->
-<style>
-    .card:hover {
-        transform: scale(1.05);
-        transition: transform 0.5s;
-    }
-</style>
-<section class="py-5 bg-light">
-    <div class="container px-4 px-lg-5 mt-5">
-        <h2 class="fw-bolder mb-4 text-center">Related products</h2>
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <?php
-            // Fetch related products from same category
-            $sql = "SELECT * FROM item 
-                    WHERE category_id = ? AND id != ? 
-                    LIMIT 4";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([$product['category_id'], $product_id]);
-            $related_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach($related_products as $related): 
-                $relatedImagePath = "/uploads/product/" . ($related['image'] ? $related['image'] : 'default.png');
-                if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $relatedImagePath)) {
-                    $relatedImagePath = "/uploads/product/null.png";
-                }
-            ?>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>">
-                            <img class="card-img-top" src="<?php echo $relatedImagePath; ?>" alt="<?php echo htmlspecialchars($related['name']); ?>" />
-                        </a>
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">
-                                    <a href="index.php?page=ProductOverview&id=<?php echo $related['id']; ?>" class="text-decoration-none text-dark">
-                                        <?php echo htmlspecialchars($related['name']); ?>
-                                    </a>
-                                </h5>
-                                <?php if ($related['discount_rate'] > 0): ?>
-                                    <span class="text-muted text-decoration-line-through">Rs.<?php echo number_format($related['UP'], 2); ?></span>
-                                    <br>Rs.<?php echo number_format($related['UP'] * (1 - $related['discount_rate']/100), 2); ?>
-                                <?php else: ?>
-                                    Rs.<?php echo number_format($related['UP'], 2); ?>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <?php if ($related['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>

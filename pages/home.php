@@ -1,45 +1,62 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/classes/company.php";
 global $company;
+$is_logged_in = isset($_COOKIE['user_id']);
 $company = new Company();
 ?>
-<!-- Hero Section -->
-    <section>
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.webp"  alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </section>
+<!-- Add this line in the head section -->
+<link rel="stylesheet" href="./assets/css/home.css">
 
-     <!-- Welcome Section -->
-    <div class="header">
-      <h1 class="header-text"><span class="black">Welcome to </span> <span class="red">Sola Chemicals</span></h1>
-      <br>
-      <div class="sub-header">
-        We Provide <span class="sh1" data-words="Household,Car Care,Industrial"></span> Chemicals For your <span class="sh2" data-words="Home,Vehicles,Workshop"></span>
-      </div> 
+<!-- Hero Section -->
+<section class="hero-section">
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
+        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-3 p-md-4 rounded">
+          <h2 class="fs-3 fs-md-2">Welcome to Sola Chemicals</h2>
+          <p class="d-none d-sm-block">Your Trusted Partner in Cleaning Solutions</p>
+        </div>
+      </div>
+      <div class="carousel-item position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+          <h2>Quality Products</h2>
+          <p>For All Your Cleaning Needs</p>
+        </div>
+      </div>
+      <div class="carousel-item position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+          <h2>Eco-Friendly Solutions</h2>
+          <p>Committed to Environmental Sustainability</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+<!-- Welcome Section -->
+<div class="header pb-2">
+  <h1 class="header-text fs-2 fs-md-1"><span class="black">Welcome to </span> <span class="red">Sola Chemicals</span></h1>
+  <div class="sub-header fs-5 fs-md-4">
+    We Provide <span class="sh1" data-words="Household,Car Care,Industrial"></span> 
+    Chemicals For your <span class="sh2" data-words="Home,Vehicles,Workshop"></span>
+  </div>
+</div>
 
 <script>
   //sub head animation
@@ -69,9 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
   </script>
 
-    <section class="py-5 text-center">
+    <section class="text-center pt-3">
       <div class="container">
-        <p class="mt-3">
+        <p class="welcome-text">
           Sola Chemical Company: Sri Lanka's Trusted Cleaning Solutions Provider (Since 2010). We cater to all your cleaning needs, offering a comprehensive selection of household and commercial cleaning solutions.
         </p>
 
@@ -247,9 +264,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </script>
 
   <!-- Horizontal Scrolling Products Section -->
-    <section id="products" class="py-5 bg-light">
+    <section id="products" class="py-5">
       <div class="container">
-        <div class="product-container d-flex gap-3 overflow-scroll">
+        <h2 class="text-center mb-4">Our Products</h2>
+        <div class="product-container d-flex gap-4 overflow-scroll pb-3">
           <?php
             require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
             global $conn;
@@ -263,9 +281,12 @@ document.addEventListener("DOMContentLoaded", () => {
               while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $image = !empty($row['image']) ? "./uploads/product/{$row['image']}" : "./assets/images/hp-products/default.webp";
                 echo '
-                <div class="card flex-shrink-0" style="width: 200px;">
-                  <a href="index.php?page=ProductOverview&id=' . $row['id'] . '">
-                    <img src="' . $image . '" class="card-img-top" alt="' . $row['name'] . '" loading="lazy" >
+                <div class="card flex-shrink-0" style="width: 220px;">
+                  <a href="index.php?page=ProductOverview&id=' . $row['id'] . '" class="text-decoration-none">
+                    <img src="' . $image . '" class="card-img-top p-3" alt="' . $row['name'] . '" loading="lazy">
+                    <div class="card-body text-center">
+                      <h6 class="card-title text-dark">' . $row['name'] . '</h6>
+                    </div>
                   </a>
                 </div>';
               }
@@ -449,5 +470,119 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     </script>
+
+<style>
+/* Add this at the end of the file */
+@media (max-width: 768px) {
+    .carousel-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px !important;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .circle {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-box {
+        margin-bottom: 2rem;
+    }
+    
+    .why-choose-item {
+        margin-bottom: 2rem;
+    }
+    
+    .why-choose-item img {
+        max-width: 100px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-box {
+        margin-bottom: 2rem;
+    }
+    
+    .product-container {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .product-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .card {
+        width: 160px !important;
+    }
+    
+    .header-text {
+        font-size: 2rem;
+    }
+    
+    .sub-header {
+        font-size: 1.25rem;
+    }
+    
+    .stat-box h3 {
+        font-size: 1.5rem;
+    }
+    
+    .stat-box p {
+        font-size: 0.875rem;
+    }
+    
+    .why-use-section .row > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .reviews-section .row > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .customer-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .review-text {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-item img {
+        min-height: 200px;
+        object-fit: cover;
+    }
+    
+    .stat-box {
+        padding: 15px;
+    }
+    
+    .why-choose-item {
+        padding: 15px;
+    }
+    
+    .review-box {
+        padding: 15px !important;
+    }
+}
+</style>
 </section>
 
