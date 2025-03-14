@@ -1,6 +1,6 @@
 <!-- Header -->
 <?php
-include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+require $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
 global $conn;
 ?>
 <header class="bg-dark py-5">
@@ -48,8 +48,8 @@ global $conn;
                             <?php } ?>
                             
                             <!-- Product image-->
-                            <a href="/pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
-                                <img class="card-img-top" src="/uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
+                            <a href="../pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
+                                <img class="card-img-top" src="../uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
                             </a>
                             
                             <!-- Product details-->

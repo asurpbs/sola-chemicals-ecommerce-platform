@@ -3,3 +3,4 @@ Disallow: /admin/
 Disallow: /context/
 Disallow: /data/
 Allow: /public/
+Allow: /uploads/product/
