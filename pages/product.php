@@ -1,8 +1,13 @@
 <!-- Header -->
 <?php
-require $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
 global $conn;
 $is_logged_in = isset($_COOKIE['user_id']);
+
+// Make sure we have a valid connection before proceeding
+if (!$conn) {
+    die("Database connection failed");
+}
 ?>
 <header class="bg-gradient bg-dark py-4 py-sm-5 mb-4 mb-sm-5 position-relative overflow-hidden">
     <div class="position-absolute top-0 start-0 w-100 h-100" style="background: url('/assets/img/pattern.svg') repeat; opacity: 0.1;"></div>
@@ -32,12 +37,20 @@ $is_logged_in = isset($_COOKIE['user_id']);
                                     Categories
                                 </a>
                                 <ul class="dropdown-menu border-0 shadow-sm">
-                                    <li><a class="dropdown-item" href="#">Health Care Products</a></li>
-                                    <li><a class="dropdown-item" href="#">Household Products</a></li>
-                                    <li><a class="dropdown-item" href="#">Car Care Items</a></li>
-                                    <li><a class="dropdown-item" href="#">Industrial Chemicals</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">New Products</a></li>
+                                    <?php
+                                    try {
+                                        $sql = "SELECT * FROM category ORDER BY name";
+                                        $result = $conn->query($sql);
+                                        
+                                        if ($result) {
+                                            while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                                echo '<li><a class="dropdown-item" href="#">'.$row['name'].'</a></li>';
+                                            }
+                                        }
+                                    } catch (PDOException $e) {
+                                        echo "Error: " . $e->getMessage();
+                                    }
+                                    ?>
                                 </ul>
                             </li>
                         </ul>
@@ -49,77 +62,82 @@ $is_logged_in = isset($_COOKIE['user_id']);
 
     <div class="row g-3 g-sm-4 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
         <?php
-        $sql = "SELECT id, name, image, UP, QoH, discount_rate, availability FROM item";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT id, name, image, UP, QoH, discount_rate, availability FROM item";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if (count($result) > 0) {
-            foreach($result as $row) {
-                ?>
-                <div class="col">
-                    <div class="card h-100 border-0 shadow-sm product-card overflow-hidden <?php echo ($row['QoH'] == 0) ? 'bg-light' : ''; ?>">
-                        <?php if ($row['QoH'] == 0) { ?>
-                            <div class="badge bg-danger position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">Out of Stock</div>
-                        <?php } else if ($row['discount_rate'] > 0) { ?>
-                            <div class="badge bg-success position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill"><?php echo $row['discount_rate']; ?>% Off</div>
-                        <?php } ?>
-                        
-                        <div class="position-relative product-img-wrapper bg-light">
-                            <a href="index.php?page=ProductOverview&id=<?php echo $row['id']; ?>" 
-                               class="product-link <?php echo ($row['QoH'] == 0) ? 'opacity-50' : ''; ?>">
-                                <?php 
-                                $imagePath = "/uploads/product/" . ($row['image'] ? $row['image'] : 'default.png');
-                                if (file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
-                                    $imageUrl = $imagePath;
-                                } else {
-                                    $imageUrl = "/uploads/product/null.png";
-                                }
-                                ?>
-                                <img class="card-img-top p-3" src="<?php echo $imageUrl; ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" />
-                            </a>
-                        </div>
-                        
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold product-title mb-3">
+            if (count($result) > 0) {
+                foreach($result as $row) {
+                    ?>
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm product-card overflow-hidden <?php echo ($row['QoH'] == 0) ? 'bg-light' : ''; ?>">
+                            <?php if ($row['QoH'] == 0) { ?>
+                                <div class="badge bg-danger position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">Out of Stock</div>
+                            <?php } else if ($row['discount_rate'] > 0) { ?>
+                                <div class="badge bg-success position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill"><?php echo $row['discount_rate']; ?>% Off</div>
+                            <?php } ?>
+                            
+                            <div class="position-relative product-img-wrapper bg-light">
                                 <a href="index.php?page=ProductOverview&id=<?php echo $row['id']; ?>" 
-                                   class="text-decoration-none text-dark">
-                                    <?php echo $row['name']; ?>
+                                   class="product-link <?php echo ($row['QoH'] == 0) ? 'opacity-50' : ''; ?>">
+                                    <?php 
+                                    $imagePath = "/uploads/product/" . ($row['image'] ? $row['image'] : 'default.png');
+                                    if (file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
+                                        $imageUrl = $imagePath;
+                                    } else {
+                                        $imageUrl = "/uploads/product/null.png";
+                                    }
+                                    ?>
+                                    <img class="card-img-top p-3" src="<?php echo $imageUrl; ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" />
                                 </a>
-                            </h5>
-                            <div class="mb-3">
-                                <?php if ($row['QoH'] == 0) { ?>
-                                    <span class="text-muted">Rs. <?php echo number_format($row['UP'], 2); ?></span>
-                                <?php } else if ($row['discount_rate'] > 0) { ?>
-                                    <span class="text-muted text-decoration-line-through me-2">Rs. <?php echo number_format($row['UP'], 2); ?></span>
-                                    <span class="text-danger fw-bold">Rs. <?php echo number_format($row['UP'] * (1 - $row['discount_rate']/100), 2); ?></span>
-                                <?php } else { ?>
-                                    <span class="fw-bold">Rs. <?php echo number_format($row['UP'], 2); ?></span>
+                            </div>
+                            
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold product-title mb-3">
+                                    <a href="index.php?page=ProductOverview&id=<?php echo $row['id']; ?>" 
+                                       class="text-decoration-none text-dark">
+                                        <?php echo $row['name']; ?>
+                                    </a>
+                                </h5>
+                                <div class="mb-3">
+                                    <?php if ($row['QoH'] == 0) { ?>
+                                        <span class="text-muted">Rs. <?php echo number_format($row['UP'], 2); ?></span>
+                                    <?php } else if ($row['discount_rate'] > 0) { ?>
+                                        <span class="text-muted text-decoration-line-through me-2">Rs. <?php echo number_format($row['UP'], 2); ?></span>
+                                        <span class="text-danger fw-bold">Rs. <?php echo number_format($row['UP'] * (1 - $row['discount_rate']/100), 2); ?></span>
+                                    <?php } else { ?>
+                                        <span class="fw-bold">Rs. <?php echo number_format($row['UP'], 2); ?></span>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <?php if($row['QoH'] > 0 && $is_logged_in) { ?>
+                                    <div class="mt-4">
+                                        <button class="btn btn-primary w-100" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $row['id']; ?>)">
+                                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                        </button>
+                                    </div>
+                                <?php } else if($row['QoH'] == 0) { ?>
+                                    <div class="text-center mt-4">
+                                        <span class="text-danger">
+                                            <i class="bi bi-x-circle me-2"></i>Out of Stock
+                                        </span>
+                                    </div>
                                 <?php } ?>
                             </div>
                         </div>
-                        
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <?php if($row['QoH'] > 0 && $is_logged_in) { ?>
-                                <div class="mt-4">
-                                    <button class="btn btn-primary w-100" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $row['id']; ?>)">
-                                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                                    </button>
-                                </div>
-                            <?php } else if($row['QoH'] == 0) { ?>
-                                <div class="text-center mt-4">
-                                    <span class="text-danger">
-                                        <i class="bi bi-x-circle me-2"></i>Out of Stock
-                                    </span>
-                                </div>
-                            <?php } ?>
-                        </div>
                     </div>
-                </div>
-            <?php }
-        } else {
-            echo "<p class='text-center'>No products found</p>";
-        } ?>
+                <?php }
+            } else {
+                echo "<p class='text-center'>No products found</p>";
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        ?>
     </div>
 </div>
 

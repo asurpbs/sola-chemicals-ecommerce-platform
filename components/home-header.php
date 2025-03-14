@@ -126,11 +126,13 @@ if (isset($_COOKIE['user_id'])) {
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Your Cart</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="cartModalLabel">
+                    <i class="bi bi-cart3 me-2"></i>Shopping Cart
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <?php
                 if ($is_logged_in) {
                     $user_id = $_COOKIE['user_id'];
@@ -161,59 +163,87 @@ if (isset($_COOKIE['user_id'])) {
                             $subtotal = $item['UP'] * $item['quantity'];
                             $total += $subtotal;
                             ?>
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-2">
-                                    <img src="/uploads/product/<?= htmlspecialchars($item['image']) ?>" 
-                                         class="img-fluid rounded" alt="<?= htmlspecialchars($item['name']) ?>">
-                                </div>
-                                <div class="col-4">
-                                    <p class="mb-0 fw-bold"><?= htmlspecialchars($item['name']) ?></p>
-                                    <p class="mb-0">Rs. <?= number_format($item['UP'], 2) ?></p>
-                                    <p class="mb-0">Subtotal: Rs. <?= number_format($subtotal, 2) ?></p>
-                                </div>
-                                <div class="col-3 d-flex align-items-center">
-                                    <button class="btn btn-outline-secondary btn-sm me-2" 
-                                            onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'decrease')">-</button>
-                                    <input type="number" class="form-control form-control-sm text-center" 
-                                           value="<?= $item['quantity'] ?>" style="width: 50px;" readonly>
-                                    <button class="btn btn-outline-secondary btn-sm ms-2" 
-                                            onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'increase')">+</button>
-                                </div>
-                                <div class="col-2 text-center">
-                                    <button class="btn btn-danger btn-sm" 
-                                            onclick="removeFromCart(<?= $item['cart_item_id'] ?>)">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                            <div class="card mb-3 shadow-sm" id="cart-item-<?= $item['cart_item_id'] ?>">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 col-sm-3 mb-2 mb-md-0">
+                                            <img src="/uploads/product/<?= htmlspecialchars($item['image']) ?>" 
+                                                 class="img-fluid rounded" alt="<?= htmlspecialchars($item['name']) ?>"
+                                                 style="max-height: 80px; object-fit: cover;">
+                                        </div>
+                                        <div class="col-md-4 col-sm-9 mb-2 mb-md-0">
+                                            <h6 class="mb-1 text-primary"><?= htmlspecialchars($item['name']) ?></h6>
+                                            <p class="mb-0 text-muted">Unit Price: Rs. <?= number_format($item['UP'], 2) ?></p>
+                                            <p class="mb-0 text-success">Subtotal: Rs. <?= number_format($subtotal, 2) ?></p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-8 mb-2 mb-md-0">
+                                            <div class="input-group">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'decrease')">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <input type="text" class="form-control text-center" value="<?= $item['quantity'] ?>" 
+                                                       readonly style="max-width: 60px;">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'increase')">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-4 text-end">
+                                            <button class="btn btn-danger btn-sm" 
+                                                    onclick="removeFromCart(<?= $item['cart_item_id'] ?>)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <?php
                         }
                         ?>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5>Total: Rs. <?= number_format($total, 2) ?></h5>
-                            <button class="btn btn-primary" onclick="window.location.href='/pages/checkout.php'">
-                                Proceed to Checkout
-                            </button>
+                        <div class="card mt-4 bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0">Total Amount</h5>
+                                        <small class="text-muted"><?= $count_result['item_count'] ?> items</small>
+                                    </div>
+                                    <h4 class="mb-0 text-primary">Rs. <?= number_format($total, 2) ?></h4>
+                                </div>
+                                <hr>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button class="btn btn-secondary me-md-2" data-bs-dismiss="modal">
+                                        Continue Shopping
+                                    </button>
+                                    <button class="btn btn-primary" onclick="window.location.href='/pages/checkout.php'">
+                                        <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <?php
                     } else {
                         ?>
                         <div class="text-center py-5">
-                            <i class="bi bi-cart-x" style="font-size: 3rem;"></i>
+                            <i class="bi bi-cart-x text-muted" style="font-size: 4rem;"></i>
                             <h4 class="mt-3">Your cart is empty</h4>
-                            <p class="text-muted">Browse our products and add some items to your cart!</p>
-                            <button class="btn btn-primary" data-bs-dismiss="modal">Continue Shopping</button>
+                            <p class="text-muted mb-4">Browse our products and add some items to your cart!</p>
+                            <button class="btn btn-primary" data-bs-dismiss="modal">
+                                <i class="bi bi-shop me-2"></i>Continue Shopping
+                            </button>
                         </div>
                         <?php
                     }
                 } else {
                     ?>
                     <div class="text-center py-5">
-                        <i class="bi bi-person-x" style="font-size: 3rem;"></i>
+                        <i class="bi bi-person-x text-muted" style="font-size: 4rem;"></i>
                         <h4 class="mt-3">Please sign in first</h4>
-                        <p class="text-muted">You need to sign in to view your cart</p>
-                        <a href="/pages/signin.php" class="btn btn-primary">Sign In</a>
+                        <p class="text-muted mb-4">You need to sign in to view your cart</p>
+                        <a href="/pages/signin.php" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </a>
                     </div>
                     <?php
                 }
@@ -289,24 +319,45 @@ function updateCartQuantity(cartItemId, action) {
 }
 
 function removeFromCart(cartItemId) {
-    if (confirm('Are you sure you want to remove this item?')) {
-        fetch('/api/cart/remove.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+    if(confirm('Are you sure you want to remove this item from cart?')) {
+        $.ajax({
+            url: '/handlers/remove-cart-item.php',
+            type: 'POST',
+            data: {
+                cart_item_id: cartItemId
             },
-            body: JSON.stringify({
-                cartItemId: cartItemId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert(data.message);
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    // Remove the item element from DOM
+                    $(`#cart-item-${cartItemId}`).fadeOut(300, function() {
+                        $(this).remove();
+                        // Reload page to update cart count and totals
+                        location.reload();
+                    });
+                } else {
+                    alert('Error: ' + (response.error || 'Could not remove item'));
+                }
+            },
+            error: function() {
+                alert('Error connecting to server');
             }
         });
     }
+}
+
+function updateCartCount() {
+    $.ajax({
+        url: 'handlers/cart-handler.php',
+        type: 'POST',
+        data: {
+            action: 'count'
+        },
+        success: function(response) {
+            if(response.count !== undefined) {
+                $('.cart-count').text(response.count);
+            }
+        }
+    });
 }
 </script>

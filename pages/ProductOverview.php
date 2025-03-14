@@ -104,10 +104,10 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
                                         <i class="bi bi-plus-lg"></i>
                                     </button>
                                 </div>
-                                <button class="btn btn-primary btn-lg px-4" type="button">
+                                <button class="btn btn-primary btn-lg px-4" type="button" onclick="addToCart()">
                                     <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                 </button>
-                                <button class="btn btn-danger btn-lg px-4" type="button">
+                                <button class="btn btn-danger btn-lg px-4" type="button" onclick="buyNow()">
                                     <i class="bi bi-lightning-fill me-2"></i>Buy Now
                                 </button>
                             </div>
@@ -182,6 +182,8 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
     </div>
 </div>
 
+<div class="alert-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
+
 <style>
 .product-image-container {
     background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
@@ -249,6 +251,12 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
 .quantity-input .btn {
     z-index: 0;
 }
+.alert-container {
+    max-width: 300px;
+}
+.alert {
+    margin-bottom: 1rem;
+}
 </style>
 
 <script>
@@ -269,4 +277,57 @@ document.getElementById('quantity').addEventListener('change', function() {
     if (this.value < 1) this.value = 1;
     if (this.value > maxStock) this.value = maxStock;
 });
+
+function showAlert(message, type = 'success') {
+    const alertContainer = document.querySelector('.alert-container');
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    alertContainer.appendChild(alertDiv);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
+
+function addToCart() {
+    const userId = <?php echo isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : 'null'; ?>;
+    const itemId = <?php echo $product_id; ?>;
+    const quantity = parseInt(document.getElementById('quantity').value);
+
+    if (!userId) {
+        showAlert('Please log in to add items to cart', 'danger');
+        return;
+    }
+
+    fetch('/ajax/cart_handler.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=add&item_id=${itemId}&quantity=${quantity}&user_id=${userId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Item added to cart successfully!');
+        } else {
+            showAlert(data.message || 'Failed to add item to cart', 'danger');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('An error occurred while adding to cart', 'danger');
+    });
+}
+
+function buyNow() {
+    addToCart();
+    setTimeout(() => {
+        window.location.href = 'index.php?page=cart';
+    }, 1000);
+}
 </script>
