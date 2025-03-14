@@ -49,7 +49,15 @@ global $conn;
                             
                             <!-- Product image-->
                             <a href="/pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
-                                <img class="card-img-top" src="/uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
+                                <?php 
+                                $imagePath = "/uploads/product/" . ($row['image'] ? $row['image'] : 'default.png');
+                                if (file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
+                                    $imageUrl = $imagePath;
+                                } else {
+                                    $imageUrl = "/uploads/product/null.png";
+                                }
+                                ?>
+                                <img class="card-img-top" src="<?php echo $imageUrl; ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" />
                             </a>
                             
                             <!-- Product details-->
