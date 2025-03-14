@@ -1,163 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Product overview</title>
-            <!-- metadata -->
-        <?php include '../components/metadata.html'; ?>
-        <link rel="stylesheet" href="/assets/css/style.css">
-    </head>
-    <body>
-        
-        <?php include '../components/home-header.php'; ?>
-       
-        <!-- Product section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="../assets/images/hp-products/45.webp" alt="..." /></div>
-                    <div class="col-md-6">
-                        <div class="text-success"><b>50% Off</b></div>
-                        <h1 class="display-5 fw-bolder">Sola Dish wash 4L</h1>
-                        <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">LKR 1900</span>
-                            <span>LKR 950</span>
-                        </div>
-                        <p class="lead">Heavy-duty, concentrated manual dishwashing soap. Long-lasting suds cut through tough grease and stuck-on food. Works great in 3-compartment sinks or any dishwashing station. No phosphates or parabens. Cleans with a sparkling citrus scent.</p>
-                        <div class="d-flex">
-                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" min="1" style="max-width: 3rem" />
-                            <button class="btn btn-outline-danger flex-shrink-0" type="button">
-                                <i class="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
+<?php
+require $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+global $conn;
+
+// Get product ID from URL
+$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($product_id <= 0) {
+    header("Location: index.php?page=product");
+    exit();
+}
+
+// Fetch product details
+$sql = "SELECT i.*, c.name as category_name 
+        FROM item i 
+        LEFT JOIN category c ON i.category_id = c.id 
+        WHERE i.id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$product_id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$product) {
+    header("Location: index.php?page=product");
+    exit();
+}
+
+// Get image path
+$imagePath = "/uploads/product/" . ($product['image'] ? $product['image'] : 'default.png');
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
+    $imagePath = "/uploads/product/null.png";
+}
+?>
+<!-- Product section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" />
+            </div>
+            <div class="col-md-6">
+                <div class="small mb-1"><?php echo htmlspecialchars($product['category_name']); ?></div>
+                <h1 class="display-5 fw-bolder"><?php echo htmlspecialchars($product['name']); ?></h1>
+                <div class="fs-5 mb-5">
+                    <?php if ($product['discount_rate'] > 0): ?>
+                        <span class="text-decoration-line-through">Rs.<?php echo number_format($product['UP'], 2); ?></span>
+                        <span>Rs.<?php echo number_format($product['UP'] * (1 - $product['discount_rate']/100), 2); ?></span>
+                    <?php else: ?>
+                        <span>Rs.<?php echo number_format($product['UP'], 2); ?></span>
+                    <?php endif; ?>
+                </div>
+                <p class="lead">Stock Available: <?php echo $product['QoH']; ?></p>
+                <?php if (!empty($product['description'])): ?>
+                    <p class="lead"><?php echo htmlspecialchars($product['description']); ?></p>
+                <?php endif; ?>
+                <div class="d-flex">
+                    <?php if ($product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                        <button class="btn btn-outline-danger flex-shrink-0" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
-        </section>
-  <!-- Related items section-->
+        </div>
+    </div>
+</section>
+
+<!-- Related items section-->
 <style>
     .card:hover {
         transform: scale(1.05);
         transition: transform 0.5s;
     }
 </style>
-  <section class="py-5 bg-lig</section>ht">
+<section class="py-5 bg-light">
     <div class="container px-4 px-lg-5 mt-5">
         <h2 class="fw-bolder mb-4 text-center">Related products</h2>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="../assets/images/hp-products/47.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Fancy Product</h5>
-                            <!-- Product price-->
-                            $40.00 - $80.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out of stock</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="../assets/images/hp-products/46.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Special Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
+            <?php
+            // Fetch related products from same category
+            $sql = "SELECT * FROM item 
+                    WHERE category_id = ? AND id != ? 
+                    LIMIT 4";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$product['category_id'], $product_id]);
+            $related_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($related_products as $related): 
+                $relatedImagePath = "/uploads/product/" . ($related['image'] ? $related['image'] : 'default.png');
+                if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $relatedImagePath)) {
+                    $relatedImagePath = "/uploads/product/null.png";
+                }
+            ?>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="<?php echo $relatedImagePath; ?>" alt="<?php echo htmlspecialchars($related['name']); ?>" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder"><?php echo htmlspecialchars($related['name']); ?></h5>
+                                <?php if ($related['discount_rate'] > 0): ?>
+                                    <span class="text-muted text-decoration-line-through">Rs.<?php echo number_format($related['UP'], 2); ?></span>
+                                    <br>Rs.<?php echo number_format($related['UP'] * (1 - $related['discount_rate']/100), 2); ?>
+                                <?php else: ?>
+                                    Rs.<?php echo number_format($related['UP'], 2); ?>
+                                <?php endif; ?>
                             </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$20.00</span>
-                            $18.00
                         </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Save up to 40% </div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="../assets/images/hp-products/48.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Sale Item</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$50.00</span>
-                            $25.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="../assets/images/hp-products/43.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Popular Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
+                        <?php if ($related['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                </div>
                             </div>
-                            <!-- Product price-->
-                            $40.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">This site is under the maintance &copy; Hash coders 2025</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        
-    </body>
-</html>

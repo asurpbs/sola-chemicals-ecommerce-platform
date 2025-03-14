@@ -48,7 +48,7 @@ global $conn;
                             <?php } ?>
                             
                             <!-- Product image-->
-                            <a href="/pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
+                            <a href="index.php?page=ProductOverview&id=<?php echo $row['id']; ?>">
                                 <?php 
                                 $imagePath = "/uploads/product/" . ($row['image'] ? $row['image'] : 'default.png');
                                 if (file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
