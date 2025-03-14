@@ -1,12 +1,10 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/classes/user.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/classes/cart.php';
 // Assuming you have a session variable to check if the user is logged in
 session_start();
 $is_logged_in = isset($_COOKIE['user_id']);
 if (isset($_COOKIE['user_id'])) {
     $user = new User($_COOKIE['user_id']);
-    $cart = new Cart($user -> getCartId());
 }
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
@@ -75,12 +73,33 @@ if (isset($_COOKIE['user_id'])) {
             <!-- Desktop Button Group -->
             <div class="order-lg-2 nav-btns d-none d-lg-block">
                 <?php if ($is_logged_in): ?>
+                    <?php
+                    require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+                    global $conn;
+                    // Get cart items count for logged in user
+                    $cart_count = 0;
+                    $user_id = $_COOKIE['user_id'];
+                    require_once 'context/connect.php';
+                    $sql = "SELECT COUNT(ci.id) AS item_count
+                            FROM cart_item ci
+                            JOIN cart c ON ci.cart_id = c.id
+                            WHERE c.user_id = ?;";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(1, $user_id, PDO::PARAM_INT); 
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if($row) {
+                        $cart_count = $row['item_count'];
+                    }
+                    ?>
                     <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
                         <i class="fas fa-history fa-lg"></i>
                     </button>
                     <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
                         <i class="fa fa-shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"><?php echo isset($cart) && $cart->getNoOfItems() ? $cart->getNoOfItems() : 0; ?></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">
+                            <?php echo $cart_count; ?>
+                        </span>
                     </button>
                 <?php endif; ?>
                 <button type="button" class="btn position-relative" title="User" id="profileButtonDesktop">
