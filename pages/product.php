@@ -1,4 +1,8 @@
 <!-- Header -->
+<?php
+include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+global $conn;
+?>
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="d-flex justify-content-center text-white">
@@ -26,180 +30,63 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <a href="./pages/ProductOverview.html">
-                    <img class="card-img-top" src="./assets/images/hp-products/42.webp" alt="..." />
-                    </a>
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Hand Wash - Orange</h5>
-                            <!-- Product price-->
-                            Rs. 1600.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                     <!-- Sale badge-->
-                     <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out  of stock</div>
-                     <!-- Product image-->
-                     <a href="./pages/ProductOverview.html">
-                       <img class="card-img-top" src="./assets/images/hp-products/43.webp" alt="..." />
-                     </a>
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Handwash Mango</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
+            <?php
+            $sql = "SELECT id, name, image, UP, QoH, discount_rate, availability FROM item";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($result) > 0) {
+                foreach($result as $row) {
+                    ?>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <?php if ($row['QoH'] == 0) { ?>
+                                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out of stock</div>
+                            <?php } else if ($row['discount_rate'] > 0) { ?>
+                                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem"><?php echo $row['discount_rate']; ?>% Off</div>
+                            <?php } ?>
+                            
+                            <!-- Product image-->
+                            <a href="./pages/ProductOverview.html?id=<?php echo $row['id']; ?>">
+                                <img class="card-img-top" src="./uploads/product/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" />
+                            </a>
+                            
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder"><?php echo $row['name']; ?></h5>
+                                    
+                                    <!-- Product price-->
+                                    <?php if ($row['discount_rate'] > 0) { ?>
+                                        <span class="text-muted text-decoration-line-through">Rs. <?php echo number_format($row['UP'], 2); ?></span>
+                                        <br>
+                                        Rs. <?php echo number_format($row['UP'] * (1 - $row['discount_rate']/100), 2); ?>
+                                    <?php } else { ?>
+                                        Rs. <?php echo number_format($row['UP'], 2); ?>
+                                    <?php } ?>
+                                </div>
                             </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">Rs. 1600.00</span>
-                            $18.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Out  of stock</div>
-                    <!-- Product image-->
-                    <a href="./pages/ProductOverview.html">
-                    <img class="card-img-top" src="./assets/images/hp-products/45.webp" alt="..." />
-                    </a>
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Dish Wash</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">Rs. 980.00</span>
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="./assets/images/hp-products/47.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder"> Power Toliet Cleaner</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
+                            
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <?php if ($row['QoH'] > 0) { ?>
+                                        <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                    <?php } else { ?>
+                                        <button class="btn btn-outline-dark mt-auto" disabled>Out of Stock</button>
+                                    <?php } ?>
+                                </div>
                             </div>
-                            <!-- Product price-->
-                            Rs. 980.00
                         </div>
                     </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">50% Off</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="./assets/images/hp-products/48.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Petal Softner</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">Rs.2400.00</span>
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">20% Off</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="./assets/images/hp-products/46.webp" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Rose Toilet Cleaner</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">Rs.980.00</span>
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <a href="./pages/ProductOverview.html">
-                    <img class="card-img-top" src="./assets/images/hp-products/49.webp" alt="..." />
-                    </a>
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">New Product</h5>
-                            <!-- Product price-->
-                            Rs. 1500.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
+                    <?php
+                }
+            } else {
+                echo "<p class='text-center'>No products found</p>";
+            }
+            ?>
         </div>
     </div>
 </section>

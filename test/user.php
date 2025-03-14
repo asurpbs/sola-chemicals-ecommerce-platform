@@ -1,5 +1,5 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/user.php";
-$user = new User(9);
-echo $user->getTelephone1();
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/item.php";
+$arr = item::getAllItems();
+echo $arr[3]->getImage();
 ?>

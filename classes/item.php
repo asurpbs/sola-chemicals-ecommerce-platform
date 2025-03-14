@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+require_once "../utils/image.php";
 
 class Item {
     private $item_id;
@@ -249,6 +250,15 @@ class Item {
      */
     public function getAvailability() {
         return $this->availability;
+    }
+
+    /**
+     * Get the item ID.
+     * 
+     * @return int Item ID
+     */
+    public function getId() {
+        return $this->item_id;
     }
 
     /**
