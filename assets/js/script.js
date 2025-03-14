@@ -42,32 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// AJAX form submission
-document.getElementById('contactForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('/pages/home.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        alert(data.message);
-        this.reset();
-      } else {
-        alert(data.message);
-      }
-      this.classList.remove('submitting');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      this.classList.remove('submitting');
-    });
-});
-
 document.querySelector('.btn').addEventListener('click', function () {
   console.log('Back to home button clicked!');
 });

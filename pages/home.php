@@ -363,54 +363,90 @@ document.addEventListener("DOMContentLoaded", () => {
     <!-- Contact Section -->
     <section class="reviews-section py-5 bg-light">
       <div class="container mt-5">
-          <div class="row">
-              <!-- Left Section -->
-              <div class="col-md-6">
-                  <h1 class="h4">Let us know how we can help</h1>
-                  <p>
-                      We're here to help and answer any question you might have. We look forward to hearing from you! 
-                      Please fill out the form or use the contact information below.
-                  </p>
-                  <div class="mt-4">
-                    <p><i class="bi bi-envelope-fill me-2"></i>Email: <?php echo $company->getEmail(); ?></p>
-                    <p><i class="bi bi-telephone-fill me-2"></i>Phone: <?php echo $company->getTeleNumber1(); if (!empty($company->getTeleNumber2())) { echo ', '.$company->getTeleNumber2();} ?></p>
-                    <p><i class="bi bi-geo-alt-fill me-2"></i>Location: <?php echo $company->getAddress1(); if (!empty($company->getAddress2())) { echo ', '.$company->getAddress2(); echo ', ',$company->getCity();} ?></p>
+        <div id="formAlert"></div>
+        <div class="row">
+            <!-- Left Section remains the same -->
+            <?php
+            
+            require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+            global $conn;
+            if(isset($_POST['submit'])) {
+                try {
+                    $stmt = $conn->prepare("INSERT INTO public_contact (name, email, message) VALUES (?, ?, ?)");
+                    $stmt->execute([$_POST['name'], $_POST['email'], $_POST['message']]);
+                    echo "<div class='alert alert-success'>Thank you! Your message has been sent successfully.</div>";
+                } catch(PDOException $e) {
+                    echo "<div class='alert alert-danger'>Sorry, there was an error sending your message. Please try again.</div>";
+                }
+            }
+            ?>
+              <div class="row">
+                  <!-- Left Section -->
+                  <div class="col-md-6">
+                      <h1 class="h4">Let us know how we can help</h1>
+                      <p>
+                          We're here to help and answer any question you might have. We look forward to hearing from you! 
+                          Please fill out the form or use the contact information below.
+                      </p>
+                      <div class="mt-4">
+                        <p><i class="bi bi-envelope-fill me-2"></i>Email: <?php echo $company->getEmail(); ?></p>
+                        <p><i class="bi bi-telephone-fill me-2"></i>Phone: <?php echo $company->getTeleNumber1(); if (!empty($company->getTeleNumber2())) { echo ', '.$company->getTeleNumber2();} ?></p>
+                        <p><i class="bi bi-geo-alt-fill me-2"></i>Location: <?php echo $company->getAddress1(); if (!empty($company->getAddress2())) { echo ', '.$company->getAddress2(); echo ', ',$company->getCity();} ?></p>
+                    </div>
+                  </div>
+
+                  <!-- Right Section -->
+                  <div class="col-md-6">
+                    <form id="contactForm" method="POST">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
                 </div>
               </div>
-
-              <?php
-                include $_SERVER['DOCUMENT_ROOT'] . "/classes/public.php";
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-                    $contact = new PublicContact(null, $_POST['name'], $_POST['email'], $_POST['message']);
-                    unset($contact);
-                    $_SESSION['form_submitted'] = true;
-                    echo json_encode(['status' => 'success', 'message' => 'Contact form submitted successfully!']);
-                    exit;
-                } else if (isset($_SESSION['form_submitted'])) {
-                        unset($_SESSION['form_submitted']);
-                        echo json_encode(['status' => 'error', 'message' => 'Contact form submission failed!']);
-                        exit;
-                    }
-              ?>
-              <!-- Right Section -->
-              <div class="col-md-6">
-                <form id="contactForm" action="" method="POST"  enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="fullName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" name='name' placeholder="Your name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name='email' id="email" placeholder="Your email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" name='message' rows="5" placeholder="Your message" required></textarea>
-                    </div>
-                    <input type="hidden" name="submit" value="1">
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
-                </form>
-            </div>
           </div>
       </div>
     </section>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('submit', '1');
+
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Show alert message
+                document.getElementById('formAlert').innerHTML = 
+                    '<div class="alert alert-success">Thank you! Your message has been sent successfully.</div>';
+                
+                // Clear form
+                document.getElementById('contactForm').reset();
+                
+                // Remove alert after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('formAlert').innerHTML = '';
+                }, 5000);
+            })
+            .catch(error => {
+                document.getElementById('formAlert').innerHTML = 
+                    '<div class="alert alert-danger">Sorry, there was an error sending your message. Please try again.</div>';
+            });
+        });
+    </script>
+</section>
