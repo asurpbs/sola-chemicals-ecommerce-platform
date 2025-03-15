@@ -3,7 +3,7 @@
         <div class="row align-items-center justify-content-center text-center">
             <div class="col-12 col-sm-10 col-md-6">
                 <div class="footer-content">
-                    <p class="footer-text mb-3">Your trusted partner in chemical solutions since 1995</p>
+                    <p class="footer-text mb-3">Your trusted partner in chemical solutions since 2010</p>
                     <p class="copyright-text mb-0">© 2025 Sola Chemicals. All Rights Reserved.</p>
                 </div>
             </div>
