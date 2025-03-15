@@ -7,65 +7,17 @@ body {
 
 /* Profile Pop-up Menu */
 .dropdown-menu {
-  --bs-dropdown-zindex: 1000;
-  --bs-dropdown-min-width: 250px;
-  --bs-dropdown-padding-x: 0;
-  --bs-dropdown-padding-y: 1rem;
-  --bs-dropdown-spacer: 0.125rem;
-  --bs-dropdown-font-size: 1rem;
-  --bs-dropdown-color: var(--bs-body-color);
-  --bs-dropdown-bg: var(--bs-body-bg);
-  --bs-dropdown-border-color: var(--bs-border-color-translucent);
-  --bs-dropdown-border-radius: var(--bs-border-radius);
-  --bs-dropdown-border-width: var(--bs-border-width);
-  --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
-  --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
-  --bs-dropdown-divider-margin-y: 0.5rem;
-  --bs-dropdown-box-shadow: var(--bs-box-shadow);
-  --bs-dropdown-link-color: var(--bs-body-color);
-  --bs-dropdown-link-hover-color: var(--bs-body-color);
-  --bs-dropdown-link-hover-bg: var(--bs-tertiary-bg);
-  --bs-dropdown-link-active-color: #fff;
-  --bs-dropdown-link-active-bg: #0d6efd;
-  --bs-dropdown-link-disabled-color: var(--bs-tertiary-color);
-  --bs-dropdown-item-padding-x: 1rem;
-  --bs-dropdown-item-padding-y: 0.25rem;
-  --bs-dropdown-header-color: #6c757d;
-  --bs-dropdown-header-padding-x: 1rem;
-  --bs-dropdown-header-padding-y: 0.5rem;
-  position: absolute;
-  top: 100%; /* Ensure it shows directly below the parent */
-  right: 0; /* Align to the right edge of the parent */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust position to be centered */
-  margin-top: 0.5rem;
-  background: white;
+  min-width: 250px;
+  padding: 1rem 0;
+  margin-top: 0.125rem;
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  transition: opacity 0.2s ease; /* Smooth animation */
-  z-index: 1000;
-  display: none;
-  min-width: var(--bs-dropdown-min-width);
-  padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
-  margin: 0;
-  font-size: var(--bs-dropdown-font-size);
-  color: var(--bs-dropdown-color);
-  text-align: left;
-  list-style: none;
-  background-color: var(--bs-dropdown-bg);
-  background-clip: padding-box;
-  border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
-  border-radius: var(--bs-dropdown-border-radius);
-  box-shadow: var(--bs-dropdown-box-shadow);
-  transform-origin: top right;
-  pointer-events: none;
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-menu.show {
-  opacity: 1;
-  pointer-events: auto; 
-  transition: opacity 0.2s ease; /* Smooth animation */
+  display: block;
 }
 
 .dropdown-item {
@@ -73,7 +25,6 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 0.95rem;
   color: #333;
 }
 
@@ -81,29 +32,14 @@ body {
   background-color: #f8f9fa;
 }
 
-.dropdown-item.text-center {
-  padding: 1.5rem 1rem;
-  text-align: center;
-}
-
-.dropdown-item i {
-  font-size: 1.25rem;
-  color: #666;
-}
-
-.dropdown-item p {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--bs-dropdown-link-color);
-}
-
-.dropdown-item a {
-  color: var(--bs-dropdown-link-active-bg);
-  text-decoration: none;
-}
-
-.dropdown-item a:hover {
-  text-decoration: underline;
+@media (max-width: 991px) {
+  .dropdown-menu {
+    position: absolute;
+    right: 0;
+    left: auto;
+    margin-top: 0.5rem;
+    transform: none;
+  }
 }
 
 /* Styling for non-logged in state */
@@ -157,6 +93,40 @@ body {
 
 .nav-item {
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Profile Dropdown Styling */
+.dropdown .dropdown-menu {
+    margin-top: 0.5rem;
+    min-width: 220px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dropdown .dropdown-item {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown .dropdown-item i {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 991.98px) {
+    .dropdown .dropdown-menu {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 1rem 1rem 0 0;
+        margin: 0;
+        padding: 1rem 0;
+    }
 }
 
 /*style header & sub-header*/

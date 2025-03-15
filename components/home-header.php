@@ -1,12 +1,100 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/classes/user.php';
-// Assuming you have a session variable to check if the user is logged in
 session_start();
 $is_logged_in = isset($_COOKIE['user_id']);
-if (isset($_COOKIE['user_id'])) {
-    $user = new User($_COOKIE['user_id']);
+$cart_count = 0; // Initialize cart count
+
+if ($is_logged_in) {
+    require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+    $user_id = $_COOKIE['user_id'];
+    
+    // Get user data
+    $stmt = $conn->prepare("SELECT first_name, last_name, image FROM user WHERE id = ?");
+    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Get cart count
+    $sql = "SELECT COUNT(ci.id) AS item_count
+            FROM cart_item ci
+            JOIN cart c ON ci.cart_id = c.id
+            WHERE c.user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($row) {
+        $cart_count = $row['item_count'];
+    }
 }
 ?>
+<style>
+.dropdown-menu {
+    min-width: 260px;
+    max-width: 90vw;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+
+@media (max-width: 991.98px) {
+    .dropdown-menu {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        margin: 0;
+        border-radius: 1rem 1rem 0 0;
+        border-bottom: 0;
+        max-width: 100%;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .auth-btn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+}
+.auth-icon {
+    font-size: 2rem;
+    color: #0078d4;
+    margin-bottom: 0.5rem;
+}
+.auth-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+.auth-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+.profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 991.98px) {
+    .profile-image {
+        width: 28px;
+        height: 28px;
+    }
+}
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="./index.php">
@@ -19,28 +107,54 @@ if (isset($_COOKIE['user_id'])) {
                 <i class="fa fa-search"></i>
             </button> 
             <?php if ($is_logged_in): ?>
-                <button type="button" class="btn position-relative" title="Order History" onclick="window.location.href='./pages/OrderHistory.php'">
-                    <i class="fas fa-history"></i>
-                </button>
                 <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"><?php echo $cart_count; ?></span>
                 </button>
             <?php endif; ?>
-            <button type="button" class="btn position-relative" title="User" id="profileButton">
-                <i class="fa fa-user"></i>
-            </button>
-            <!-- Profile Pop-up Menu -->
-            <div id="profileMenu" class="dropdown-menu">
-                <?php if ($is_logged_in): ?>
-                    <a class="dropdown-item" href="./pages/profile.php"><i class="bi bi-person-circle"></i> Profile</a>
-                    <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
-                <?php else: ?>
-                    <div class="dropdown-item text-center">
-                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                        <p class="mt-2">Welcome! Please <a href="/pages/signin.php" class="text-primary">Sign In</a> or <a href="/pages/signup.php" class="text-primary">Sign Up</a> to continue.</p>
-                    </div>
-                <?php endif; ?>
+            <!-- Mobile Profile Dropdown -->
+            <div class="dropdown d-inline-block">
+                <button class="btn p-0" type="button" id="mobileProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php if ($is_logged_in): ?>
+                        <img src="/uploads/user/<?= $user_data['image'] ?: 'null.png' ?>" alt="Profile" class="profile-image">
+                    <?php else: ?>
+                        <i class="fa fa-user"></i>
+                    <?php endif; ?>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="mobileProfileDropdown">
+                    <?php if ($is_logged_in): ?>
+                        <div class="text-center">
+                            <i class="bi bi-person-circle auth-icon"></i>
+                            <h6 class="mb-2">Hello, <?= htmlspecialchars($user_data['first_name']) ?></h6>
+                            <p class="text-muted small mb-3">Welcome back!</p>
+                            <div class="d-grid gap-2">
+                                <a href="./pages/profile.php" class="btn btn-outline-primary auth-btn">
+                                    <i class="bi bi-person-circle me-2"></i>My Profile
+                                </a>
+                                <a href="./pages/OrderHistory.php" class="btn btn-outline-primary auth-btn">
+                                    <i class="bi bi-clock-history me-2"></i>Order History
+                                </a>
+                                <a href="./pages/logout.php" class="btn btn-light auth-btn">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                                </a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-center">
+                            <i class="bi bi-person-circle auth-icon"></i>
+                            <h6 class="mb-2">Welcome Guest</h6>
+                            <p class="text-muted small mb-3">Please sign in to continue</p>
+                            <div class="d-grid gap-2">
+                                <a href="./pages/signin.php" class="btn btn-primary auth-btn">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                </a>
+                                <a href="./pages/signup.php" class="btn btn-outline-primary auth-btn">
+                                    <i class="bi bi-person-plus me-2"></i>Sign Up
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 
@@ -71,7 +185,7 @@ if (isset($_COOKIE['user_id'])) {
             </form>
 
             <!-- Desktop Button Group -->
-            <div class="order-lg-2 nav-btns d-none d-lg-block">
+            <div class="order-lg-2 nav-btns d-none d-lg-flex align-items-center">
                 <?php if ($is_logged_in): ?>
                     <?php
                     require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
@@ -101,49 +215,47 @@ if (isset($_COOKIE['user_id'])) {
                         </span>
                     </button>
                 <?php endif; ?>
-                <button type="button" class="btn position-relative" title="User" id="profileButtonDesktop">
-                    <i class="fa fa-user"></i>
-                </button>
-                <!-- Profile Pop-up Menu for Desktop -->
-                <div id="profileMenuDesktop" class="dropdown-menu">
-                    <?php if ($is_logged_in): ?>
-                        <a class="dropdown-item" href="./pages/profile.php"><i class="bi bi-person-circle"></i> Profile</a>
-                        <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
-                    <?php else: ?>
-                        <div class="dropdown-item text-center">
-                            <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                            <p class="mt-2">Welcome! Please <a href="./pages/signin.php" class="text-primary">Sign In</a> or <a href="./pages/signup.php" class="text-primary">Sign Up</a> to continue.</p>
-                        </div>
-                    <?php endif; ?>
+                <!-- Desktop Profile Dropdown -->
+                <div class="dropdown">
+                    <button class="btn p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php if ($is_logged_in): ?>
+                            <img src="/uploads/user/<?= $user_data['image'] ?: 'null.png' ?>" alt="Profile" class="profile-image">
+                        <?php else: ?>
+                            <i class="fa fa-user fa-lg"></i>
+                        <?php endif; ?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <?php if ($is_logged_in): ?>
+                            <div class="text-center">
+                                <h6 class="mb-2">Hello, <?= htmlspecialchars($user_data['first_name']) ?></h6>
+                                <p class="text-muted small mb-3">Welcome back!</p>
+                                <div class="d-grid gap-2">
+                                    <a href="./pages/profile.php" class="btn btn-outline-primary auth-btn">
+                                        <i class="bi bi-person-circle me-2"></i>My Profile
+                                    </a>
+                                    <a href="./pages/logout.php" class="btn btn-light auth-btn">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                                    </a>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="text-center">
+                                <i class="bi bi-person-circle auth-icon"></i>
+                                <h6 class="mb-2">Welcome Guest</h6>
+                                <p class="text-muted small mb-3">Please sign in to continue</p>
+                                <a href="./pages/signin.php" class="btn btn-primary auth-btn">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                                </a>
+                                <a href="./pages/signup.php" class="btn btn-light auth-btn">
+                                    <i class="bi bi-person-plus me-1"></i>Sign Up
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        #profileMenu, #profileMenuDesktop {
-            position: absolute;
-            min-width: 200px;
-            z-index: 1000;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-
-        @media (max-width: 991px) {
-            #profileMenu {
-                position: fixed;
-                top: auto !important;
-                right: 10px !important;
-                width: calc(100% - 20px);
-                max-width: 300px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            #profileMenuDesktop {
-                right: 0 !important;
-                left: auto !important;
-            }
-        }
-    </style>
 </nav>
 
 <!-- Search Modal for Mobile -->
