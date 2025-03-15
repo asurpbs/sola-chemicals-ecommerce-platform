@@ -91,7 +91,7 @@ if (isset($_COOKIE['user_id'])) {
                         $cart_count = $row['item_count'];
                     }
                     ?>
-                    <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.html'">
+                    <button type="button" class="btn position-relative" title="History" onclick="window.location.href='./pages/OrderHistory.php'">
                         <i class="fas fa-history fa-lg"></i>
                     </button>
                     <button type="button" class="btn position-relative" title="Cart" data-bs-toggle="modal" data-bs-target="#cartModal">
