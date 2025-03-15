@@ -42,126 +42,111 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/assets/css/signup.css">
   </head>
 <body>
-<div class="container">
-        <div class="logo">
-            <img src="/public/apple-touch-icon.png" alt="Sola Chemicals Logo">
-            <h2 class="mb-4">Sign up to Sola Chemicals</h2>
+    <div class="container">
+        <div class="signup-card">
+            <div class="logo">
+                <img src="/public/apple-touch-icon.png" alt="Sola Chemicals Logo">
+                <h2>Sign up to Sola Chemicals</h2>
+            </div>
+            <form id="signupForm" method="POST" enctype="multipart/form-data">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h4 class="mb-3">Personal Information</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input name="first_name" type="text" class="form-control" id="firstName" value="<?php echo $_POST['first_name'] ?? ''; ?>" required>
+                            <span class="error-message" id="firstNameError"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input name="last_name" type="text" class="form-control" id="lastName" value="<?php echo $_POST['last_name'] ?? ''; ?>" required>
+                            <span class="error-message" id="lastNameError"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="m">Male</option>
+                                <option value="f">Female</option>
+                                <option value="o">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="birthDate" class="form-label">Birth Date</label>
+                            <input name="birth_date" type="date" class="form-control" id="birthDate" value="<?php echo $_POST['birth_date'] ?? ''; ?>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Profile Picture</label>
+                        <input name="image" type="file" class="form-control" id="image" accept="image/*" required>
+                    </div>
+                </div>
+
+                <!-- Account Information -->
+                <div class="form-section">
+                    <h4 class="mb-3">Account Information</h4>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input name="email" type="email" class="form-control" id="email" value="<?php echo $_POST['email'] ?? ''; ?>" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input name="password" type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h4 class="mb-3">Contact Information</h4>
+                    <div class="mb-3">
+                        <label for="address1" class="form-label">Address Line 1</label>
+                        <input name="address1" type="text" class="form-control" id="address1" value="<?php echo $_POST['address1'] ?? ''; ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address2" class="form-label">Address Line 2</label>
+                        <input name="address2" type="text" class="form-control" id="address2" value="<?php echo $_POST['address2'] ?? ''; ?>">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="postalCode" class="form-label">Postal Code</label>
+                            <input name="postal_code" type="text" class="form-control" id="postalCode" value="<?php echo $_POST['postal_code'] ?? ''; ?>" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <select class="form-select" id="city" name="city_id" required>
+                                <option value="">Select City</option>
+                                <?php foreach ($cities as $city): ?>
+                                    <option value="<?php echo $city['id']; ?>"><?php echo $city['name_en']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="telephoneNum1" class="form-label">Primary Phone</label>
+                            <input name="telephone1" type="tel" class="form-control" id="telephoneNum1" value="<?php echo $_POST['telephone1'] ?? ''; ?>" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="telephoneNum2" class="form-label">Secondary Phone (Optional)</label>
+                            <input name="telephone2" type="tel" class="form-control" id="telephoneNum2" value="<?php echo $_POST['telephone2'] ?? ''; ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
+                <p class="text-center">Already have an account? <a href="/pages/signin.php">Sign in</a></p>
+            </form>
         </div>
-        <form id="signupForm" method="POST" enctype="multipart/form-data">
-            <!-- First Name -->
-            <div class="mb-3">
-                <label for="firstName" class="form-label">Enter First Name</label>
-                <input name="first_name" type="text" class="form-control" id="firstName" placeholder="First Name" value="<?php echo $_POST['first_name'] ?? ''; ?>" required>
-                <span class="error-message" id="firstNameError"></span>
-            </div>
-
-            <!-- Last Name -->
-            <div class="mb-3">
-                <label for="lastName" class="form-label">Enter Last Name</label>
-                <input name="last_name" type="text" class="form-control" id="lastName" placeholder="Last Name" value="<?php echo $_POST['last_name'] ?? ''; ?>" required>
-                <span class="error-message" id="lastNameError"></span>
-            </div>
-
-            <!-- Gender -->
-            <div class="mb-3">
-                <label for="gender" class="form-label">Select Gender</label>
-                <select class="form-select" id="gender" name="gender" required>
-                    <option value=""><?php echo $_POST['gender'] ?? 'Select Gender'; ?></option>
-                    <option value="m">Male</option>
-                    <option value="f">Female</option>
-                    <option value="o">Other</option>
-                </select>
-                <span class="error-message" id="genderError"></span>
-            </div>
-
-            <!-- Image Upload -->
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
-                <input name="image" type="file" class="form-control" id="image" accept="image/*" required>
-                <span class="error-message" name="image" id="imageError"></span>
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label">Enter Email</label>
-                <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="<?php echo $_POST['email'] ?? ''; ?>" required>
-                <span class="error-message" id="emailError"></span>
-            </div>
-
-            <!-- Password -->
-            <div class="mb-3">
-                <label for="password" class="form-label">Enter Password</label>
-                <input  name="password" type="password" class="form-control" id="password" placeholder="Password" required>
-                <span class="error-message" id="passwordError"></span>
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
-                <span class="error-message" id="confirmPasswordError"></span>
-            </div>
-
-            <!-- Address Line 1 -->
-            <div class="mb-3">
-                <label for="address1" class="form-label">Address Line 1</label>
-                <input type="text" class="form-control" id="address1" placeholder="Address Line 1" value="<?php echo $_POST['address1'] ?? ''; ?>" required>
-                <span class="error-message" id="address1Error"></span>
-            </div>
-
-            <!-- Address Line 2 -->
-            <div class="mb-3">
-                <label for="address2" class="form-label">Address Line 2</label>
-                <input type="text" class="form-control" id="address2" placeholder="Address Line 2" value="<?php echo $_POST['address2'] ?? ''; ?>">
-            </div>
-
-            <!-- Postal Code -->
-            <div class="mb-3">
-                <label for="postalCode" class="form-label">Postal Code</label>
-                <input type="text" class="form-control" id="postalCode" placeholder="Postal Code" value="<?php echo $_POST['postal_code'] ?? ''; ?>" required>
-                <span class="error-message" id="postalCodeError"></span>
-            </div>
-
-            <!-- City Dropdown -->
-            <div class="mb-3">
-                <label for="city" class="form-label">City</label>
-                <select class="form-control" id="city" name="city_id" required>
-                    <option value="">Select City</option>
-                    <?php foreach ($cities as $city): ?>
-                        <option value="<?php echo $city['id']; ?>"><?php echo $city['name_en']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <span class="error-message" id="cityError"></span>
-            </div>
-
-            <!-- Telephone Number 1 -->
-            <div class="mb-3">
-                <label for="telephoneNum1" class="form-label">Telephone Number 1</label>
-                <input type="tel" class="form-control" id="telephoneNum1" placeholder="Telephone Number 1" value="<?php echo $_POST['telephone1'] ?? ''; ?>" required>
-                <span class="error-message" id="telephoneNum1Error"></span>
-            </div>
-
-            <!-- Telephone Number 2 -->
-            <div class="mb-3">
-                <label for="telephoneNum2" class="form-label">Telephone Number 2</label>
-                <input type="tel" class="form-control" id="telephoneNum2" placeholder="Telephone Number 2" value="<?php echo $_POST['telephone2'] ?? ''; ?>">
-            </div>
-
-            <!-- Birth Date -->
-            <div class="mb-3">
-                <label for="birthDate" class="form-label">Birth Date</label>
-                <input name="birth_date" type="date" class="form-control" id="birthDate" value="<?php echo $_POST['birth_date'] ?? ''; ?>" required>
-                <span class="error-message" id="birthDateError"></span>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
-
-        <!-- Sign In Link -->
-        <p class="text-center mt-3">If you already have an account, <a href="/pages/signin.php">Sign in</a></p>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>

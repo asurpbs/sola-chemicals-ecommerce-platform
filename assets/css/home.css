@@ -10,7 +10,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3));
 }
 
 .hero-section .carousel-caption {
@@ -18,9 +18,10 @@
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
-    background: rgba(0,0,0,0.6);
-    border-radius: 10px;
+    background: rgba(255,255,255,0.9);
+    border-radius: var(--fluent-radius);
     backdrop-filter: blur(10px);
+    color: #000;
 }
 
 /* Welcome Section */
@@ -31,7 +32,8 @@
 
 .header-text {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 600;
+    color: #323130;
 }
 
 .header .black {
@@ -45,6 +47,7 @@
 .sub-header {
     font-size: 2rem;
     margin-top: 0.5rem;
+    color: #605e5c;
 }
 
 .welcome-text {
@@ -69,16 +72,17 @@
 /* Why Choose Us */
 .why-choose-item {
     padding: 2rem;
-    background: white;
-    border-radius: 15px;
+    background: var(--fluent-surface);
+    border: 1px solid var(--fluent-border);
+    border-radius: var(--fluent-radius);
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
+    transition: var(--fluent-transition);
     height: 100%;
 }
 
 .why-choose-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .why-choose-item img {
@@ -117,6 +121,8 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    padding: 1rem 0;
+    gap: 1rem;
 }
 
 .product-container::-webkit-scrollbar {
@@ -127,6 +133,8 @@
     transition: all 0.3s ease;
     border: none;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    background: var(--fluent-surface);
+    border: 1px solid var(--fluent-border);
 }
 
 .card:hover {
@@ -136,10 +144,10 @@
 
 /* Contact Form */
 .contact-form {
-    background: white;
+    background: var(--fluent-surface);
     padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-radius: var(--fluent-radius);
+    box-shadow: var(--fluent-shadow);
 }
 
 .form-control {
@@ -153,4 +161,21 @@
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .hero-section .carousel-caption {
+    position: relative;
+    background: var(--fluent-surface);
+    margin: 1rem;
+  }
+  
+  .why-choose-item {
+    margin-bottom: 1rem;
+  }
+  
+  .product-container {
+    padding: 0.5rem;
+  }
 }

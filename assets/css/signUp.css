@@ -1,98 +1,120 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f3f3f3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 1rem; /* Reduced padding for smaller screens */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
 }
 
 .container {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 1rem; /* Reduced padding for smaller screens */
-  max-width: 500px;
-  width: 90%; /* Occupy a percentage of the screen width */
+    background-color: transparent;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-shadow: none;
 }
 
-
-@media (max-width: 768px) { /* Adjust breakpoint as needed */
-  .container {
-    width: 95%; /* Increase width on smaller screens */
-    padding: 1rem; /* Further reduce padding on smaller screens */
-
-  }
-
-  .form-control {
-    font-size: 16px;  /* Slightly larger font for better mobile readability */
-  }
-  .btn-primary {
-    font-size: 16px; /* Slightly larger font for better mobile readability */
-  }
-  .logo img{
-    width: 50%;
-  }
+.signup-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
 .logo {
-  text-align: center;
-  margin-bottom: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .logo img {
-  max-width: 100px;
+    max-width: 120px;
+    height: auto;
+}
+
+.logo h2 {
+    color: #323130;
+    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 
 .form-label {
-  font-weight: 450;
-  color: #323130;
-  margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #323130;
+    margin-bottom: 0.5rem;
 }
 
 .form-control {
-  border-radius: 4px;
-  border: 1px solid #edebe9;
-  padding: 0.5rem 0.75rem;
-  font-size: 14px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 0.625rem;
+    height: auto;
+    font-size: 1rem;
+    transition: all 0.2s ease;
 }
 
 .form-control:focus {
-  border-color: #0078d4;
-  box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+    border-color: #0078d4;
+    box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
 }
 
 .btn-primary {
-  background-color: #0078d4;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  font-size: 14px;
-  font-weight: 600;
-  width: 100%;
+    background-color: #0078d4;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  background-color: #106ebe;
+    background-color: #106ebe;
+    transform: translateY(-1px);
 }
 
 .error-message {
-  color: #a4262c;
-  font-size: 12px;
-  margin-top: 0.25rem;
-  display: none;
+    color: #d13438;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }
 
-.text-center a {
-  color: #0078d4;
-  text-decoration: none;
-  font-weight: 600;
+.form-section {
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.text-center a:hover {
-  font-weight: bold;
-  text-decoration: none;
+.form-section:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .signup-card {
+        padding: 1.5rem;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+    
+    .form-control {
+        font-size: 16px;
+    }
+}
+
+.select2-container .select2-selection--single {
+    height: 38px;
+    border: 1px solid #e1e1e1;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
 }
 

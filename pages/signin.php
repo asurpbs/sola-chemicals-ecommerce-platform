@@ -16,32 +16,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php if ($error_state == 1): ?>
         <div class="alert-wrapper">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
                 Invalid password or email. Please try again.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     <?php endif; ?>
     <div class="container">
-        <div class="text-center">
+        <div class="text-center mb-4">
             <img src="/public/apple-touch-icon.png" alt="Sola Chemicals" class="logo">
-            <h2 class="mb-4">Sign in to Sola Chemicals</h2>
+            <h2 class="mb-3 fw-bold">Welcome Back</h2>
+            <p class="text-muted">Sign in to continue to Sola Chemicals</p>
         </div>
-        <form  action="" method="post" enctype="multipart/form-data" id="loginForm" autocomplete="off">
+        <form action="" method="post" enctype="multipart/form-data" id="loginForm" autocomplete="off">
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input name="email" type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                <label for="email" class="form-label">Email address</label>
+                <input name="email" type="email" class="form-control" id="email" 
+                    placeholder="name@example.com" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
-                <input name="pass" type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                <input name="pass" type="password" class="form-control" id="password" 
+                    placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn btn-primary" name="submitlogin">Login</button>
-            <div class="forgot-password mt-3">
-                <a href="#">Forgot Password?</a>
+            <button type="submit" class="btn btn-primary mb-3 shadow-sm" name="submitlogin">
+                Sign In
+            </button>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label text-muted" for="rememberMe">
+                        Remember me
+                    </label>
+                </div>
+                <a href="#" class="text-primary text-decoration-none">Forgot Password?</a>
             </div>
-            <div class="signup mt-3">
-                Don't have an account? <a href="/pages/signup.php">Sign up</a>
+            <hr class="my-4">
+            <div class="text-center text-muted">
+                Don't have an account? <a href="/pages/signup.php" class="text-primary text-decoration-none">Sign up</a>
             </div>
         </form>
     </div>
