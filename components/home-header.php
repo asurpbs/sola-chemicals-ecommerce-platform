@@ -15,7 +15,7 @@ if (isset($_COOKIE['user_id'])) {
 
         <!-- Mobile Button Group -->
         <div class="order-lg-2 nav-btns d-lg-none">
-            <button type="button" class="btn position-relative" title="Search">
+            <button type="button" class="btn position-relative" title="Search" data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="fa fa-search"></i>
             </button> 
             <?php if ($is_logged_in): ?>
@@ -63,8 +63,8 @@ if (isset($_COOKIE['user_id'])) {
             </ul>
 
             <!-- Search Box for Larger Screens -->
-            <form class="d-none d-lg-flex me-lg-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-none d-lg-flex me-lg-3" role="search" id="searchForm" onsubmit="handleSearch(event)">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search products..." aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit" title="Search">
                     <i class="fa fa-search"></i>
                 </button>
@@ -79,7 +79,6 @@ if (isset($_COOKIE['user_id'])) {
                     // Get cart items count for logged in user
                     $cart_count = 0;
                     $user_id = $_COOKIE['user_id'];
-                    require_once 'context/connect.php';
                     $sql = "SELECT COUNT(ci.id) AS item_count
                             FROM cart_item ci
                             JOIN cart c ON ci.cart_id = c.id
@@ -121,6 +120,28 @@ if (isset($_COOKIE['user_id'])) {
         </div>
     </div>
 </nav>
+
+<!-- Search Modal for Mobile -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search Products</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="handleSearch(event)" id="mobileSearchForm">
+                    <div class="input-group">
+                        <input type="search" class="form-control" name="q" placeholder="Search products...">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Cart Modal -->
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
@@ -359,5 +380,49 @@ function updateCartCount() {
             }
         }
     });
+}
+
+function handleSearch(event) {
+    event.preventDefault();
+    const form = event.target;
+    const searchQuery = form.querySelector('input[name="q"]').value;
+    
+    // Show loading state
+    document.querySelector('.content').innerHTML = '<div class="text-center mt-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+    
+    // Close modal if open
+    const searchModal = bootstrap.Modal.getInstance(document.getElementById('searchModal'));
+    if (searchModal) {
+        searchModal.hide();
+    }
+
+    // Fetch search results
+    fetch(`/handlers/search-handler.php?q=${encodeURIComponent(searchQuery)}`)
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('.content').innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.querySelector('.content').innerHTML = '<div class="alert alert-danger">Error loading search results</div>';
+        });
+}
+
+function loadProductDetails(productId) {
+    // Show loading state
+    document.querySelector('.content').innerHTML = '<div class="text-center mt-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+    
+    // Fetch product details
+    fetch(`/handlers/product-handler.php?id=${productId}`)
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('.content').innerHTML = html;
+            // Update URL without page reload
+            history.pushState({}, '', `/pages/ProductOverview.php?id=${productId}`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.querySelector('.content').innerHTML = '<div class="alert alert-danger">Error loading product details</div>';
+        });
 }
 </script>

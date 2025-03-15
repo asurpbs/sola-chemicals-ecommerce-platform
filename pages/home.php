@@ -472,7 +472,6 @@ document.addEventListener("DOMContentLoaded", () => {
     </script>
 
 <style>
-/* Add this at the end of the file */
 @media (max-width: 768px) {
     .carousel-caption {
         position: absolute;
@@ -499,7 +498,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     .stat-box {
-        margin-bottom: 2rem;
+        margin-bottom: rem;
     }
     
     .why-choose-item {
