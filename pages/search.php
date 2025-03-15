@@ -30,7 +30,7 @@ if (!empty($search)) {
         }
         .main-content {
             flex: 1 0 auto;
-            margin-top: 76px; /* Adjust based on your header height */
+            margin-top: 76px; 
         }
         .hero-search {
             background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
