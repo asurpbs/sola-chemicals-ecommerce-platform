@@ -119,6 +119,31 @@ if (isset($_COOKIE['user_id'])) {
             </div>
         </div>
     </div>
+    <style>
+        #profileMenu, #profileMenuDesktop {
+            position: absolute;
+            min-width: 200px;
+            z-index: 1000;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 991px) {
+            #profileMenu {
+                position: fixed;
+                top: auto !important;
+                right: 10px !important;
+                width: calc(100% - 20px);
+                max-width: 300px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            #profileMenuDesktop {
+                right: 0 !important;
+                left: auto !important;
+            }
+        }
+    </style>
 </nav>
 
 <!-- Search Modal for Mobile -->
