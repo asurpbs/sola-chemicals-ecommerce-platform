@@ -1,19 +1,22 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/context/connect.php';
- 
+
+// Search logic
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
 $products = [];
 
 if (!empty($search)) {
-    $sql = "SELECT * FROM item WHERE 
-            name LIKE :search OR 
-            description LIKE :search";
-            
-    $stmt = $conn->prepare($sql);
-    $searchTerm = "%{$search}%";
-    $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $query = "SELECT * FROM item WHERE name LIKE :search";
+    try {
+        $stmt = $conn->prepare($query);
+        $searchTerm = "%{$search}%";
+        $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Search query error: " . $e->getMessage());
+        $products = [];
+    }
 }
 ?>
 
@@ -137,6 +140,25 @@ if (!empty($search)) {
     <?php include_once $_SERVER['DOCUMENT_ROOT'].'/components/home-header.php'; ?>
     
     <div class="main-content">
+        <div class="hero-search">
+            <div class="container">
+                <div class="text-center">
+                    <h1 class="display-4 fw-bold mb-4">Find Your Perfect Product</h1>
+                    <div class="search-input-group">
+                        <form action="/pages/search.php" method="GET" class="search-form" id="searchForm">
+                            <input type="text" name="q" class="form-control search-input" 
+                                   placeholder="Search products..." 
+                                   value="<?php echo htmlspecialchars($search); ?>"
+                                   id="searchInput"
+                                   autocomplete="off">
+                            <button type="submit" class="search-button">
+                                <i class="bi bi-search fs-5"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="container py-4">
             <?php if (!empty($search)): ?>
@@ -161,18 +183,8 @@ if (!empty($search)) {
                 </div>
             <?php else: ?>
                 <div class="filter-section">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
                         <p class="mb-0">Showing <?php echo count($products); ?> results for "<?php echo htmlspecialchars($search); ?>"</p>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                Sort by
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
-                                <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
-                                <li><a class="dropdown-item" href="#">Newest First</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
 
@@ -203,7 +215,8 @@ if (!empty($search)) {
     </div>
 
     <?php include_once $_SERVER['DOCUMENT_ROOT'].'/components/home-footer.php'; ?>
-    <script src="/assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
+    <!-- Make sure Bootstrap JS is loaded before other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/script.js"></script>
     <script>
     document.getElementById('searchForm').addEventListener('submit', function(e) {

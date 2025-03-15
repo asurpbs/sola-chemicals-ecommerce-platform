@@ -414,46 +414,22 @@ if ($is_logged_in) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const profileButton = document.getElementById('profileButton');
-    const profileMenu = document.getElementById('profileMenu');
-
-    const profileButtonDesktop = document.getElementById('profileButtonDesktop');
-    const profileMenuDesktop = document.getElementById('profileMenuDesktop');
-
-    profileButton.addEventListener('click', function() {
-        profileMenu.classList.toggle('show');
-        adjustDropdownPosition(profileMenu);
+    // Remove existing event listeners since Bootstrap's dropdown handles the toggling
+    
+    // Initialize all dropdowns using Bootstrap's built-in functionality
+    var dropdownElementList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+        return new bootstrap.Dropdown(dropdownToggleEl);
     });
 
-    profileButtonDesktop.addEventListener('click', function() {
-        profileMenuDesktop.classList.toggle('show');
-        adjustDropdownPosition(profileMenuDesktop);
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!profileButton.contains(event.target) && !profileMenu.contains(event.target)) {
-            profileMenu.classList.remove('show');
-        }
-        if (!profileButtonDesktop.contains(event.target) && !profileMenuDesktop.contains(event.target)) {
-            profileMenuDesktop.classList.remove('show');
-        }
-    });
-
+    // Optional: Close dropdowns on scroll
     window.addEventListener('scroll', function() {
-        profileMenu.classList.remove('show');
-        profileMenuDesktop.classList.remove('show');
+        dropdownList.forEach(function(dropdown) {
+            dropdown.hide();
+        });
     });
 
-    function adjustDropdownPosition(menu) {
-        const rect = menu.getBoundingClientRect();
-        if (rect.right > window.innerWidth) {
-            menu.style.left = 'auto';
-            menu.style.right = '0';
-        } else {
-            menu.style.left = '';
-            menu.style.right = '';
-        }
-    }
+    // The rest of your cart and other functions remain unchanged
 });
 
 function updateCartQuantity(cartItemId, action) {

@@ -1,16 +1,24 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/context/connect.php';
 
+// Get search query
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
 $products = [];
 
 if (!empty($search)) {
-    $sql = "SELECT * FROM item WHERE name LIKE :search OR description LIKE :search";
-    $stmt = $conn->prepare($sql);
-    $searchTerm = "%{$search}%";
-    $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Base query with no sorting
+    $query = "SELECT * FROM item WHERE name LIKE :search";
+
+    try {
+        $stmt = $conn->prepare($query);
+        $searchTerm = "%{$search}%";
+        $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Search query error: " . $e->getMessage());
+        $products = [];
+    }
 }
 ?>
 
@@ -89,16 +97,6 @@ if (!empty($search)) {
             <div class="filter-section">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="mb-0">Showing <?php echo count($products); ?> results for "<?php echo htmlspecialchars($search); ?>"</p>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Sort by
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
-                            <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
-                            <li><a class="dropdown-item" href="#">Newest First</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 
@@ -128,6 +126,8 @@ if (!empty($search)) {
     </div>
 </div>
 
+<!-- Add Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.getElementById('searchForm').addEventListener('submit', function(e) {
     const searchTerm = document.getElementById('searchInput').value.trim();
