@@ -1,222 +1,343 @@
 <?php
-require_once('../context/connect.php');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/classes/user.php";
 
+// Check if user is logged in using cookies (to match home-header.php)
 if (!isset($_COOKIE['user_id'])) {
-    header("Location: login.php");
+    header('Location: /pages/signin.php');
     exit();
 }
 
-$userId = $_COOKIE['user_id'];
-$alerts = [];
-
 // Get user data
-try {
-    $stmt = $conn->prepare("SELECT u.*, ua.address1, ua.address2, ua.postal_code, c.name_en as city, ut.telephone1, ut.telephone2, u.image 
-                           FROM user u 
-                           LEFT JOIN user_address ua ON u.id = ua.user_id 
-                           LEFT JOIN city c ON ua.city_id = c.id
-                           LEFT JOIN user_telephone ut ON u.id = ut.user_id
-                           WHERE u.id = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
-    $alerts[] = ["type" => "danger", "message" => "Error fetching user data: " . $e->getMessage()];
-}
+$user = new User($_COOKIE['user_id']);
 
-// Handle profile update
-if (isset($_POST['update_profile'])) {
-    try {
-        $stmt = $conn->prepare("UPDATE user SET first_name = ?, last_name = ?, email = ?, date_modified = CURRENT_TIMESTAMP WHERE id = ?");
-        $stmt->execute([$_POST['first_name'], $_POST['last_name'], $_POST['email'], $userId]);
+// Fetch cities for dropdown
+$stmt = $conn->prepare("SELECT id, name_en FROM city ORDER BY name_en");
+$stmt->execute();
+$cities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt = $conn->prepare("UPDATE user_address SET address1 = ?, address2 = ?, postal_code = ? WHERE user_id = ?");
-        $stmt->execute([$_POST['address1'], $_POST['address2'], $_POST['postal_code'], $userId]);
-
-        $stmt = $conn->prepare("UPDATE user_telephone SET telephone1 = ?, telephone2 = ? WHERE user_id = ?");
-        $stmt->execute([$_POST['telephone1'], $_POST['telephone2'], $userId]);
-
-        $alerts[] = ["type" => "success", "message" => "Profile updated successfully!"];
-        
-        // Refresh user data
-        header("Refresh:0");
-    } catch(PDOException $e) {
-        $alerts[] = ["type" => "danger", "message" => "Error updating profile: " . $e->getMessage()];
-    }
-}
-
-// Handle password change
-if (isset($_POST['change_password'])) {
-    try {
-        // Verify current password
-        $stmt = $conn->prepare("SELECT password FROM user WHERE id = ?");
-        $stmt->execute([$userId]);
-        $currentHash = $stmt->fetchColumn();
-
-        if (password_verify($_POST['current_password'], $currentHash)) {
-            if ($_POST['new_password'] === $_POST['confirm_password']) {
-                $newHash = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
-                $stmt = $conn->prepare("UPDATE user SET password = ? WHERE id = ?");
-                $stmt->execute([$newHash, $userId]);
-                $alerts[] = ["type" => "success", "message" => "Password changed successfully!"];
-            } else {
-                $alerts[] = ["type" => "danger", "message" => "New passwords do not match!"];
-            }
-        } else {
-            $alerts[] = ["type" => "danger", "message" => "Current password is incorrect!"];
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['update_personal'])) {
+        $user->updateFirstName($_POST['first_name']);
+        $user->updateLastName($_POST['last_name']);
+        $user->updateEmail($_POST['email']);
+        $user->updateBirthDate($_POST['birth_date']);
+        if (isset($_POST['gender'])) {
+            $user->updateGender($_POST['gender']);
         }
-    } catch(PDOException $e) {
-        $alerts[] = ["type" => "danger", "message" => "Error changing password: " . $e->getMessage()];
+        if (!empty($_FILES['image']['name'])) {
+            $user->updateImage();
+        }
+    } elseif (isset($_POST['update_contact'])) {
+        $user->updateAddress1($_POST['address1']);
+        $user->updateAddress2($_POST['address2']);
+        $user->updatePostalCode($_POST['postal_code']);
+        $user->updateCityId($_POST['city_id']);
+        $user->updateTelephone1($_POST['telephone1']);
+        $user->updateTelephone2($_POST['telephone2']);
+    } elseif (isset($_POST['update_password'])) {
+        if ($_POST['new_password'] === $_POST['confirm_password']) {
+            $user->updatePassword($_POST['new_password']);
+        }
     }
+    
+    // Refresh user data
+    $user = new User($_COOKIE['user_id']);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>User Settings - Sola Chemicals</title>
     <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/metadata.html'; ?>
-    <title>User Profile</title>
-    <link href="../assets/css/profile.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .settings-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .settings-nav button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .settings-nav button.active {
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .settings-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #007bff;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gender-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gender-option input[type="radio"] {
+            width: auto;
+        }
+
+        .btn-save {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #0056b3;
+        }
+
+        .row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .col {
+            flex: 1;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="container mt-5">
-        <!-- Display alerts -->
-        <?php foreach($alerts as $alert): ?>
-            <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissible fade show" role="alert">
-                <?php echo $alert['message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endforeach; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/home-header.php'; ?>
 
-        <!-- Breadcrumb Navigation -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Profile</li>
-            </ol>
-        </nav>
-
-        <!-- Profile Header -->
-        <div class="profile-header text-center mb-4">
-            <img src="../uploads/user/<?php echo $user['image'] ? $user['image'] : 'null.png'; ?>" alt="Profile Image" class="profile-image">
-            <h1 class="mt-3"><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></h1>
+    <div class="settings-container">
+        <h1>Account Settings</h1>
+        
+        <div class="settings-nav">
+            <button class="active" onclick="showSection('personal')">Personal Data</button>
+            <button onclick="showSection('contact')">Contact Information</button>
+            <button onclick="showSection('security')">Security</button>
         </div>
 
-        <!-- Navigation Tabs -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
-                    type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="edit-profile-tab" data-bs-toggle="tab" data-bs-target="#edit-profile"
-                    type="button" role="tab" aria-controls="edit-profile" aria-selected="false">Edit Profile</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="change-password-tab" data-bs-toggle="tab" data-bs-target="#change-password"
-                    type="button" role="tab" aria-controls="change-password" aria-selected="false">Change
-                    Password</button>
-            </li>
-        </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content mt-3" id="myTabContent">
-            <!-- Overview Tab -->
-            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                <h2>Overview</h2>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Profile Information</h5>
-                        <p><strong>Name:</strong> <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></p>
-                        <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-                        <p><strong>Address:</strong> <?php echo htmlspecialchars($user['address1'] . ', ' . $user['address2']); ?></p>
-                        <p><strong>City:</strong> <?php echo htmlspecialchars($user['city']); ?></p>
-                        <p><strong>Postal Code:</strong> <?php echo htmlspecialchars($user['postal_code']); ?></p>
-                        <p><strong>Phone 1:</strong> <?php echo htmlspecialchars($user['telephone1']); ?></p>
-                        <p><strong>Phone 2:</strong> <?php echo htmlspecialchars($user['telephone2']); ?></p>
-                    </div>
+        <!-- Personal Data Section -->
+        <div id="personal" class="settings-section active">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <img src="<?php echo $user->getImage(); ?>" alt="Profile" class="profile-image">
+                    <input type="file" name="image" accept="image/*">
                 </div>
-            </div>
 
-            <!-- Edit Profile Tab -->
-            <div class="tab-pane fade" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
-                <h2>Edit Profile</h2>
-
-                <!-- Profile Image Section -->
-                <div class="profile-image-section text-center mb-4">
-                    <img src="<?php echo '../uploads/user/' . ($user['image'] ? $user['image'] : 'null.png'); ?>" alt="Profile Image" class="profile-image" id="profileImage">
-                    <div class="mt-2">
-                        <input type="file" id="uploadImage" accept="image/*" style="display: none;">
-                        <button type="button" class="btn btn-secondary btn-sm" id="uploadButton">Upload Image</button>
-                        <button type="button" class="btn btn-danger btn-sm" id="deleteButton">Delete Image</button>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user->getFirstName()); ?>" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user->getLastName()); ?>" required>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Edit Profile Form -->
-                <form id="editProfileForm" method="POST" action="">
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user['first_name']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user['last_name']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="telephone1" class="form-label">Primary Phone</label>
-                        <input type="tel" class="form-control" id="telephone1" name="telephone1" value="<?php echo htmlspecialchars($user['telephone1']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="telephone2" class="form-label">Secondary Phone (Optional)</label>
-                        <input type="tel" class="form-control" id="telephone2" name="telephone2" value="<?php echo htmlspecialchars($user['telephone2']); ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="address1" class="form-label">Address Line 1</label>
-                        <input type="text" class="form-control" id="address1" name="address1" value="<?php echo htmlspecialchars($user['address1']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address2" class="form-label">Address Line 2</label>
-                        <input type="text" class="form-control" id="address2" name="address2" value="<?php echo htmlspecialchars($user['address2']); ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="postal_code" class="form-label">Postal Code</label>
-                        <input type="text" class="form-control" id="postal_code" name="postal_code" value="<?php echo htmlspecialchars($user['postal_code']); ?>" required>
-                    </div>
-                    <button type="submit" name="update_profile" class="btn btn-primary">Save Changes</button>
-                </form>
-            </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user->getEmail()); ?>" required>
+                </div>
 
-            <!-- Change Password Tab -->
-            <div class="tab-pane fade" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
-                <h2>Change Password</h2>
-                <form method="POST" action="">
-                    <div class="mb-3">
-                        <label for="currentPassword" class="form-label">Current Password</label>
-                        <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                <div class="form-group">
+                    <label for="birth_date">Date of Birth</label>
+                    <input type="date" id="birth_date" name="birth_date" value="<?php echo $user->getBirthDate(); ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="gender-options">
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="m" <?php echo $user->getGender() === 'm' ? 'checked' : ''; ?>>
+                            Male
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="f" <?php echo $user->getGender() === 'f' ? 'checked' : ''; ?>>
+                            Female
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="o" <?php echo $user->getGender() === 'o' ? 'checked' : ''; ?>>
+                            Other
+                        </label>
                     </div>
-                    <div class="mb-3">
-                        <label for="newPassword" class="form-label">New Password</label>
-                        <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                </div>
+
+                <button type="submit" name="update_personal" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div id="contact" class="settings-section">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="address1">Address Line 1</label>
+                    <input type="text" id="address1" name="address1" value="<?php echo htmlspecialchars($user->getAddress1()); ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address2">Address Line 2</label>
+                    <input type="text" id="address2" name="address2" value="<?php echo htmlspecialchars($user->getAddress2()); ?>">
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="city_id">City</label>
+                            <select id="city_id" name="city_id" required>
+                                <?php foreach ($cities as $city): ?>
+                                    <option value="<?php echo $city['id']; ?>" <?php echo $user->getCity() === $city['name_en'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($city['name_en']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="reenterPassword" class="form-label">Re-enter New Password</label>
-                        <input type="password" class="form-control" id="reenterPassword" name="confirm_password" required>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="postal_code">Postal Code</label>
+                            <input type="text" id="postal_code" name="postal_code" value="<?php echo htmlspecialchars($user->getPostalCode()); ?>" required>
+                        </div>
                     </div>
-                    <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
-                </form>
-            </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="telephone1">Primary Phone</label>
+                            <input type="tel" id="telephone1" name="telephone1" value="<?php echo htmlspecialchars($user->getTelephone1()); ?>" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="telephone2">Secondary Phone</label>
+                            <input type="tel" id="telephone2" name="telephone2" value="<?php echo htmlspecialchars($user->getTelephone2()); ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" name="update_contact" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Security Section -->
+        <div id="security" class="settings-section">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+
+                <button type="submit" name="update_password" class="btn-save">Update Password</button>
+            </form>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/profile.js"></script>
-</body>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/home-footer.php'; ?>
 
-</html>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.settings-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.settings-nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Initialize Select2 for city dropdown
+        $(document).ready(function() {
+            $('#city_id').select2();
+        });
+    </script>
+</body>
+</html> 
