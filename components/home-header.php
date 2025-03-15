@@ -1,5 +1,4 @@
 <?php
-session_start();
 $is_logged_in = isset($_COOKIE['user_id']);
 $cart_count = 0; // Initialize cart count
 
@@ -177,7 +176,8 @@ if ($is_logged_in) {
             </ul>
 
             <!-- Search Box for Larger Screens -->
-            <form class="d-none d-lg-flex me-lg-3" role="search" id="searchForm" onsubmit="handleSearch(event)">
+            <form class="d-none d-lg-flex me-lg-3" role="search" action="/index.php" method="GET">
+                <input type="hidden" name="page" value="search">
                 <input class="form-control me-2" type="search" name="q" placeholder="Search products..." aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit" title="Search">
                     <i class="fa fa-search"></i>
@@ -267,7 +267,8 @@ if ($is_logged_in) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form onsubmit="handleSearch(event)" id="mobileSearchForm">
+                <form action="/index.php" method="GET">
+                    <input type="hidden" name="page" value="search">
                     <div class="input-group">
                         <input type="search" class="form-control" name="q" placeholder="Search products...">
                         <button class="btn btn-primary" type="submit">
@@ -517,49 +518,5 @@ function updateCartCount() {
             }
         }
     });
-}
-
-function handleSearch(event) {
-    event.preventDefault();
-    const form = event.target;
-    const searchQuery = form.querySelector('input[name="q"]').value;
-    
-    // Show loading state
-    document.querySelector('.content').innerHTML = '<div class="text-center mt-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-    
-    // Close modal if open
-    const searchModal = bootstrap.Modal.getInstance(document.getElementById('searchModal'));
-    if (searchModal) {
-        searchModal.hide();
-    }
-
-    // Fetch search results
-    fetch(`/handlers/search-handler.php?q=${encodeURIComponent(searchQuery)}`)
-        .then(response => response.text())
-        .then(html => {
-            document.querySelector('.content').innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.querySelector('.content').innerHTML = '<div class="alert alert-danger">Error loading search results</div>';
-        });
-}
-
-function loadProductDetails(productId) {
-    // Show loading state
-    document.querySelector('.content').innerHTML = '<div class="text-center mt-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-    
-    // Fetch product details
-    fetch(`/handlers/product-handler.php?id=${productId}`)
-        .then(response => response.text())
-        .then(html => {
-            document.querySelector('.content').innerHTML = html;
-            // Update URL without page reload
-            history.pushState({}, '', `/pages/ProductOverview.php?id=${productId}`);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.querySelector('.content').innerHTML = '<div class="alert alert-danger">Error loading product details</div>';
-        });
 }
 </script>

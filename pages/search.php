@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/context/connect.php';
-
+ 
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
 $products = [];
 
@@ -137,25 +137,6 @@ if (!empty($search)) {
     <?php include_once $_SERVER['DOCUMENT_ROOT'].'/components/home-header.php'; ?>
     
     <div class="main-content">
-        <div class="hero-search">
-            <div class="container">
-                <div class="text-center">
-                    <h1 class="display-4 fw-bold mb-4">Find Your Perfect Product</h1>
-                    <div class="search-input-group">
-                        <form action="/pages/search.php" method="GET" class="search-form" id="searchForm">
-                            <input type="text" name="q" class="form-control search-input" 
-                                   placeholder="Search products..." 
-                                   value="<?php echo htmlspecialchars($search); ?>"
-                                   id="searchInput"
-                                   autocomplete="off">
-                            <button type="submit" class="search-button">
-                                <i class="bi bi-search fs-5"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="container py-4">
             <?php if (!empty($search)): ?>
