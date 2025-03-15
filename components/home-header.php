@@ -33,7 +33,7 @@ if (isset($_COOKIE['user_id'])) {
             <!-- Profile Pop-up Menu -->
             <div id="profileMenu" class="dropdown-menu">
                 <?php if ($is_logged_in): ?>
-                    <a class="dropdown-item" href="./pages/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                    <a class="dropdown-item" href="./pages/profile.php"><i class="bi bi-person-circle"></i> Profile</a>
                     <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
                 <?php else: ?>
                     <div class="dropdown-item text-center">
@@ -107,7 +107,7 @@ if (isset($_COOKIE['user_id'])) {
                 <!-- Profile Pop-up Menu for Desktop -->
                 <div id="profileMenuDesktop" class="dropdown-menu">
                     <?php if ($is_logged_in): ?>
-                        <a class="dropdown-item" href="./pages/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                        <a class="dropdown-item" href="./pages/profile.php"><i class="bi bi-person-circle"></i> Profile</a>
                         <a class="dropdown-item" href="./pages/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
                     <?php else: ?>
                         <div class="dropdown-item text-center">
