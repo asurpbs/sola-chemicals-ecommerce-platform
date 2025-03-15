@@ -99,21 +99,18 @@ body {
 .dropdown .dropdown-menu {
     margin-top: 0.5rem;
     min-width: 220px;
+    max-width: 90vw; /* Limit width on small screens */
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    position: absolute;
+    right: 0;
+    transform-origin: top right;
 }
 
-.dropdown .dropdown-item {
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.dropdown .dropdown-item i {
-    font-size: 1.1rem;
-    opacity: 0.8;
+/* Ensure dropdown stays in viewport */
+.dropdown {
+    position: relative;
 }
 
 @media (max-width: 991.98px) {
@@ -122,11 +119,25 @@ body {
         left: 0;
         right: 0;
         bottom: 0;
+        top: auto !important;
         width: 100%;
         border-radius: 1rem 1rem 0 0;
         margin: 0;
         padding: 1rem 0;
+        transform: none !important;
     }
+}
+
+/* Handle dropdown position when it would overflow viewport */
+.dropdown-menu[data-bs-popper] {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu.show {
+    display: block;
+    max-height: calc(100vh - 100px); /* Prevent overflow */
+    overflow-y: auto; /* Allow scrolling if content is too tall */
 }
 
 /*style header & sub-header*/

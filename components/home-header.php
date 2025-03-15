@@ -114,14 +114,14 @@ if ($is_logged_in) {
             <?php endif; ?>
             <!-- Mobile Profile Dropdown -->
             <div class="dropdown d-inline-block">
-                <button class="btn p-0" type="button" id="mobileProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn p-0" type="button" id="mobileProfileDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
                     <?php if ($is_logged_in): ?>
                         <img src="/uploads/user/<?= $user_data['image'] ?: 'null.png' ?>" alt="Profile" class="profile-image">
                     <?php else: ?>
                         <i class="fa fa-user"></i>
                     <?php endif; ?>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="mobileProfileDropdown">
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileProfileDropdown">
                     <?php if ($is_logged_in): ?>
                         <div class="text-center">
                             <i class="bi bi-person-circle auth-icon"></i>
@@ -217,14 +217,14 @@ if ($is_logged_in) {
                 <?php endif; ?>
                 <!-- Desktop Profile Dropdown -->
                 <div class="dropdown">
-                    <button class="btn p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
                         <?php if ($is_logged_in): ?>
                             <img src="/uploads/user/<?= $user_data['image'] ?: 'null.png' ?>" alt="Profile" class="profile-image">
                         <?php else: ?>
                             <i class="fa fa-user fa-lg"></i>
                         <?php endif; ?>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <?php if ($is_logged_in): ?>
                             <div class="text-center">
                                 <h6 class="mb-2">Hello, <?= htmlspecialchars($user_data['first_name']) ?></h6>
