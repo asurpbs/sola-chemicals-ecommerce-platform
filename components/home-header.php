@@ -120,7 +120,7 @@ if ($is_logged_in) {
                         <i class="fa fa-user"></i>
                     <?php endif; ?>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="mobileProfileDropdown">
+                <div class="dropdown-menu mobile-dropdown" aria-labelledby="mobileProfileDropdown">
                     <?php if ($is_logged_in): ?>
                         <div class="text-center">
                             <i class="bi bi-person-circle auth-icon"></i>
