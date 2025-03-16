@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mt-5">
-          <a href="/pages/findNeatByOutleat.php">
+          <a href="index.php?page=findNeatByOutleat">
             <button class="btn btn-primary">Find a Nearby Outlet</button>
           </a>
         </div>
