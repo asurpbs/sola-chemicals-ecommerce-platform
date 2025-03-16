@@ -149,13 +149,49 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
             margin-bottom: 2rem;
             font-size: 0.9rem;
         }
+
+        /* Add responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .card-header {
+                padding: 1rem;
+            }
+            .product-img {
+                width: 80px;
+                height: 80px;
+            }
+            .item-row {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .item-row .ms-3 {
+                margin-left: 0 !important;
+                margin-top: 1rem;
+                width: 100%;
+            }
+            .item-row .text-end {
+                text-align: left !important;
+            }
+            .card-body {
+                padding: 1rem;
+            }
+            h5.mb-0 {
+                font-size: 1.1rem;
+            }
+            .btn-lg {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container py-5">
         <div class="row g-4">
             <!-- Order Details Column -->
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-12">
                 <!-- Delivery Info -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -211,7 +247,7 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
             </div>
 
             <!-- Payment Summary Column -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">Payment Summary</h5>
