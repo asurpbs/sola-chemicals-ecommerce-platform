@@ -150,10 +150,14 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
             font-size: 0.9rem;
         }
 
-        /* Add responsive styles */
+        /* Enhanced Mobile Responsive Styles */
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 0.5rem;
+            }
+            .card {
+                margin-bottom: 1rem;
+                border-radius: 8px;
             }
             .card-header {
                 padding: 1rem;
@@ -163,26 +167,81 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
                 height: 80px;
             }
             .item-row {
-                flex-direction: column;
-                align-items: flex-start !important;
+                display: grid !important;
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+                padding: 1rem;
             }
             .item-row .ms-3 {
                 margin-left: 0 !important;
-                margin-top: 1rem;
-                width: 100%;
+                margin-top: 0.5rem;
+                grid-column: 1 / -1;
+            }
+            .item-row .flex-grow-1 {
+                grid-column: 2;
             }
             .item-row .text-end {
                 text-align: left !important;
             }
+            .row {
+                margin: 0;
+            }
+            .col-md-6 {
+                padding: 0.5rem;
+            }
             .card-body {
-                padding: 1rem;
+                padding: 0.75rem;
             }
             h5.mb-0 {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+            h6 {
+                font-size: 0.9rem;
+                margin-top: 0.5rem;
+            }
+            p {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
             }
             .btn-lg {
-                padding: 0.5rem 1rem;
+                padding: 0.75rem 1rem;
                 font-size: 1rem;
+            }
+            .summary-item {
+                font-size: 0.9rem;
+            }
+            .total-row {
+                font-size: 1.1rem;
+            }
+            .address-box {
+                margin: 0.5rem 0;
+                padding: 0.75rem;
+            }
+            .form-select {
+                font-size: 0.9rem;
+            }
+            .py-5 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+            .g-4 {
+                gap: 1rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0;
+            }
+            .card {
+                border-radius: 0;
+            }
+            .product-img {
+                width: 60px;
+                height: 60px;
+            }
+            .btn-lg {
+                padding: 0.5rem 0.75rem;
             }
         }
     </style>
