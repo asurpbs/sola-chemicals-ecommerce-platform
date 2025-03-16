@@ -367,6 +367,7 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('checkoutForm');
@@ -432,25 +433,26 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
                     loadingModal.hide();
                     
                     if (result.success) {
-                        const prevPage = document.referrer || '/index.php?page=product';
-                        
-                        // Show success alert
-                        Swal.fire({
-                            title: 'Order Successful!',
-                            text: 'Your order has been placed successfully.',
+                        await Swal.fire({
+                            title: 'Success!',
+                            text: 'Your order has been placed successfully',
                             icon: 'success',
                             confirmButtonText: 'OK'
-                        }).then((result) => {
-                            window.location.href = prevPage;
                         });
+                        window.location.href = '/index.php';
                     } else {
-                        throw new Error(result.message || 'Failed to place order');
+                        await Swal.fire({
+                            title: 'Error!',
+                            text: result.message || 'Failed to process order',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 } catch (error) {
                     loadingModal.hide();
-                    Swal.fire({
-                        title: 'Error',
-                        text: error.message || 'Failed to process order',
+                    await Swal.fire({
+                        title: 'Error!',
+                        text: 'An unexpected error occurred',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
