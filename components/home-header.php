@@ -608,7 +608,6 @@ function updateCartQuantity(cartItemId, action) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Find and update the quantity input
             const cartItem = document.getElementById(`cart-item-${cartItemId}`);
             const quantityInput = cartItem.querySelector('input[type="text"]');
             quantityInput.value = data.newQuantity;
@@ -617,7 +616,7 @@ function updateCartQuantity(cartItemId, action) {
             const unitPriceText = cartItem.querySelector('.text-muted').textContent;
             const unitPrice = parseFloat(unitPriceText.split('Rs. ')[1].replace(/,/g, ''));
             const subtotal = unitPrice * data.newQuantity;
-            cartItem.querySelector('.text-success').textContent = `Subtotal: Rs. ${subtotal.toFixed(2)}`;
+            cartItem.querySelector('.text-primary').textContent = `Subtotal: Rs. ${subtotal.toFixed(2)}`;
             
             // Update cart total and header count
             updateCartTotal();
@@ -696,27 +695,27 @@ function removeFromCart(cartItemId) {
 }
 
 function updateCartTotal() {
-    const cartItems = document.querySelectorAll('[id^="cart-item-"]');
+    const cartItems = document.querySelectorAll('.cart-item-card');
     let total = 0;
-    let itemCount = cartItems.length;
+    let itemCount = 0;
 
     cartItems.forEach(item => {
-        const priceText = item.querySelector('.text-success').textContent;
-        // Extract number from "Subtotal: Rs. X,XXX.XX" format
-        const price = parseFloat(priceText.split('Rs. ')[1].replace(/,/g, ''));
-        if (!isNaN(price)) {
-            total += price;
+        const subtotalText = item.querySelector('.text-primary').textContent;
+        const subtotal = parseFloat(subtotalText.split('Rs. ')[1].replace(/,/g, ''));
+        if (!isNaN(subtotal)) {
+            total += subtotal;
+            itemCount++;
         }
     });
 
-    // Update total amount
-    const totalElement = document.querySelector('.card.mt-4 h4.text-primary');
+    // Update total amount in cart summary
+    const totalElement = document.querySelector('.cart-summary-card h4.text-primary');
     if (totalElement) {
         totalElement.textContent = `Rs. ${total.toFixed(2)}`;
     }
 
-    // Update item count
-    const itemCountElement = document.querySelector('.card.mt-4 small.text-muted');
+    // Update item count in cart summary
+    const itemCountElement = document.querySelector('.cart-summary-card small.text-muted');
     if (itemCountElement) {
         itemCountElement.textContent = `${itemCount} items`;
     }

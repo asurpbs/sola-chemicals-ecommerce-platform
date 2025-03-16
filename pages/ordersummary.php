@@ -403,14 +403,12 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Show loading overlay
-                document.getElementById('loadingOverlay').style.display = 'flex';
-                document.getElementById('submitSpinner').classList.remove('d-none');
+                const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+                loadingModal.show();
                 
                 const { deliveryFee, total } = calculateTotal();
                 const formData = new FormData(this);
                 
-                // Add calculated values to form data
                 formData.append('delivery_fee', deliveryFee.toFixed(2));
                 formData.append('total', total.toFixed(2));
                 formData.append('subtotal', subtotal.toFixed(2));
@@ -431,33 +429,31 @@ $subtotal = array_sum(array_column($cart_items, 'subtotal'));
                     });
                     
                     const result = await response.json();
+                    loadingModal.hide();
                     
                     if (result.success) {
-                        // Show success message with animation
-                        const toast = document.createElement('div');
-                        toast.className = 'position-fixed top-0 end-0 p-3';
-                        toast.style.zIndex = '9999';
-                        toast.innerHTML = `
-                            <div class="toast show bg-success text-white" role="alert">
-                                <div class="toast-body">
-                                    Order placed successfully!
-                                </div>
-                            </div>
-                        `;
-                        document.body.appendChild(toast);
+                        const prevPage = document.referrer || '/index.php?page=product';
                         
-                        setTimeout(() => {
-                            window.location.href = '/index.php';
-                        }, 2000);
+                        // Show success alert
+                        Swal.fire({
+                            title: 'Order Successful!',
+                            text: 'Your order has been placed successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            window.location.href = prevPage;
+                        });
                     } else {
                         throw new Error(result.message || 'Failed to place order');
                     }
                 } catch (error) {
-                    console.error('Error:', error);
-                    alert(error.message || 'Failed to process order');
-                } finally {
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    document.getElementById('submitSpinner').classList.add('d-none');
+                    loadingModal.hide();
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.message || 'Failed to process order',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
         });
