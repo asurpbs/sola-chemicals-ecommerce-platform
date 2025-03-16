@@ -45,7 +45,22 @@ try {
             $result = $stmt->execute($params);
             
             if ($result) {
-                echo json_encode(['success' => true, 'message' => 'Item added to cart successfully']);
+                // Get updated cart count
+                $count_sql = "SELECT COUNT(ci.id) as count 
+                            FROM cart_item ci 
+                            JOIN cart c ON ci.cart_id = c.id 
+                            WHERE c.user_id = ?";
+                $count_stmt = $conn->prepare($count_sql);
+                $count_stmt->execute([$user_id]);
+                $count = $count_stmt->fetch(PDO::FETCH_ASSOC)['count'];
+                
+                // Add this line to pass cart count in the response
+                echo json_encode([
+                    'success' => true, 
+                    'message' => 'Item added to cart successfully',
+                    'cart_count' => $count
+                ]);
+                exit;
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to add item to cart']);
             }

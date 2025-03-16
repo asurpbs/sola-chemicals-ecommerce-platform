@@ -37,7 +37,18 @@ try {
         $delete_stmt->bindParam(':cart_item_id', $cart_item_id, PDO::PARAM_INT);
         $success = $delete_stmt->execute();
         
-        echo json_encode(['success' => $success]);
+        // Get updated cart count
+        $count_stmt = $conn->prepare("
+            SELECT COUNT(*) as count 
+            FROM cart_item ci 
+            JOIN cart c ON ci.cart_id = c.id 
+            WHERE c.user_id = :user_id
+        ");
+        $count_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $count_stmt->execute();
+        $count = $count_stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        
+        echo json_encode(['success' => $success, 'count' => $count]);
     } else {
         echo json_encode(['success' => false, 'error' => 'Item not found in your cart']);
     }

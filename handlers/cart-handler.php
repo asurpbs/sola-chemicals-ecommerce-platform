@@ -44,22 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
         
         case 'count':
-            if (isset($_COOKIE['user_id'])) { // Changed from SESSION to COOKIE
+            if (isset($_COOKIE['user_id'])) {
                 $user_id = $_COOKIE['user_id'];
                 try {
-                    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM cart_item ci 
+                    $stmt = $conn->prepare("SELECT COUNT(ci.id) as count 
+                                          FROM cart_item ci 
                                           INNER JOIN cart c ON ci.cart_id = c.id 
                                           WHERE c.user_id = :user_id");
                     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                     $stmt->execute();
-                    $count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+                    $count = $stmt->fetch(PDO::FETCH_ASSOC)['count'] ?? 0;
                     
-                    echo json_encode(['success' => true, 'count' => $count]);
+                    echo json_encode(['success' => true, 'count' => (int)$count]);
                 } catch (PDOException $e) {
                     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
                 }
             } else {
-                echo json_encode(['success' => false, 'error' => 'User not logged in']);
+                echo json_encode(['success' => true, 'count' => 0]);
             }
             break;
             

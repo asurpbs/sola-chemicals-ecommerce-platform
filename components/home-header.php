@@ -372,7 +372,7 @@ if ($is_logged_in) {
                                 </div>
                                 <hr>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn btn-secondary me-md-2" data-bs-dismiss="modal">
+                                    <button class="btn btn-secondary me-md-2" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
                                         Continue Shopping
                                     </button>
                                     <button class="btn btn-primary" onclick="window.location.href='/pages/checkout.php'">
@@ -388,7 +388,7 @@ if ($is_logged_in) {
                             <i class="bi bi-cart-x text-muted" style="font-size: 4rem;"></i>
                             <h4 class="mt-3">Your cart is empty</h4>
                             <p class="text-muted mb-4">Browse our products and add some items to your cart!</p>
-                            <button class="btn btn-primary" data-bs-dismiss="modal">
+                            <button class="btn btn-primary" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
                                 <i class="bi bi-shop me-2"></i>Continue Shopping
                             </button>
                         </div>
@@ -413,7 +413,55 @@ if ($is_logged_in) {
 </div>
 
 <script>
+// Add this new function at the top of your script section
+function updateHeaderCartCount(count) {
+    // Update all cart count badges in the header
+    document.querySelectorAll('.badge').forEach(badge => {
+        badge.textContent = count;
+    });
+}
+
+// Add this function to handle cart updates
+function addToCart(itemId, userId) {
+    fetch('/ajax/cart_handler.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=add&item_id=${itemId}&user_id=${userId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update cart count in header
+            updateHeaderCartCount(data.cart_count);
+            // Show success message or perform other actions
+        } else {
+            alert(data.message || 'Failed to add item to cart');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add item to cart');
+    });
+}
+
+// Initialize cart count on page load
 document.addEventListener('DOMContentLoaded', function() {
+    fetch('/handlers/cart-handler.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=count'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateHeaderCartCount(data.count);
+        }
+    });
+    
     // Remove existing event listeners since Bootstrap's dropdown handles the toggling
     
     // Initialize all dropdowns using Bootstrap's built-in functionality
@@ -446,53 +494,136 @@ function updateCartQuantity(cartItemId, action) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            location.reload();
+            // Find and update the quantity input
+            const cartItem = document.getElementById(`cart-item-${cartItemId}`);
+            const quantityInput = cartItem.querySelector('input[type="text"]');
+            quantityInput.value = data.newQuantity;
+            
+            // Update subtotal
+            const unitPriceText = cartItem.querySelector('.text-muted').textContent;
+            const unitPrice = parseFloat(unitPriceText.split('Rs. ')[1].replace(/,/g, ''));
+            const subtotal = unitPrice * data.newQuantity;
+            cartItem.querySelector('.text-success').textContent = `Subtotal: Rs. ${subtotal.toFixed(2)}`;
+            
+            // Update cart total and header count
+            updateCartTotal();
+            updateHeaderCartCount(data.cartCount);
         } else {
             alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update quantity');
+    });
+}
+
+function updateCartItemsCount() {
+    fetch('/handlers/cart-handler.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=count'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update all cart count badges
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.textContent = data.count;
+            });
         }
     });
 }
 
 function removeFromCart(cartItemId) {
     if(confirm('Are you sure you want to remove this item from cart?')) {
-        $.ajax({
-            url: '/handlers/remove-cart-item.php',
-            type: 'POST',
-            data: {
-                cart_item_id: cartItemId
+        fetch('/handlers/remove-cart-item.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            dataType: 'json',
-            success: function(response) {
-                if(response.success) {
-                    // Remove the item element from DOM
-                    $(`#cart-item-${cartItemId}`).fadeOut(300, function() {
-                        $(this).remove();
-                        // Reload page to update cart count and totals
-                        location.reload();
-                    });
+            body: `cart_item_id=${cartItemId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Remove item from cart visual
+                const cartItem = document.getElementById(`cart-item-${cartItemId}`);
+                cartItem.remove();
+                
+                // Update cart count first
+                updateCartItemsCount();
+                
+                // Check remaining items
+                const cartItems = document.querySelectorAll('[id^="cart-item-"]');
+                if (cartItems.length === 0) {
+                    const modalBody = document.querySelector('#cartModal .modal-body');
+                    modalBody.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="bi bi-cart-x text-muted" style="font-size: 4rem;"></i>
+                            <h4 class="mt-3">Your cart is empty</h4>
+                            <p class="text-muted mb-4">Browse our products and add some items to your cart!</p>
+                            <button class="btn btn-primary" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
+                                <i class="bi bi-shop me-2"></i>Continue Shopping
+                            </button>
+                        </div>
+                    `;
                 } else {
-                    alert('Error: ' + (response.error || 'Could not remove item'));
+                    // Only update total if there are remaining items
+                    updateCartTotal();
                 }
-            },
-            error: function() {
-                alert('Error connecting to server');
+            } else {
+                alert('Error: ' + (data.error || 'Could not remove item'));
             }
         });
     }
 }
 
-function updateCartCount() {
-    $.ajax({
-        url: 'handlers/cart-handler.php',
-        type: 'POST',
-        data: {
-            action: 'count'
-        },
-        success: function(response) {
-            if(response.count !== undefined) {
-                $('.cart-count').text(response.count);
-            }
+function updateCartTotal() {
+    const cartItems = document.querySelectorAll('[id^="cart-item-"]');
+    let total = 0;
+    let itemCount = cartItems.length;
+
+    cartItems.forEach(item => {
+        const priceText = item.querySelector('.text-success').textContent;
+        // Extract number from "Subtotal: Rs. X,XXX.XX" format
+        const price = parseFloat(priceText.split('Rs. ')[1].replace(/,/g, ''));
+        if (!isNaN(price)) {
+            total += price;
         }
     });
+
+    // Update total amount
+    const totalElement = document.querySelector('.card.mt-4 h4.text-primary');
+    if (totalElement) {
+        totalElement.textContent = `Rs. ${total.toFixed(2)}`;
+    }
+
+    // Update item count
+    const itemCountElement = document.querySelector('.card.mt-4 small.text-muted');
+    if (itemCountElement) {
+        itemCountElement.textContent = `${itemCount} items`;
+    }
 }
+
+// Call updateCartItemsCount when cart items change
+document.addEventListener('DOMContentLoaded', function() {
+    // ...existing code...
+    
+    // Setup cart count update on cart changes
+    const cartObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                updateCartItemsCount();
+            }
+        });
+    });
+
+    const cartModalBody = document.querySelector('#cartModal .modal-body');
+    if (cartModalBody) {
+        cartObserver.observe(cartModalBody, { childList: true, subtree: true });
+    }
+});
 </script>
