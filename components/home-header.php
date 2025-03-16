@@ -282,131 +282,245 @@ if ($is_logged_in) {
 </div>
 
 <!-- Cart Modal -->
-<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+<?php
+// Get cart count and items before rendering the modal
+if ($is_logged_in) {
+    $sql = "SELECT COUNT(ci.id) AS item_count 
+            FROM cart_item ci 
+            JOIN cart c ON ci.cart_id = c.id 
+            WHERE c.user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $count_result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($count_result && $count_result['item_count'] > 0) {
+        // Get cart items details
+        $sql = "SELECT i.name, i.image, i.UP, ci.quantity, ci.id as cart_item_id
+               FROM cart_item ci 
+               JOIN cart c ON ci.cart_id = c.id
+               JOIN item i ON ci.item_id = i.id
+               WHERE c.user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $total = 0;
+        foreach ($cart_items as $item) {
+            $total += $item['UP'] * $item['quantity'];
+        }
+    }
+}
+?>
+
+<style>
+.cart-modal .modal-content {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.cart-modal .modal-header {
+    background: #fff;
+    border-bottom: 1px solid #edebe9;
+    padding: 16px 24px;
+}
+
+.cart-modal .modal-title {
+    color: #323130;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cart-modal .modal-body {
+    padding: 24px;
+}
+
+.cart-item-card {
+    border: 1px solid #edebe9;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.cart-item-card:hover {
+    border-color: #0078d4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.cart-item-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #8a8886;
+    border-radius: 4px;
+}
+
+.cart-item-checkbox:checked {
+    background-color: #0078d4;
+    border-color: #0078d4;
+}
+
+.cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #edebe9;
+}
+
+.cart-quantity-control {
+    max-width: 120px;
+}
+
+.cart-quantity-control .btn {
+    border: 1px solid #8a8886;
+    background: #fff;
+    color: #323130;
+    padding: 4px 12px;
+}
+
+.cart-quantity-control .btn:hover {
+    background: #f3f2f1;
+}
+
+.cart-quantity-control input {
+    border: 1px solid #8a8886;
+    color: #323130;
+    text-align: center;
+    font-weight: 600;
+}
+
+.cart-summary-card {
+    background: #faf9f8;
+    border: none;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.btn-checkout {
+    background: #0078d4;
+    border: none;
+    padding: 8px 16px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-checkout:hover {
+    background: #106ebe;
+}
+
+.btn-checkout:disabled {
+    background: #f3f2f1;
+    color: #a19f9d;
+}
+
+.cart-remove-btn {
+    color: #d83b01;
+    border: none;
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.cart-remove-btn:hover {
+    background: #fde7e9;
+}
+
+.empty-cart-message {
+    padding: 48px 24px;
+    text-align: center;
+    color: #605e5c;
+}
+
+.empty-cart-icon {
+    font-size: 48px;
+    color: #8a8886;
+    margin-bottom: 16px;
+}
+</style>
+
+<div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header">
                 <h5 class="modal-title" id="cartModalLabel">
-                    <i class="bi bi-cart3 me-2"></i>Shopping Cart
+                    <i class="ms-Icon ms-Icon--ShoppingCart me-2"></i>Shopping Cart
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <?php
-                if ($is_logged_in) {
-                    $user_id = $_COOKIE['user_id'];
-                    // First get the cart items count
-                    $sql = "SELECT COUNT(ci.id) AS item_count 
-                           FROM cart_item ci 
-                           JOIN cart c ON ci.cart_id = c.id 
-                           WHERE c.user_id = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
-                    $stmt->execute();
-                    $count_result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    
-                    if ($count_result['item_count'] > 0) {
-                        // Get cart items details
-                        $sql = "SELECT i.name, i.image, i.UP, ci.quantity, ci.id as cart_item_id
-                               FROM cart_item ci 
-                               JOIN cart c ON ci.cart_id = c.id
-                               JOIN item i ON ci.item_id = i.id
-                               WHERE c.user_id = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
-                        $stmt->execute();
-                        $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        $total = 0;
-
-                        foreach ($cart_items as $item) {
-                            $subtotal = $item['UP'] * $item['quantity'];
-                            $total += $subtotal;
-                            ?>
-                            <div class="card mb-3 shadow-sm" id="cart-item-<?= $item['cart_item_id'] ?>">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-2 col-sm-3 mb-2 mb-md-0">
-                                            <img src="/uploads/product/<?= htmlspecialchars($item['image']) ?>" 
-                                                 class="img-fluid rounded" alt="<?= htmlspecialchars($item['name']) ?>"
-                                                 style="max-height: 80px; object-fit: cover;">
-                                        </div>
-                                        <div class="col-md-4 col-sm-9 mb-2 mb-md-0">
-                                            <h6 class="mb-1 text-primary"><?= htmlspecialchars($item['name']) ?></h6>
-                                            <p class="mb-0 text-muted">Unit Price: Rs. <?= number_format($item['UP'], 2) ?></p>
-                                            <p class="mb-0 text-success">Subtotal: Rs. <?= number_format($subtotal, 2) ?></p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-8 mb-2 mb-md-0">
-                                            <div class="input-group">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                        onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'decrease')">
-                                                    <i class="bi bi-dash"></i>
-                                                </button>
-                                                <input type="text" class="form-control text-center" value="<?= $item['quantity'] ?>" 
-                                                       readonly style="max-width: 60px;">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                        onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'increase')">
-                                                    <i class="bi bi-plus"></i>
+            <div class="modal-body">
+                <?php if ($is_logged_in && $count_result['item_count'] > 0): ?>
+                    <div class="cart-items-container">
+                        <?php foreach ($cart_items as $item): ?>
+                            <div class="cart-item-card p-3" id="cart-item-<?= $item['cart_item_id'] ?>">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <input type="checkbox" class="cart-item-checkbox" 
+                                               data-id="<?= $item['cart_item_id'] ?>"
+                                               data-price="<?= $item['UP'] ?>"
+                                               data-quantity="<?= $item['quantity'] ?>">
+                                    </div>
+                                    <img src="/uploads/product/<?= htmlspecialchars($item['image']) ?>" 
+                                         class="cart-item-image me-3" 
+                                         alt="<?= htmlspecialchars($item['name']) ?>">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1"><?= htmlspecialchars($item['name']) ?></h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="mb-1 text-muted">Unit Price: Rs. <?= number_format($item['UP'], 2) ?></p>
+                                                <p class="mb-0 text-primary">Subtotal: Rs. <?= number_format($item['UP'] * $item['quantity'], 2) ?></p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="cart-quantity-control input-group me-3">
+                                                    <button class="btn" type="button" onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'decrease')">
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
+                                                    <input type="text" class="form-control" value="<?= $item['quantity'] ?>" readonly>
+                                                    <button class="btn" type="button" onclick="updateCartQuantity(<?= $item['cart_item_id'] ?>, 'increase')">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="cart-remove-btn" onclick="removeFromCart(<?= $item['cart_item_id'] ?>)">
+                                                    <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 col-sm-4 text-end">
-                                            <button class="btn btn-danger btn-sm" 
-                                                    onclick="removeFromCart(<?= $item['cart_item_id'] ?>)">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                        }
-                        ?>
-                        <div class="card mt-4 bg-light">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5 class="mb-0">Total Amount</h5>
-                                        <small class="text-muted"><?= $count_result['item_count'] ?> items</small>
-                                    </div>
-                                    <h4 class="mb-0 text-primary">Rs. <?= number_format($total, 2) ?></h4>
-                                </div>
-                                <hr>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn btn-secondary me-md-2" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
-                                        Continue Shopping
-                                    </button>
-                                    <button class="btn btn-primary" onclick="window.location.href='/pages/checkout.php'">
-                                        <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
-                                    </button>
-                                </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="cart-summary-card mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6 class="mb-1">Total Amount</h6>
+                                <small class="text-muted"><?= $count_result['item_count'] ?> items</small>
                             </div>
+                            <h4 class="mb-0 text-primary">Rs. <?= number_format($total, 2) ?></h4>
                         </div>
-                        <?php
-                    } else {
-                        ?>
-                        <div class="text-center py-5">
-                            <i class="bi bi-cart-x text-muted" style="font-size: 4rem;"></i>
-                            <h4 class="mt-3">Your cart is empty</h4>
-                            <p class="text-muted mb-4">Browse our products and add some items to your cart!</p>
-                            <button class="btn btn-primary" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
-                                <i class="bi bi-shop me-2"></i>Continue Shopping
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="window.location.href='/index.php?page=product'">
+                                Continue Shopping
+                            </button>
+                            <button class="btn btn-primary btn-checkout" id="proceedCheckoutBtn" disabled>
+                                <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
                             </button>
                         </div>
-                        <?php
-                    }
-                } else {
-                    ?>
-                    <div class="text-center py-5">
-                        <i class="bi bi-person-x text-muted" style="font-size: 4rem;"></i>
-                        <h4 class="mt-3">Please sign in first</h4>
-                        <p class="text-muted mb-4">You need to sign in to view your cart</p>
-                        <a href="/pages/signin.php" class="btn btn-primary">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </div>
+                <?php else: ?>
+                    <div class="empty-cart-message">
+                        <i class="bi bi-cart-x empty-cart-icon d-block"></i>
+                        <h4 class="mb-3"><?= $is_logged_in ? 'Your cart is empty' : 'Please sign in first' ?></h4>
+                        <p class="text-muted mb-4">
+                            <?= $is_logged_in ? 'Browse our products and add some items to your cart!' : 'You need to sign in to view your cart' ?>
+                        </p>
+                        <a href="<?= $is_logged_in ? '/index.php?page=product' : '/pages/signin.php' ?>" class="btn btn-primary">
+                            <i class="bi <?= $is_logged_in ? 'bi-shop' : 'bi-box-arrow-in-right' ?> me-2"></i>
+                            <?= $is_logged_in ? 'Continue Shopping' : 'Sign In' ?>
                         </a>
                     </div>
-                    <?php
-                }
-                ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -626,4 +740,35 @@ document.addEventListener('DOMContentLoaded', function() {
         cartObserver.observe(cartModalBody, { childList: true, subtree: true });
     }
 });
+
+// Add these functions to your existing script
+document.addEventListener('DOMContentLoaded', function() {
+    // ...existing code...
+    
+    // Add event listeners for checkboxes
+    const cartCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+    cartCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateCheckoutButton);
+    });
+
+    // Update checkout button state
+    function updateCheckoutButton() {
+        const checkedItems = document.querySelectorAll('.cart-item-checkbox:checked');
+        const checkoutBtn = document.getElementById('proceedCheckoutBtn');
+        checkoutBtn.disabled = checkedItems.length === 0;
+    }
+
+    // Modify checkout button click handler
+    document.getElementById('proceedCheckoutBtn').addEventListener('click', function() {
+        const selectedItems = [...document.querySelectorAll('.cart-item-checkbox:checked')].map(cb => cb.dataset.id);
+        
+        if (selectedItems.length === 0) {
+            alert('Please select items to checkout');
+            return;
+        }
+        
+        window.location.href = 'pages/ordersummary.php?items=' + selectedItems.join(',');
+    });
+});
+// ...existing code...
 </script>

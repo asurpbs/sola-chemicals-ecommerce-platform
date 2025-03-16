@@ -71,9 +71,9 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
                             <div class="d-flex align-items-center me-4">
                                 <i class="bi bi-box-seam fs-4 text-primary me-2"></i>
                                 <span class="fw-semibold">Stock Status:</span>
-                                <?php if ($product['QoH'] > 0): ?>
+                                <?php if ($product['availability'] == '1' && $product['QoH'] > 0): ?>
                                     <span class="badge bg-success-subtle text-success ms-2 px-3 py-2 rounded-pill">
-                                        In Stock (<?php echo $product['QoH']; ?>)
+                                        In Stock (<?= $product['QoH'] ?> available)
                                     </span>
                                 <?php else: ?>
                                     <span class="badge bg-danger-subtle text-danger ms-2 px-3 py-2 rounded-pill">
@@ -91,7 +91,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
                         <?php endif; ?>
                     </div>
 
-                    <?php if ($product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
+                    <?php if ($product['availability'] == '1' && $product['QoH'] > 0 && isset($_COOKIE['user_id'])): ?>
                         <div class="purchase-actions bg-white rounded-4 shadow-sm p-4 mt-4">
                             <div class="d-flex flex-wrap gap-3">
                                 <div class="input-group input-group-lg quantity-input" style="width: 160px;">
@@ -325,9 +325,12 @@ function addToCart() {
 }
 
 function buyNow() {
-    addToCart();
-    setTimeout(() => {
-        window.location.href = 'index.php?page=cart';
-    }, 1000);
+    const quantity = document.getElementById('quantity').value;
+    const itemId = <?= $product_id ?>; 
+    const finalPrice = <?= $product['discount_rate'] > 0 ? 
+        $product['UP'] * (1 - $product['discount_rate']/100) : 
+        $product['UP'] ?>;
+    
+    window.location.href = '/pages/ordersummary.php?buynow=true&item_id=' + itemId + '&quantity=' + quantity;
 }
 </script>
