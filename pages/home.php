@@ -1,40 +1,62 @@
-    <!-- Hero Section -->
-    <section>
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.webp"  alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </section>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/classes/company.php";
+global $company;
+$is_logged_in = isset($_COOKIE['user_id']);
+$company = new Company();
+?>
+<!-- Add this line in the head section -->
+<link rel="stylesheet" href="./assets/css/home.css">
 
-     <!-- Welcome Section -->
-    <div class="header">
-      <h1 class="header-text"><span class="black">Welcome to </span> <span class="red">Sola Chemicals</span></h1>
-      <br>
-      <div class="sub-header">
-        We Provide <span class="sh1" data-words="Household,Car Care,Industrial"></span> Chemicals For your <span class="sh2" data-words="Home,Vehicles,Workshop"></span>
-      </div> 
+<!-- Hero Section -->
+<section class="hero-section">
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
+        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-3 p-md-4 rounded">
+          <h2 class="fs-3 fs-md-2">Welcome to Sola Chemicals</h2>
+          <p class="d-none d-sm-block">Your Trusted Partner in Cleaning Solutions</p>
+        </div>
+      </div>
+      <div class="carousel-item position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+          <h2>Quality Products</h2>
+          <p>For All Your Cleaning Needs</p>
+        </div>
+      </div>
+      <div class="carousel-item position-relative">
+        <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+          <h2>Eco-Friendly Solutions</h2>
+          <p>Committed to Environmental Sustainability</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+<!-- Welcome Section -->
+<div class="header pb-2">
+  <h1 class="header-text fs-2 fs-md-1"><span class="black">Welcome to </span> <span class="red">Sola Chemicals</span></h1>
+  <div class="sub-header fs-5 fs-md-4">
+    We Provide <span class="sh1" data-words="Household,Car Care,Industrial"></span> 
+    Chemicals For your <span class="sh2" data-words="Home,Vehicles,Workshop"></span>
+  </div>
+</div>
 
 <script>
   //sub head animation
@@ -64,28 +86,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
   </script>
 
-    <section class="py-5 text-center">
+    <section class="text-center pt-3">
       <div class="container">
-        <p class="mt-3">
+        <p class="welcome-text">
           Sola Chemical Company: Sri Lanka's Trusted Cleaning Solutions Provider (Since 2010). We cater to all your cleaning needs, offering a comprehensive selection of household and commercial cleaning solutions.
         </p>
 
         <div class="row mt-5 text-center">
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/vision.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#visionModal"><img src="./assets/images/vision.webp" alt="Vision Icon" class="circle"></div>
               <h4 class="text-primary">Vision</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/Mission.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#missionModal"><img src="./assets/images/Mission.webp" alt="Mission Icon" class="circle"></div>
               <h4 class="text-primary">Mission</h4>
             </div>
           </div>
           <div class="col-md-4">
             <div class="d-flex flex-column align-items-center">
-              <div class="circle"><img src="./assets/images/service.webp" alt="Vision Icon" class="circle"></div>
+              <div class="circle" data-bs-toggle="modal" data-bs-target="#servicesModal"><img src="./assets/images/service.webp" alt="Services Icon" class="circle"></div>
               <h4 class="text-primary">Services</h4>
             </div>
           </div>
@@ -98,69 +120,178 @@ document.addEventListener("DOMContentLoaded", () => {
           </p>
         </div>
 
+        <!-- Modals -->
+        <div class="modal fade" id="visionModal" tabindex="-1" aria-labelledby="visionModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="visionModalLabel">Our Vision</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                To be the leading provider of eco-friendly and effective cleaning solutions in Sri Lanka, making cleanliness accessible to all while maintaining environmental responsibility. We aim to revolutionize the cleaning industry by introducing innovative products that maintain high standards of quality while reducing environmental impact.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="missionModalLabel">Our Mission</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              To develop and deliver high-quality, sustainable cleaning products that meet diverse household and commercial needs while prioritizing customer satisfaction, environmental stewardship, and community well-being. We are committed to continuous innovation, ensuring our products effectively solve cleaning challenges while being safe for users and the environment.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="servicesModal" tabindex="-1" aria-labelledby="servicesModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+          <h5 class="modal-title" id="servicesModalLabel">Our Services</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body text-start">
+              <ul>
+          <li><strong>Custom Formulation:</strong>Tailored cleaning solutions for specific needs or industries.</li>
+          <li><strong>Bulk Supply:</strong> Cost-effective options for businesses, hotels, and institutions.</li>
+          <li><strong>Industrial Solutions:</strong> Specialized cleaning products for workshops, factories, and commercial spaces.</li>
+          <li><strong>Product Consultation:</strong> Expert advice on selecting the right cleaning products for your needs.</li>
+          <li><strong>Distribution Network:</strong> Island-wide product availability through our extensive retailer network.</li>
+          <li><strong>Eco-friendly Alternatives:</strong> Green cleaning solutions for environmentally conscious customers.</li>
+        </ul>`
+              </div>
+              <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Stats Section -->
         <div class="row text-center mt-4">
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>15</h3>
+              <h3 class="count" data-target="15">15</h3>
               <p>Years <br> of reliability</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>99%</h3>
+              <h3 class="count" data-target="99">99%</h3>
               <p>of products <br> manufactured locally</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>+25</h3>
+              <h3 class="count" data-target="25">+25</h3>
               <p>of outlets <br> island wide</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="stat-box">
-              <h3>+25000</h3>
+              <h3 class="count" data-target="25000">+25000</h3>
               <p>retailer reach <br> island wide</p>
             </div>
           </div>
         </div>
 
         <div class="mt-5">
-          <a href="/pages/findNeatByOutleat.php">
+          <a href="index.php?page=findNeatByOutleat">
             <button class="btn btn-primary">Find a Nearby Outlet</button>
           </a>
         </div>
       </div>
     </section>
+    
+    <script>
+      // stat-box animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".count");
+
+      const options = {
+        threshold: 0.5, // Trigger when 50% of the element is visible
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const target = +entry.target.getAttribute("data-target");
+        const duration = 1000; // Animation duration in milliseconds (reduced for faster animation)
+        const increment = target / (duration / 25); // 25ms per frame for smooth animation
+
+        let current = 0;
+        const updateCounter = () => {
+          current += increment;
+          if (current < target) {
+        entry.target.textContent = Math.ceil(current);
+        requestAnimationFrame(updateCounter);
+          } else {
+        // Ensure the final value is set correctly
+        entry.target.textContent = target;
+
+        // Add % or + symbol based on the target value
+        if (target === 99) {
+          entry.target.textContent = target + "%"; // Append % for 99
+        } else if (target === 25 || target === 25000) {
+          entry.target.textContent = "+" + target; // Prepend + for 25 and 25000
+        } else {
+          entry.target.textContent = target; // Set the target value without %
+        }
+          }
+        };
+
+        updateCounter();
+      }
+        });
+      }, options);
+
+      counters.forEach((counter) => {
+        observer.observe(counter);
+      });
+    });
+        </script>
 
   <!-- Horizontal Scrolling Products Section -->
-    <section id="products" class="py-5 bg-light">
+    <section id="products" class="py-5">
       <div class="container">
-        <h3 class="text-center mb-4">Our Products</h3>
-        <div class="product-container d-flex gap-3 overflow-scroll">
-          <!-- Individual Product Card -->
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/42.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/43.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/44.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/45.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-              <img src="./assets/images/hp-products/46.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/47.webp" class="card-img-top" alt="Product">
-          </div>
-          <div class="card flex-shrink-0" style="width: 200px;">
-            <img src="./assets/images/hp-products/48.webp" class="card-img-top" alt="Product">
-          </div>
+        <h2 class="text-center mb-4">Our Products</h2>
+        <div class="product-container d-flex gap-4 overflow-scroll pb-3">
+          <?php
+            require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+            global $conn;
+
+            // Get 7 random items using PDO
+            $sql = "SELECT id, name, image FROM item ORDER BY RAND() LIMIT 7";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            
+            if ($stmt->rowCount() > 0) {
+              while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $image = !empty($row['image']) ? "./uploads/product/{$row['image']}" : "./assets/images/hp-products/default.webp";
+                echo '
+                <div class="card flex-shrink-0" style="width: 220px;">
+                  <a href="index.php?page=ProductOverview&id=' . $row['id'] . '" class="text-decoration-none">
+                    <img src="' . $image . '" class="card-img-top p-3" alt="' . $row['name'] . '" loading="lazy">
+                    <div class="card-body text-center">
+                      <h6 class="card-title text-dark">' . $row['name'] . '</h6>
+                    </div>
+                  </a>
+                </div>';
+              }
+            }
+          ?>
         </div>
       </div>
     </section>
@@ -216,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="review-stars">
               <span class="star">★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★&nbsp;&nbsp;★</span>
               </div>
-              <p class="review-text">"Sola Chemicals provided excellent service with sustainable products. Highly recommend!"</p>
+              <p class="review-text">"Sola Chemicals provided excellent service. Highly recommend!"</p>
               <p class="review-author-name">Chamod Abeywickramage</p>
             </div>
           </div>
@@ -253,42 +384,204 @@ document.addEventListener("DOMContentLoaded", () => {
     <!-- Contact Section -->
     <section class="reviews-section py-5 bg-light">
       <div class="container mt-5">
-          <div class="row">
-              <!-- Left Section -->
-              <div class="col-md-6">
-                  <h1 class="h4">Let us know how we can help</h1>
-                  <p>
-                      We're here to help and answer any question you might have. We look forward to hearing from you! 
-                      Please fill out the form or use the contact information below.
-                  </p>
-                  <div class="mt-4">
-                      <p><i class="bi bi-envelope-fill me-2"></i>Email: support@sola.com</p>
-                      <p><i class="bi bi-telephone-fill me-2"></i>Phone: 033-4333333</p>
-                      <p><i class="bi bi-geo-alt-fill me-2"></i>Location: 123/A , Kiribathgoda, Sri Lanka</p>
+        <div id="formAlert"></div>
+        <div class="row">
+            <!-- Left Section remains the same -->
+            <?php
+            
+            require_once $_SERVER['DOCUMENT_ROOT']."/context/connect.php";
+            global $conn;
+            if(isset($_POST['submit'])) {
+                try {
+                    $stmt = $conn->prepare("INSERT INTO public_contact (name, email, message) VALUES (?, ?, ?)");
+                    $stmt->execute([$_POST['name'], $_POST['email'], $_POST['message']]);
+                    echo "<div class='alert alert-success'>Thank you! Your message has been sent successfully.</div>";
+                } catch(PDOException $e) {
+                    echo "<div class='alert alert-danger'>Sorry, there was an error sending your message. Please try again.</div>";
+                }
+            }
+            ?>
+              <div class="row">
+                  <!-- Left Section -->
+                  <div class="col-md-6">
+                      <h1 class="h4">Let us know how we can help</h1>
+                      <p>
+                          We're here to help and answer any question you might have. We look forward to hearing from you! 
+                          Please fill out the form or use the contact information below.
+                      </p>
+                      <div class="mt-4">
+                        <p><i class="bi bi-envelope-fill me-2"></i>Email: <?php echo $company->getEmail(); ?></p>
+                        <p><i class="bi bi-telephone-fill me-2"></i>Phone: <?php echo $company->getTeleNumber1(); if (!empty($company->getTeleNumber2())) { echo ', '.$company->getTeleNumber2();} ?></p>
+                        <p><i class="bi bi-geo-alt-fill me-2"></i>Location: <?php echo $company->getAddress1(); if (!empty($company->getAddress2())) { echo ', '.$company->getAddress2(); echo ', ',$company->getCity();} ?></p>
+                    </div>
                   </div>
-              </div>
-              <!-- Right Section -->
-              <div class="col-md-6">
-                  <form id="contactForm">
-                      <div class="mb-3">
-                          <label for="fullName" class="form-label">Full Name</label>
-                          <input type="text" class="form-control" id="fullName" placeholder="Your name" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="email" placeholder="Your email" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="company" class="form-label">Company</label>
-                          <input type="text" class="form-control" id="company" placeholder="Your company">
-                      </div>
-                      <div class="mb-3">
-                          <label for="message" class="form-label">Message</label>
-                          <textarea class="form-control" id="message" rows="5" placeholder="Your message" required></textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary w-100">Submit</button>
-                  </form>
+
+                  <!-- Right Section -->
+                  <div class="col-md-6">
+                    <form id="contactForm" method="POST">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
               </div>
           </div>
       </div>
     </section>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('submit', '1');
+
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Show alert message
+                document.getElementById('formAlert').innerHTML = 
+                    '<div class="alert alert-success">Thank you! Your message has been sent successfully.</div>';
+                
+                // Clear form
+                document.getElementById('contactForm').reset();
+                
+                // Remove alert after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('formAlert').innerHTML = '';
+                }, 5000);
+            })
+            .catch(error => {
+                document.getElementById('formAlert').innerHTML = 
+                    '<div class="alert alert-danger">Sorry, there was an error sending your message. Please try again.</div>';
+            });
+        });
+    </script>
+
+<style>
+@media (max-width: 768px) {
+    .carousel-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px !important;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .circle {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-box {
+        margin-bottom: rem;
+    }
+    
+    .why-choose-item {
+        margin-bottom: 2rem;
+    }
+    
+    .why-choose-item img {
+        max-width: 100px;
+        margin-bottom: 1rem;
+    }
+    
+    .review-box {
+        margin-bottom: 2rem;
+    }
+    
+    .product-container {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .product-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .card {
+        width: 160px !important;
+    }
+    
+    .header-text {
+        font-size: 2rem;
+    }
+    
+    .sub-header {
+        font-size: 1.25rem;
+    }
+    
+    .stat-box h3 {
+        font-size: 1.5rem;
+    }
+    
+    .stat-box p {
+        font-size: 0.875rem;
+    }
+    
+    .why-use-section .row > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .reviews-section .row > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .customer-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .review-text {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-item img {
+        min-height: 200px;
+        object-fit: cover;
+    }
+    
+    .stat-box {
+        padding: 15px;
+    }
+    
+    .why-choose-item {
+        padding: 15px;
+    }
+    
+    .review-box {
+        padding: 15px !important;
+    }
+}
+</style>
+</section>
+

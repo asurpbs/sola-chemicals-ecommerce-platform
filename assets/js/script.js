@@ -29,25 +29,19 @@ productContainer.addEventListener('mousemove', (e) => {
   productContainer.scrollLeft = scrollLeft - walk;
 });
 
-// Handle form submission
-document.getElementById('contactForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  // Get form values
-  const fullName = document.getElementById('fullName').value;
-  const email = document.getElementById('email').value;
-  const company = document.getElementById('company').value;
-  const message = document.getElementById('message').value;
-
-  // Display a confirmation (or process data as needed)
-  alert(`Thank you, ${fullName}! Your message has been received.`);
-  
-  // Optionally reset the form
-  e.target.reset();
+// Enhance modal functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    modal.addEventListener('shown.bs.modal', () => {
+      modal.classList.add('fade-in');
+    });
+    modal.addEventListener('hidden.bs.modal', () => {
+      modal.classList.remove('fade-in');
+    });
+  });
 });
 
-// Example JS for future interactivity (optional)
-// Log a message when the button is clicked
 document.querySelector('.btn').addEventListener('click', function () {
   console.log('Back to home button clicked!');
 });

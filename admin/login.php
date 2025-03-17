@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <body>
         <?php if ($error_state == 1): ?>
             <div class="alert alert-danger alert-dismissible">
-                <a href="?invalid" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <a href="?invalid" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
                 Invalid password or email. Please try again.
             </div>
         <?php endif; ?>

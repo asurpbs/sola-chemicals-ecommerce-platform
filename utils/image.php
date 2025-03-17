@@ -24,20 +24,14 @@
                 }
                 $newFileName = uniqid() . '.' . $fileExtension; // Generate a unique file name
                 $uploadFilePath = $uploadDir . $newFileName; // full path of the img
-    
                 // Move the uploaded file from cache in browser to the uploadDir in the serevr
-                if (move_uploaded_file($fileTmpPath, $uploadFilePath)) {
-                    echo "File uploaded successfully! <br>";
-                    echo "File name: " . $newFileName . "<br>";
-                    return $newFileName;
-                } else {
-                    echo "Error uploading file.";
-                }
+                move_uploaded_file($fileTmpPath, $uploadFilePath);
+                return $newFileName;
             } else {
                 echo "Invalid file extension or file size exceeds the limit.";
             }
         }
-        return null;
+        return 'null.png';
     }
 
     /**
@@ -49,11 +43,22 @@
      */
     function fileGet($object, $image) {
             // valid the image file
-            if (!empty($row['image']) && file_exists( $_SERVER['DOCUMENT_ROOT'] .'/uploads/' . $object . '/' . $image)) {
+            if (!empty($image) && file_exists( $_SERVER['DOCUMENT_ROOT'] .'/uploads/' . $object . '/' . $image)) {
                 return '/uploads/' . $object . '/' . $image;
             } else {
                 return '/uploads/null.png';
             }
         }
 
+    /**
+     * Delete the image file from the disk storage
+     * 
+     * @param string $image - file name wit hextension 
+     * 
+     */
+    function fileDelete($image) {
+        if (basename($image) !== 'null.png') {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $image);
+        }
+    }
 ?>
