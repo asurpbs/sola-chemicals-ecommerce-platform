@@ -50,134 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>User Settings - Sola Chemicals</title>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/metadata.html'; ?>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .settings-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-
-        .settings-nav {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 1rem;
-        }
-
-        .settings-nav button {
-            padding: 0.5rem 1rem;
-            border: none;
-            background: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 1rem;
-            position: relative;
-        }
-
-        .settings-nav button.active {
-            color: #007bff;
-            font-weight: 500;
-        }
-
-        .settings-nav button.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1rem;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #007bff;
-        }
-
-        .settings-section {
-            display: none;
-        }
-
-        .settings-section.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-        }
-
-        .gender-options {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .gender-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .gender-option input[type="radio"] {
-            width: auto;
-        }
-
-        .btn-save {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-
-        .btn-save:hover {
-            background: #0056b3;
-        }
-
-        .row {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .col {
-            flex: 1;
-        }
-    </style>
-</head>
-<body>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/home-header.php'; ?>
-
     <div class="settings-container">
         <h1>Account Settings</h1>
         
@@ -313,8 +185,125 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <?php require_once $_SERVER['DOCUMENT_ROOT'].'/components/home-footer.php'; ?>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
 
+        .settings-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .settings-nav button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .settings-nav button.active {
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .settings-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #007bff;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gender-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gender-option input[type="radio"] {
+            width: auto;
+        }
+
+        .btn-save {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #0056b3;
+        }
+
+        .row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .col {
+            flex: 1;
+        }
+    </style>
     <script>
         function showSection(sectionId) {
             // Hide all sections
@@ -339,5 +328,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $('#city_id').select2();
         });
     </script>
-</body>
-</html> 
