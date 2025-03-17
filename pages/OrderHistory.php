@@ -123,7 +123,7 @@
                                         <p class="mb-2"><strong>Unit Price:</strong> Rs. <?php echo number_format($order['unit_price'], 2); ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="mb-2"><strong>Delivery Method:</strong> <?php echo htmlspecialchars($order['delivery_method']); ?></p>
+                                        <p class="mb-2"><strong>Delivery Method:</strong> <?php echo htmlspecialchars($order['delivery_method'] ?? 'Not specified'); ?></p>
                                         <p class="mb-2"><strong>Delivery Fee:</strong> Rs. <?php echo number_format($order['delivery_fee'], 2); ?></p>
                                         <p class="mb-2"><strong>Total:</strong> Rs. <?php 
                                             echo number_format(($order['unit_price'] * $order['quantity']) + $order['delivery_fee'], 2); 
