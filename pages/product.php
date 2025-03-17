@@ -179,6 +179,9 @@ function addToCart(itemId) {
     .then(data => {
         if (data.success) {
             showAlert('Item added to cart successfully!');
+            setTimeout(() => {
+                location.reload();
+            }, 500);
         } else {
             showAlert(data.message || 'Failed to add item to cart', 'danger');
         }
