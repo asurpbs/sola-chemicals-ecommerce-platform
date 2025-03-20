@@ -114,7 +114,7 @@
                 <div class="order-card">
                     <div class="row">
                         <div class="col-md-8">
-                            <h5 class="order-title mb-3"><?php echo htmlspecialchars($order['item_name']); ?></h5>
+                            <h5 class="order-title mb-3"><?php echo htmlspecialchars($order['item_name'] ?? ''); ?></h5>
                             <div class="order-info">
                                 <div class="row g-3">
                                     <div class="col-6">
