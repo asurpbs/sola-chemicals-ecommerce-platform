@@ -10,12 +10,14 @@ session_start();
     <?php require_once './components/metadata.html'; ?>
 
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="/assets/css/profile.css" rel="stylesheet" />
   </head>
   <body>
 
     <!-- navbar -->
     <?php require_once './components/home-header.php'; ?>
-z
+
     <!-- Dynamic Content -->
     <div class="content">
       <?php

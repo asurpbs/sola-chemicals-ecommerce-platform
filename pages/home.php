@@ -18,23 +18,23 @@ $company = new Company();
     <div class="carousel-inner">
       <div class="carousel-item active position-relative">
         <img class="d-block w-100" src="./assets/images/banner4.webp" alt="First slide">
-        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-3 p-md-4 rounded">
+        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-3 p-md-4 rounded text-white">
           <h2 class="fs-3 fs-md-2">Welcome to Sola Chemicals</h2>
-          <p class="d-none d-sm-block">Your Trusted Partner in Cleaning Solutions</p>
+          <p class="d-none d-md-block">Your Trusted Partner in Cleaning Solutions</p>
         </div>
       </div>
       <div class="carousel-item position-relative">
         <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Second slide">
-        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-4 rounded text-white">
           <h2>Quality Products</h2>
-          <p>For All Your Cleaning Needs</p>
+          <p class="d-none d-md-block">For All Your Cleaning Needs</p>
         </div>
       </div>
       <div class="carousel-item position-relative">
         <img class="d-block w-100" src="./assets/images/banner4.webp" alt="Third slide">
-        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
+        <div class="carousel-caption d-block bg-dark bg-opacity-50 p-4 rounded text-white">
           <h2>Eco-Friendly Solutions</h2>
-          <p>Committed to Environmental Sustainability</p>
+          <p class="d-none d-md-block">Committed to Environmental Sustainability</p>
         </div>
       </div>
     </div>

@@ -127,7 +127,7 @@ if ($is_logged_in) {
                             <h6 class="mb-2">Hello, <?= htmlspecialchars($user_data['first_name']) ?></h6>
                             <p class="text-muted small mb-3">Welcome back!</p>
                             <div class="d-grid gap-2">
-                                <a href="./pages/profile.php" class="btn btn-outline-primary auth-btn">
+                                <a href="index.php?page=profile" class="btn btn-outline-primary auth-btn">
                                     <i class="bi bi-person-circle me-2"></i>My Profile
                                 </a>
                                 <a href="./pages/OrderHistory.php" class="btn btn-outline-primary auth-btn">
@@ -230,7 +230,7 @@ if ($is_logged_in) {
                                 <h6 class="mb-2">Hello, <?= htmlspecialchars($user_data['first_name']) ?></h6>
                                 <p class="text-muted small mb-3">Welcome back!</p>
                                 <div class="d-grid gap-2">
-                                    <a href="./pages/profile.php" class="btn btn-outline-primary auth-btn">
+                                    <a href="index.php?page=profile" class="btn btn-outline-primary auth-btn">
                                         <i class="bi bi-person-circle me-2"></i>My Profile
                                     </a>
                                     <a href="./pages/logout.php" class="btn btn-light auth-btn">
