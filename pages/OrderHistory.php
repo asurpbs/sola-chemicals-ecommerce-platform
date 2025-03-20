@@ -114,7 +114,7 @@
                 <div class="order-card">
                     <div class="row">
                         <div class="col-md-8">
-                            <h5 class="order-title mb-3"><?php echo $order['item_name'] ? htmlspecialchars($order['item_name']) : 'N/A'; ?></h5>
+                            <h5 class="order-title mb-3"><?php echo htmlspecialchars($order['item_name'] ?? 'N/A'); ?></h5>
                             <div class="order-info">
                                 <div class="row g-3">
                                     <div class="col-6">
@@ -123,7 +123,7 @@
                                         <p class="mb-2"><strong>Unit Price:</strong> Rs. <?php echo number_format($order['unit_price'], 2); ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="mb-2"><strong>Delivery Method:</strong> <?php echo $order['delivery_method'] ? htmlspecialchars($order['delivery_method']) : 'Not specified'; ?></p>
+                                        <p class="mb-2"><strong>Delivery Method:</strong> <?php echo htmlspecialchars($order['delivery_method'] ?? 'Not specified'); ?></p>
                                         <p class="mb-2"><strong>Delivery Fee:</strong> Rs. <?php echo number_format($order['delivery_fee'] ?? 0, 2); ?></p>
                                         <p class="mb-2"><strong>Total:</strong> Rs. <?php 
                                             echo number_format(($order['unit_price'] * $order['quantity']) + ($order['delivery_fee'] ?? 0), 2); 
@@ -143,10 +143,8 @@
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span>Payment Status:</span>
-                                        <span class="badge <?php 
-                                            echo $order['payment_status'] === 'Successful' ? 'bg-success' : 'bg-danger'; 
-                                        ?>">
-                                            <?php echo htmlspecialchars($order['payment_status']); ?>
+                                        <span class="badge <?php echo ( $order['payment_status'] ?? '' ) === 'Successful' ? 'bg-success' : 'bg-danger'; ?>">
+                                            <?php echo htmlspecialchars($order['payment_status'] ?? ''); ?>
                                         </span>
                                     </div>
                                     <hr class="my-2">
