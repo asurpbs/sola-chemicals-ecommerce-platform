@@ -8,6 +8,9 @@ $is_logged_in = isset($_COOKIE['user_id']);
 if (!$conn) {
     die("Database connection failed");
 }
+
+// Get selected category
+$selected_category = isset($_GET['category']) ? (int)$_GET['category'] : null;
 ?>
 <header class="bg-gradient bg-dark py-4 py-sm-5 mb-4 mb-sm-5 position-relative overflow-hidden">
     <div class="position-absolute top-0 start-0 w-100 h-100" style="background: url('/assets/img/pattern.svg') repeat; opacity: 0.1;"></div>
@@ -30,7 +33,7 @@ if (!$conn) {
                     <div class="collapse navbar-collapse" id="productNav">
                         <ul class="navbar-nav mx-auto gap-2 gap-sm-3">
                             <li class="nav-item">
-                                <a class="nav-link active fw-semibold px-3 rounded-pill" href="#">All Products</a>
+                                <a class="nav-link <?php echo !$selected_category ? 'active' : ''; ?> fw-semibold px-3 rounded-pill" href="index.php?page=product">All Products</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle fw-semibold px-3" data-bs-toggle="dropdown" href="#" role="button">
@@ -44,7 +47,8 @@ if (!$conn) {
                                         
                                         if ($result) {
                                             while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                                                echo '<li><a class="dropdown-item" href="#">'.$row['name'].'</a></li>';
+                                                $activeClass = ($selected_category == $row['id']) ? 'active' : '';
+                                                echo '<li><a class="dropdown-item '.$activeClass.'" href="index.php?page=product&category='.$row['id'].'">'.$row['name'].'</a></li>';
                                             }
                                         }
                                     } catch (PDOException $e) {
@@ -63,9 +67,19 @@ if (!$conn) {
     <div class="row g-3 g-sm-4 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
         <?php
         try {
-            $sql = "SELECT id, name, image, UP, QoH, discount_rate, availability FROM item";
+            // Modify SQL to filter by category if selected
+            $sql = "SELECT i.id, i.name, i.image, i.UP, i.QoH, i.discount_rate, i.availability 
+                   FROM item i";
+            
+            $params = [];
+            
+            if ($selected_category) {
+                $sql .= " WHERE i.category_id = ?";
+                $params[] = $selected_category;
+            }
+            
             $stmt = $conn->prepare($sql);
-            $stmt->execute();
+            $stmt->execute($params);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (count($result) > 0) {
