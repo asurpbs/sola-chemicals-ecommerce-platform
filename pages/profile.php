@@ -20,7 +20,7 @@ $redirect_url = '';
 
 // Handle form submissions first
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once $_SERVER['DOCUMENT_ROOT'].'/pages/handlers/profile_handler.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/handlers/profile_handler.php';
     
     // Use JavaScript for redirection instead of PHP header()
     echo "<script>window.location.replace('/index.php?page=profile');</script>";
@@ -488,7 +488,7 @@ function getImageUrl($image_name) {
             $('.alert-success, .alert-danger').hide();
             
             $.ajax({
-                url: '/pages/handlers/profile_handler.php',
+                url: '/handlers/profile_handler.php',
                 type: 'POST',
                 data: formData,
                 processData: false,
