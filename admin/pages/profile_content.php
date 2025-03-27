@@ -1,62 +1,71 @@
 <?php
 session_start();
-include('../context/connect.php');
+require_once('../context/connect.php');
 
-$admin_id = $_SESSION['admin_id'];
+$successMessage = "";
+$errorMessage = "";
 
-// Fetch admin details
-$stmt = $conn->prepare("SELECT * FROM admin WHERE id = ?");
-$stmt->execute([$admin_id]);
-$admin = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Handle Profile Update
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['update_profile'])) {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $tele_number = $_POST['tele_number'];
-        $gender = $_POST['gender'];
-
-        // Handle Image Upload
-        if (!empty($_FILES['profile_image']['name'])) {
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
-            move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file);
-        } else {
-            $target_file = $admin['image']; // Keep existing image if no new image uploaded
-        }
-
-        // Update Admin Details
-        $updateStmt = $conn->prepare("UPDATE admin SET first_name = ?, last_name = ?, tele_number = ?, gender = ?, image = ? WHERE id = ?");
-        $updateStmt->execute([$first_name, $last_name, $tele_number, $gender, $target_file, $admin_id]);
-
-        $_SESSION['success'] = "Profile updated successfully!";
-        header("Location: profile.php");
-        exit();
+// Handle profile update
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
+    try {
+        $query = "UPDATE admin SET first_name = ?, last_name = ?, role = ?, email = ?, tele_number = ? WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            $_POST['first_name'],
+            $_POST['last_name'],
+            $_POST['role'],
+            $_POST['email'],
+            $_POST['phone'],
+            $_SESSION['user_id'] ?? 0  // Remove session-based user ID dependency
+        ]);
+        
+        $successMessage = "Profile updated successfully!";
+    } catch (PDOException $e) {
+        $errorMessage = "Error updating profile: " . $e->getMessage();
     }
+}
 
-    // Handle Password Change
-    if (isset($_POST['change_password'])) {
-        $current_password = $_POST['current_password'];
-        $new_password = $_POST['new_password'];
-        $confirm_password = $_POST['confirm_password'];
+// Handle password change removed for security reasons
 
-        if (password_verify($current_password, $admin['password'])) {
-            if ($new_password === $confirm_password) {
-                $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-                $passStmt = $conn->prepare("UPDATE admin SET password = ? WHERE id = ?");
-                $passStmt->execute([$hashed_password, $admin_id]);
-
-                $_SESSION['success'] = "Password changed successfully!";
-            } else {
-                $_SESSION['error'] = "New passwords do not match!";
+// Handle image upload
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_image'])) {
+    try {
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+            $file_ext = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+            
+            if (in_array($file_ext, $allowed)) {
+                $new_filename = substr(uniqid(), 0, 13) . '.' . $file_ext;
+                $upload_path = '../uploads/profile_images/' . $new_filename;
+                
+                if (!file_exists('../uploads/profile_images')) {
+                    mkdir('../uploads/profile_images', 0777, true);
+                }
+                
+                if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_path)) {
+                    $successMessage = "Image uploaded successfully!";
+                }
             }
-        } else {
-            $_SESSION['error'] = "Incorrect current password!";
         }
-        header("Location: profile.php");
-        exit();
+    } catch (Exception $e) {
+        $errorMessage = "Error updating image: " . $e->getMessage();
     }
+}
+
+// Get user data
+try {
+    $stmt = $conn->query("SELECT * FROM admin LIMIT 1");
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $profile_image = '../uploads/profile_images/null.png';
+    if ($user['image'] && $user['image'] !== 'null.png') {
+        $image_path = '../uploads/profile_images/' . $user['image'];
+        if (file_exists($image_path)) {
+            $profile_image = $image_path;
+        }
+    }
+} catch (PDOException $e) {
+    die("Error fetching user data: " . $e->getMessage());
 }
 ?>
 
@@ -64,87 +73,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Profile</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-image { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
+        .nav-tabs { margin-bottom: 20px; }
+    </style>
 </head>
 <body>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <img src="<?= $profile_image ?>" alt="Profile" class="profile-image">
+            <h1 class="mt-3"><?= htmlspecialchars($user['first_name'].' '.$user['last_name']) ?></h1>
+            <p class="text-muted"><?= htmlspecialchars($user['role']) ?></p>
+        </div>
 
-<div class="container mt-5">
-    <h2>Admin Profile</h2>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-    <?php endif; ?>
-
-    <div class="card">
-        <div class="card-body">
-            <div class="text-center">
-                <img src="<?= !empty($admin['image']) ? $admin['image'] : 'default-profile.png'; ?>" 
-                     alt="Profile Picture" class="img-thumbnail" width="150">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Profile Information</h5>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" class="form-control" 
+                            value="<?= htmlspecialchars($user['first_name']) ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" class="form-control" 
+                            value="<?= htmlspecialchars($user['last_name']) ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label>Profile Image</label>
+                        <input type="file" name="profile_image" class="form-control">
+                    </div>
+                    <button type="submit" name="upload_image" class="btn btn-primary">Update Profile</button>
+                </form>
             </div>
-
-            <form method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label class="form-label">First Name</label>
-                    <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($admin['first_name']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Last Name</label>
-                    <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($admin['last_name']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-control">
-                        <option value="Male" <?= $admin['gender'] == 'Male' ? 'selected' : ''; ?>>Male</option>
-                        <option value="Female" <?= $admin['gender'] == 'Female' ? 'selected' : ''; ?>>Female</option>
-                        <option value="Other" <?= $admin['gender'] == 'Other' ? 'selected' : ''; ?>>Other</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Telephone Number</label>
-                    <input type="text" name="tele_number" class="form-control" value="<?= htmlspecialchars($admin['tele_number']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Profile Image</label>
-                    <input type="file" name="profile_image" class="form-control">
-                </div>
-
-                <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
-            </form>
-
-            <hr>
-
-            <h4>Change Password</h4>
-            <form method="POST">
-                <div class="mb-3">
-                    <label class="form-label">Current Password</label>
-                    <input type="password" name="current_password" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">New Password</label>
-                    <input type="password" name="new_password" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Confirm New Password</label>
-                    <input type="password" name="confirm_password" class="form-control" required>
-                </div>
-
-                <button type="submit" name="change_password" class="btn btn-warning">Change Password</button>
-            </form>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
