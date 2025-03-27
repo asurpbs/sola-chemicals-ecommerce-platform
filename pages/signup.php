@@ -25,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['telephone2'] ?? ''
     );
     echo "<script>
-        alert('User created successfully!');
-        document.getElementById('signupForm').reset();
-        window.location.href = '/index.php';
+        alert('Account created successfully! You will now be redirected to the sign-in page. Please log in to continue.');
+        window.location.href = '/pages/signin.php';
     </script>";
+    exit; // Stop further execution
 }
 ?>
 <!DOCTYPE html>
