@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Image Upload
         $image = $_FILES['image']['name'];
-        $target = "../uploads/" . basename($image);
+        $target = "../uploads/product" . basename($image);
         move_uploaded_file($_FILES['image']['tmp_name'], $target);
 
         $stmt = $conn->prepare("INSERT INTO item (name, category_id, Up, QoH, description, image, availability) VALUES (?, ?, ?, ?, ?, ?, ?)");
