@@ -13,12 +13,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $availability = $_POST['availability'];
         
         // Image Upload
-        $image = $_FILES['image']['name'];
-        $target = "../uploads/product" . basename($image);
-        move_uploaded_file($_FILES['image']['tmp_name'], $target);
+        $imageName = basename($_FILES['image']['name']); // Sanitize filename
+        $targetDirectory = "../uploads/product/"; // Note the trailing slash
+        $targetPath = $targetDirectory . $imageName;
+
+        // Create directory if it doesn't exist
+        if (!is_dir($targetDirectory)) {
+            mkdir($targetDirectory, 0755, true);
+        }
+
+        // Move uploaded file with error checking
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+            // File uploaded successfully
+            echo "Image uploaded to: " . $targetPath;
+        } else {
+            // Handle upload error
+            echo "Error uploading file. Check permissions and directory structure.";
+        }
 
         $stmt = $conn->prepare("INSERT INTO item (name, category_id, Up, QoH, description, image, availability) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $category, $Up, $stock, $description, $image, $availability]);
+        $stmt->execute([$name, $category, $Up, $stock, $description, $imageName, $availability]);
     }
     
     if (isset($_POST['edit_product'])) {
